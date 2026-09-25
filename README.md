@@ -1,6 +1,6 @@
 # ? Noir Café
 
-Luxury cinematic coffee experience built by Samudra Kar.
+Luxury cinematic coffee website designed by Samudra Kar.
 
 ## Stack
 
@@ -11,18 +11,6 @@ Luxury cinematic coffee experience built by Samudra Kar.
 - Lenis
 - GSAP
 
-## Folder Guide
+Design exports go inside /design.
 
-design/
-? Exported Figma screens.
-
-assets/videos/
-? Google Flow hero videos.
-
-public/
-? Optimized production assets.
-
-src/components/
-? Reusable UI components.
-
-This project recreates the Figma design pixel-perfect using Claude Code.
+Google Flow videos go inside /assets/videos.
