@@ -1,0 +1,3 @@
+Some websites load. This one pours. ☕
+
+Noir Café is a seven-page website for a New York specialty café. Scroll the homepage and it makes you a coffee, from seed to cup, and every roast pip and brew timer moves in the same motion language. Built with Next.js 16, Framer Motion and Lenis → github.com/Samudra-GITHub/noir-cafe

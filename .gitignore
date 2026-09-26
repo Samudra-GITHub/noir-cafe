@@ -43,3 +43,15 @@ next-env.d.ts
 # local tooling state
 .claude-flow/
 .claude/
+
+# social renderer
+social/source/node_modules
+social/source/build/
+
+# social renderer
+social/source/node_modules
+social/source/build/
+
+# Brag render cache
+brag-output/work/
+brag-output/work-v2/
