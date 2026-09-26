@@ -1,0 +1,90 @@
+/*
+ * Noir Café — design tokens
+ * Source of truth: design/design-system.png + page exports (1440px frames).
+ * Values sampled directly from the exports; type sizes calibrated against
+ * Cormorant Garamond / Inter / IBM Plex Mono metrics.
+ *
+ * Layer 1 (primitives) → Layer 2 (semantic). Scales (type, radius,
+ * shadow, blur, easing, breakpoints) live in the @theme block of
+ * app/globals.css, which also exposes them as CSS variables.
+ */
+
+:root {
+  /* ── Primitives: color ─────────────────────────────────────────── */
+  --noir-beige: #f8f4ec;     /* Warm beige  · bg-canvas   */
+  --noir-ivory: #fffcf7;     /* Card surface               */
+  --noir-cream: #efe5d7;     /* Cream       · bg-muted    */
+  --noir-espresso: #17120e;  /* Espresso    · text-strong */
+  --noir-walnut: #3c2415;    /* Walnut      · text-warm   */
+  --noir-caramel: #a86a3c;   /* Caramel     · accent      */
+  --noir-caramel-ink: #905b33; /* Caramel for small text — 4.5:1+ on cream, canvas, ivory */
+  --noir-caramel-glow: #b67a4b; /* Caramel for small text on espresso (5.2:1) */
+  --noir-sand: #d8cec0;      /* Hairlines, field borders   */
+  --noir-stone: #6d645b;     /* Muted body copy — Figma #756B62 deepened to reach 4.5:1 on cream */
+  --noir-pebble: #a29e9a;    /* Disabled fill              */
+  --noir-ash: #696057;       /* Labels on espresso         */
+  --noir-taupe: #8f867e;     /* Small muted text on espresso (5.2:1) */
+  --noir-char: #35302b;      /* Hairlines on espresso      */
+  --noir-olive: #5c6e52;     /* "Open" status dot          */
+
+  /* ── Semantic: surfaces ────────────────────────────────────────── */
+  --bg-canvas: var(--noir-beige);
+  --bg-surface: var(--noir-ivory);
+  --bg-muted: var(--noir-cream);
+  --bg-inverse: var(--noir-espresso);
+
+  /* ── Semantic: text ────────────────────────────────────────────── */
+  --text-strong: var(--noir-espresso);
+  --text-warm: var(--noir-walnut);
+  --text-muted: var(--noir-stone);
+  --text-accent: var(--noir-caramel);
+  --text-inverse: var(--noir-beige);
+  --text-inverse-muted: var(--noir-cream);
+  --text-inverse-subtle: var(--noir-ash);
+
+  /* ── Semantic: lines & states ──────────────────────────────────── */
+  --border-subtle: var(--noir-sand);
+  --border-strong: var(--noir-espresso);
+  --border-inverse: var(--noir-char);
+  --border-glass: rgb(255 255 255 / 0.15);
+  --accent: var(--noir-caramel);
+  --status-open: var(--noir-olive);
+  --state-disabled: var(--noir-pebble);
+  --focus-ring: var(--noir-caramel); /* visible on paper and on espresso */
+
+  /* ── Glass (warm frost only — never cool/blue) ─────────────────── */
+  --glass-bg: rgb(248 244 236 / 0.08);
+  --glass-border: rgb(255 255 255 / 0.15);
+  --glass-blur: 30px;
+  --glass-cream-bg: rgb(248 244 236 / 0.78);
+  --glass-cream-border: rgb(255 252 247 / 0.6);
+
+  /* ── Atmosphere (every layer stays under 8% opacity) ───────────── */
+  --noise: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .24 0 0 0 0 .14 0 0 0 0 .08 0 0 0 1.4 -.2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+
+  /* ── Typography: families (set by next/font in app/layout.tsx) ── */
+  --family-display: var(--font-cormorant), "Cormorant Garamond", Georgia, serif;
+  --family-body: var(--font-inter), Inter, system-ui, sans-serif;
+  --family-code: var(--font-plex-mono), "IBM Plex Mono", ui-monospace, monospace;
+
+  /* ── Layout ────────────────────────────────────────────────────── */
+  --container-max: 1296px;       /* "DESKTOP 1296" */
+  --gutter: 20px;                /* mobile */
+  --section-y: 96px;             /* vertical rhythm between sections */
+  --nav-height: 72px;
+  --nav-offset: 28px;            /* nav sits 28px from the top */
+}
+
+@media (min-width: 768px) {
+  :root {
+    --gutter: 40px;
+    --section-y: 120px;
+  }
+}
+
+@media (min-width: 1280px) {
+  :root {
+    --gutter: 72px;              /* (1440 − 1296) / 2 */
+    --section-y: 136px;
+  }
+}

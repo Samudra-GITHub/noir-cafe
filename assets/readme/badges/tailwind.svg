@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="160" height="28" viewBox="0 0 160 28" role="img" aria-label="Tailwind CSS: v4">
+  <rect width="160" height="28" rx="14" fill="#17120e"/>
+  <rect x="117" width="43" height="28" rx="14" fill="#a86a3c"/>
+  <rect x="117" width="14" height="28" fill="#a86a3c"/>
+  <g font-family="'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace" font-size="11" letter-spacing="1">
+    <text x="14" y="18" fill="#efe5d7">TAILWIND CSS</text>
+    <text x="131" y="18" fill="#fffcf7">V4</text>
+  </g>
+</svg>

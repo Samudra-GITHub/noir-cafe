@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="56" viewBox="0 0 1280 56" role="img" aria-label="Divider">
+  <path d="M40 28c90 0 120-14 210-14s120 28 210 28 120-28 180-28" fill="none" stroke="#a86a3c" stroke-width="1.2" stroke-linecap="round" opacity="0.55"/>
+  <path d="M1240 28c-90 0-120-14-210-14s-120 28-210 28-120-28-180-28" fill="none" stroke="#a86a3c" stroke-width="1.2" stroke-linecap="round" opacity="0.55"/>
+  <g transform="translate(640 28) rotate(-28)">
+    <ellipse rx="9" ry="12" fill="#3c2415" stroke="#a86a3c" stroke-width="1"/>
+    <path d="M0-11c-3.4 3.8-3.4 7.6 0 11s3.4 7.6 0 11" fill="none" stroke="#a86a3c" stroke-width="1.3" stroke-linecap="round"/>
+  </g>
+</svg>

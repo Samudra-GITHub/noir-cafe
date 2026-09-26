@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="360" viewBox="0 0 1280 360" role="img" aria-labelledby="t">
+  <title id="t">Lighthouse (production build): desktop performance 93–97, mobile 64–78, accessibility 100, best practices 96–100, SEO 100, CLS 0</title>
+  <rect width="1280" height="360" rx="28" fill="#17120e"/>
+  <g font-family="'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace" letter-spacing="1.2">
+    <text x="64" y="64" font-size="12" fill="#b67a4b">LIGHTHOUSE 12 · PRODUCTION BUILD · ALL SEVEN ROUTES</text>
+  </g>
+  <g font-family="'Cormorant Garamond', Georgia, 'Times New Roman', serif" text-anchor="middle">
+    <!-- ring helper: r=54, circumference 339.3 -->
+    <g transform="translate(160 190)">
+      <circle r="54" fill="none" stroke="#35302b" stroke-width="6"/>
+      <circle r="54" fill="none" stroke="#a86a3c" stroke-width="6" stroke-linecap="round" stroke-dasharray="339.3" stroke-dashoffset="16.9" transform="rotate(-90)"/>
+      <text y="14" font-size="40" fill="#f8f4ec">95</text>
+      <text y="96" font-size="20" fill="#efe5d7">Desktop</text>
+      <text y="120" font-family="'IBM Plex Mono', ui-monospace, monospace" font-size="11" fill="#8f867e">PERF · 93–97</text>
+    </g>
+    <g transform="translate(352 190)">
+      <circle r="54" fill="none" stroke="#35302b" stroke-width="6"/>
+      <circle r="54" fill="none" stroke="#b67a4b" stroke-width="6" stroke-linecap="round" stroke-dasharray="339.3" stroke-dashoffset="101.8" transform="rotate(-90)"/>
+      <text y="14" font-size="40" fill="#f8f4ec">70</text>
+      <text y="96" font-size="20" fill="#efe5d7">Mobile</text>
+      <text y="120" font-family="'IBM Plex Mono', ui-monospace, monospace" font-size="11" fill="#8f867e">PERF · 64–78 · COLD</text>
+    </g>
+    <g transform="translate(544 190)">
+      <circle r="54" fill="none" stroke="#35302b" stroke-width="6"/>
+      <circle r="54" fill="none" stroke="#a86a3c" stroke-width="6" stroke-dasharray="339.3" stroke-dashoffset="0" transform="rotate(-90)"/>
+      <text y="14" font-size="40" fill="#f8f4ec">100</text>
+      <text y="96" font-size="20" fill="#efe5d7">Accessibility</text>
+      <text y="120" font-family="'IBM Plex Mono', ui-monospace, monospace" font-size="11" fill="#8f867e">EVERY ROUTE</text>
+    </g>
+    <g transform="translate(736 190)">
+      <circle r="54" fill="none" stroke="#35302b" stroke-width="6"/>
+      <circle r="54" fill="none" stroke="#a86a3c" stroke-width="6" stroke-dasharray="339.3" stroke-dashoffset="0" transform="rotate(-90)"/>
+      <text y="14" font-size="40" fill="#f8f4ec">100</text>
+      <text y="96" font-size="20" fill="#efe5d7">Best practices</text>
+      <text y="120" font-family="'IBM Plex Mono', ui-monospace, monospace" font-size="11" fill="#8f867e">96–100</text>
+    </g>
+    <g transform="translate(928 190)">
+      <circle r="54" fill="none" stroke="#35302b" stroke-width="6"/>
+      <circle r="54" fill="none" stroke="#a86a3c" stroke-width="6" stroke-dasharray="339.3" stroke-dashoffset="0" transform="rotate(-90)"/>
+      <text y="14" font-size="40" fill="#f8f4ec">100</text>
+      <text y="96" font-size="20" fill="#efe5d7">SEO</text>
+      <text y="120" font-family="'IBM Plex Mono', ui-monospace, monospace" font-size="11" fill="#8f867e">EVERY ROUTE</text>
+    </g>
+    <g transform="translate(1120 190)">
+      <circle r="54" fill="none" stroke="#35302b" stroke-width="6"/>
+      <circle r="54" fill="none" stroke="#5c6e52" stroke-width="6" stroke-dasharray="339.3" stroke-dashoffset="0" transform="rotate(-90)"/>
+      <text y="14" font-size="40" fill="#f8f4ec">0</text>
+      <text y="96" font-size="20" fill="#efe5d7">CLS</text>
+      <text y="120" font-family="'IBM Plex Mono', ui-monospace, monospace" font-size="11" fill="#8f867e">NO LAYOUT SHIFT</text>
+    </g>
+  </g>
+</svg>

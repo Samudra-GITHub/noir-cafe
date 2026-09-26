@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="640" viewBox="0 0 1280 640" role="img" aria-labelledby="t">
+  <title id="t">Architecture — data and tokens flow through primitives into sections and routes</title>
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0l10 5-10 5z" fill="#a86a3c"/></marker>
+  </defs>
+  <rect width="1280" height="640" rx="28" fill="#f8f4ec" stroke="#d8cec0"/>
+  <g font-family="'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace" font-size="12" letter-spacing="1.2" fill="#905b33">
+    <text x="64" y="68">FOUNDATION</text><text x="448" y="68">BUILDING BLOCKS</text><text x="832" y="68">EXPERIENCE</text>
+  </g>
+  <g font-family="Inter, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="13" fill="#6d645b">
+    <!-- Foundation -->
+    <g transform="translate(64 92)">
+      <rect width="320" height="104" rx="14" fill="#fffcf7" stroke="#d8cec0"/>
+      <text x="24" y="40" font-family="'IBM Plex Mono', ui-monospace, monospace" font-size="15" fill="#17120e">src/styles · app/globals.css</text>
+      <text x="24" y="68">Tokens: color, type, glass, radius,</text><text x="24" y="88">shadow, motion — Tailwind v4 @theme</text>
+    </g>
+    <g transform="translate(64 216)">
+      <rect width="320" height="104" rx="14" fill="#fffcf7" stroke="#d8cec0"/>
+      <text x="24" y="40" font-family="'IBM Plex Mono', ui-monospace, monospace" font-size="15" fill="#17120e">src/data · src/constants</text>
+      <text x="24" y="68">Menu, drinks, cafés, products,</text><text x="24" y="88">brew methods, nav, media paths</text>
+    </g>
+    <g transform="translate(64 340)">
+      <rect width="320" height="104" rx="14" fill="#fffcf7" stroke="#d8cec0"/>
+      <text x="24" y="40" font-family="'IBM Plex Mono', ui-monospace, monospace" font-size="15" fill="#17120e">src/lib · src/hooks</text>
+      <text x="24" y="68">Motion variants, SEO, schema, OG,</text><text x="24" y="88">scroll, audio, reduced-motion hooks</text>
+    </g>
+    <g transform="translate(64 464)">
+      <rect width="320" height="104" rx="14" fill="#fffcf7" stroke="#d8cec0"/>
+      <text x="24" y="40" font-family="'IBM Plex Mono', ui-monospace, monospace" font-size="15" fill="#17120e">public · assets</text>
+      <text x="24" y="68">Graded photography, 1080p + 720p</text><text x="24" y="88">films, posters, icons, OG fonts</text>
+    </g>
+    <!-- Blocks -->
+    <g transform="translate(448 92)">
+      <rect width="320" height="228" rx="14" fill="#17120e"/>
+      <text x="24" y="40" font-family="'IBM Plex Mono', ui-monospace, monospace" font-size="15" fill="#f8f4ec">components/ui</text>
+      <text x="24" y="72" fill="#c9b8a6">Button · Chip · Field · Card · Panel</text>
+      <text x="24" y="96" fill="#c9b8a6">Display · Eyebrow · Price · RoastMeter</text>
+      <text x="24" y="120" fill="#c9b8a6">Dialog · QuantitySelector · Logo</text>
+      <text x="24" y="144" fill="#c9b8a6">BackgroundVideo · Icon · Badge</text>
+      <text x="24" y="192" font-family="'IBM Plex Mono', ui-monospace, monospace" font-size="11" fill="#b67a4b" letter-spacing="1">25 PRIMITIVES · ACCESSIBLE BY DEFAULT</text>
+    </g>
+    <g transform="translate(448 340)">
+      <rect width="320" height="228" rx="14" fill="#3c2415"/>
+      <text x="24" y="40" font-family="'IBM Plex Mono', ui-monospace, monospace" font-size="15" fill="#f8f4ec">components/motion · shared</text>
+      <text x="24" y="72" fill="#e3d3c2">FadeUp · Stagger · ScrollZoom</text>
+      <text x="24" y="96" fill="#e3d3c2">RevealImage · PageIntro</text>
+      <text x="24" y="120" fill="#e3d3c2">SectionIntro · Newsletter</text>
+      <text x="24" y="192" font-family="'IBM Plex Mono', ui-monospace, monospace" font-size="11" fill="#efe5d7" letter-spacing="1">ONE CURVE · REDUCED-MOTION SAFE</text>
+    </g>
+    <!-- Experience -->
+    <g transform="translate(832 92)">
+      <rect width="384" height="228" rx="14" fill="#fffcf7" stroke="#a86a3c"/>
+      <text x="24" y="40" font-family="'IBM Plex Mono', ui-monospace, monospace" font-size="15" fill="#17120e">components/{page}</text>
+      <text x="24" y="72">hero · menu · story · brewing</text>
+      <text x="24" y="96">reservation · locations · merchandise</text>
+      <text x="24" y="120">sections/home · navigation · layout</text>
+      <text x="24" y="192" font-family="'IBM Plex Mono', ui-monospace, monospace" font-size="11" fill="#905b33" letter-spacing="1">COMPOSITIONS OF PRIMITIVES</text>
+    </g>
+    <g transform="translate(832 340)">
+      <rect width="384" height="228" rx="14" fill="#a86a3c"/>
+      <text x="24" y="40" font-family="'IBM Plex Mono', ui-monospace, monospace" font-size="15" fill="#fffcf7">src/app — App Router</text>
+      <text x="24" y="72" fill="#fff6ec">/  /menu  /story  /brewing-lab</text>
+      <text x="24" y="96" fill="#fff6ec">/reservation  /locations  /shop</text>
+      <text x="24" y="120" fill="#fff6ec">manifest · robots · sitemap · OG images</text>
+      <text x="24" y="192" font-family="'IBM Plex Mono', ui-monospace, monospace" font-size="11" fill="#17120e" letter-spacing="1">STATIC · VIEW TRANSITIONS · JSON-LD</text>
+    </g>
+  </g>
+  <g stroke="#a86a3c" stroke-width="1.5" fill="none" marker-end="url(#a)">
+    <path d="M384 206h60"/><path d="M384 330c40 0 40 110 60 110"/><path d="M768 206h60"/><path d="M768 454h60"/><path d="M1024 320v16"/>
+  </g>
+</svg>

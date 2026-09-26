@@ -1,0 +1,82 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="640" viewBox="0 0 1280 640" role="img" aria-labelledby="t d">
+  <title id="t">Noir Café</title>
+  <desc id="d">A handcrafted cinematic coffee experience built with Next.js, Motion and Design Systems.</desc>
+  <defs>
+    <radialGradient id="glow" cx="72%" cy="38%" r="60%">
+      <stop offset="0" stop-color="#a86a3c" stop-opacity="0.34"/>
+      <stop offset="0.45" stop-color="#3c2415" stop-opacity="0.35"/>
+      <stop offset="1" stop-color="#17120e" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="fade" x1="0" x2="1">
+      <stop offset="0" stop-color="#17120e"/>
+      <stop offset="0.55" stop-color="#17120e" stop-opacity="0.6"/>
+      <stop offset="1" stop-color="#17120e" stop-opacity="0"/>
+    </linearGradient>
+    <filter id="grain" x="0" y="0" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="3" stitchTiles="stitch"/>
+      <feColorMatrix values="0 0 0 0 0.94  0 0 0 0 0.9  0 0 0 0 0.84  0 0 0 0.06 0"/>
+    </filter>
+    <filter id="soft"><feGaussianBlur stdDeviation="7"/></filter>
+    <clipPath id="type"><rect x="96" y="452" width="0" height="40">
+      <animate attributeName="width" values="0;560;560;0" keyTimes="0;0.45;0.9;1" dur="7s" repeatCount="indefinite"/>
+    </rect></clipPath>
+  </defs>
+
+  <rect width="1280" height="640" fill="#17120e"/>
+  <rect width="1280" height="640" fill="url(#glow)"/>
+
+  <!-- Cup, drawn in hairline -->
+  <g transform="translate(830 250)" fill="none" stroke="#efe5d7" stroke-width="1.4" stroke-linecap="round" opacity="0.9">
+    <path d="M0 40h220l-18 150a36 36 0 0 1-36 32H54a36 36 0 0 1-36-32z"/>
+    <path d="M218 78h22a30 30 0 0 1 0 60h-28"/>
+    <path d="M-40 236h300" opacity="0.4"/>
+    <ellipse cx="110" cy="40" rx="110" ry="14" opacity="0.5"/>
+    <ellipse cx="110" cy="44" rx="86" ry="8" fill="#a86a3c" fill-opacity="0.35" stroke="none"/>
+  </g>
+
+  <!-- Steam -->
+  <g filter="url(#soft)" fill="#f8f4ec">
+    <ellipse cx="910" cy="250" rx="16" ry="44" opacity="0">
+      <animate attributeName="opacity" values="0;0.28;0" dur="4.2s" repeatCount="indefinite"/>
+      <animateTransform attributeName="transform" type="translate" values="0 20;6 -70" dur="4.2s" repeatCount="indefinite"/>
+    </ellipse>
+    <ellipse cx="945" cy="240" rx="18" ry="50" opacity="0">
+      <animate attributeName="opacity" values="0;0.32;0" dur="4.8s" begin="1.2s" repeatCount="indefinite"/>
+      <animateTransform attributeName="transform" type="translate" values="0 24;-8 -80" dur="4.8s" begin="1.2s" repeatCount="indefinite"/>
+    </ellipse>
+    <ellipse cx="980" cy="250" rx="14" ry="40" opacity="0">
+      <animate attributeName="opacity" values="0;0.26;0" dur="4.4s" begin="2.4s" repeatCount="indefinite"/>
+      <animateTransform attributeName="transform" type="translate" values="0 20;10 -66" dur="4.4s" begin="2.4s" repeatCount="indefinite"/>
+    </ellipse>
+  </g>
+
+  <rect width="1280" height="640" fill="url(#fade)" opacity="0.7"/>
+
+  <!-- Wordmark -->
+  <g font-family="'Cormorant Garamond', Georgia, 'Times New Roman', serif" fill="#f8f4ec">
+    <circle cx="112" cy="104" r="15" fill="none" stroke="#f8f4ec" stroke-width="1.6"/>
+    <text x="140" y="113" font-size="26" letter-spacing="1">NOIR CAFÉ</text>
+    <text x="92" y="318" font-size="128" letter-spacing="2">NOIR CAFÉ</text>
+    <text x="96" y="384" font-size="30" font-style="italic" fill="#efe5d7">A handcrafted cinematic coffee experience</text>
+    <text x="96" y="420" font-size="30" font-style="italic" fill="#efe5d7">built with Next.js, Motion and Design Systems.</text>
+  </g>
+
+  <!-- Typing line -->
+  <g font-family="'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace" font-size="15" letter-spacing="1.5">
+    <text x="96" y="140" fill="#b67a4b">SPECIALTY COFFEE · NEW YORK · EST. 2018</text>
+    <text x="96" y="478" fill="#efe5d7" clip-path="url(#type)">SOURCED WITH PATIENCE · ROASTED WITH RESTRAINT · POURED WITH ATTENTION</text>
+    <rect x="96" y="462" width="2" height="22" fill="#a86a3c">
+      <animate attributeName="x" values="96;656;656;96" keyTimes="0;0.45;0.9;1" dur="7s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="1;0;1" dur="1s" repeatCount="indefinite"/>
+    </rect>
+  </g>
+
+  <!-- Footline -->
+  <g font-family="'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace" font-size="12" letter-spacing="1.5" fill="#8f867e">
+    <line x1="96" y1="560" x2="1184" y2="560" stroke="#35302b"/>
+    <text x="96" y="590">NEXT.JS 16 · TYPESCRIPT · TAILWIND V4 · FRAMER MOTION · LENIS</text>
+    <text x="1184" y="590" text-anchor="end" fill="#b67a4b">07 PAGES · 01 DESIGN SYSTEM</text>
+  </g>
+
+  <rect width="1280" height="640" filter="url(#grain)"/>
+</svg>

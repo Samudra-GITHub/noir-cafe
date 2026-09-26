@@ -1,0 +1,101 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="900" viewBox="0 0 1280 900" role="img" aria-labelledby="t">
+  <title id="t">Noir Café design system — color, typography, glass, radius, shadow and motion tokens</title>
+  <defs>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="160%">
+      <feDropShadow dx="0" dy="16" stdDeviation="20" flood-color="#3c2415" flood-opacity="0.12"/>
+    </filter>
+    <linearGradient id="glassbg" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#3c2415"/><stop offset="1" stop-color="#a86a3c"/>
+    </linearGradient>
+  </defs>
+  <rect width="1280" height="900" rx="28" fill="#efe5d7"/>
+  <g font-family="'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace" font-size="12" letter-spacing="1.4" fill="#905b33">
+    <text x="64" y="72">01 · COLOR</text>
+    <text x="64" y="330">02 · TYPOGRAPHY</text>
+    <text x="64" y="590">03 · GLASS</text>
+    <text x="448" y="590">04 · RADIUS</text>
+    <text x="448" y="760">05 · SHADOW</text>
+    <text x="864" y="590">06 · MOTION</text>
+  </g>
+
+  <!-- Palette -->
+  <g font-family="Inter, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="14">
+    <g transform="translate(64 96)">
+      <rect width="176" height="176" rx="16" fill="#f8f4ec" stroke="#d8cec0"/>
+      <text x="16" y="32" fill="#17120e" font-weight="600">Warm beige</text>
+      <text x="16" y="156" fill="#6d645b" font-family="'IBM Plex Mono', ui-monospace, monospace" font-size="11">#F8F4EC · canvas</text>
+    </g>
+    <g transform="translate(256 96)">
+      <rect width="176" height="176" rx="16" fill="#17120e"/>
+      <text x="16" y="32" fill="#f8f4ec" font-weight="600">Espresso</text>
+      <text x="16" y="156" fill="#8f867e" font-family="'IBM Plex Mono', ui-monospace, monospace" font-size="11">#17120E · strong</text>
+    </g>
+    <g transform="translate(448 96)">
+      <rect width="176" height="176" rx="16" fill="#3c2415"/>
+      <text x="16" y="32" fill="#f8f4ec" font-weight="600">Walnut</text>
+      <text x="16" y="156" fill="#c9b8a6" font-family="'IBM Plex Mono', ui-monospace, monospace" font-size="11">#3C2415 · warm</text>
+    </g>
+    <g transform="translate(640 96)">
+      <rect width="176" height="176" rx="16" fill="#a86a3c"/>
+      <text x="16" y="32" fill="#f8f4ec" font-weight="600">Caramel</text>
+      <text x="16" y="156" fill="#f8f4ec" font-family="'IBM Plex Mono', ui-monospace, monospace" font-size="11">#A86A3C · accent</text>
+    </g>
+    <g transform="translate(832 96)">
+      <rect width="176" height="176" rx="16" fill="#fffcf7" stroke="#d8cec0"/>
+      <text x="16" y="32" fill="#17120e" font-weight="600">Ivory</text>
+      <text x="16" y="156" fill="#6d645b" font-family="'IBM Plex Mono', ui-monospace, monospace" font-size="11">#FFFCF7 · surface</text>
+    </g>
+    <g transform="translate(1024 96)">
+      <rect width="192" height="176" rx="16" fill="#f8f4ec" stroke="#d8cec0"/>
+      <text x="16" y="32" fill="#17120e" font-weight="600">Ink tokens · AA</text>
+      <circle cx="28" cy="80" r="10" fill="#905b33"/><text x="48" y="85" fill="#3c2415" font-size="12">caramel-ink</text>
+      <circle cx="28" cy="110" r="10" fill="#b67a4b"/><text x="48" y="115" fill="#3c2415" font-size="12">caramel-glow</text>
+      <circle cx="28" cy="140" r="10" fill="#6d645b"/><text x="48" y="145" fill="#3c2415" font-size="12">stone</text>
+    </g>
+  </g>
+
+  <!-- Typography -->
+  <g transform="translate(64 350)">
+    <rect width="1152" height="196" rx="20" fill="#fffcf7"/>
+    <text x="32" y="92" font-family="'Cormorant Garamond', Georgia, 'Times New Roman', serif" font-size="62" fill="#17120e">Coffee, composed.</text>
+    <text x="700" y="68" font-family="'Cormorant Garamond', Georgia, serif" font-size="22" fill="#3c2415">Cormorant Garamond — voice</text>
+    <text x="700" y="100" font-family="Inter, -apple-system, 'Segoe UI', sans-serif" font-size="17" fill="#3c2415">Inter — quiet, legible body copy</text>
+    <text x="700" y="130" font-family="'IBM Plex Mono', ui-monospace, Menlo, monospace" font-size="13" fill="#905b33" letter-spacing="1.2">IBM PLEX MONO — $6.50 · 93°C · 03:10</text>
+    <text x="32" y="160" font-family="'IBM Plex Mono', ui-monospace, Menlo, monospace" font-size="12" fill="#6d645b" letter-spacing="1">104 · 72 · 60 · 42 · 32 · 28   /   20 · 16 · 15 · 13   /   13 · 11 · 10 · 8</text>
+  </g>
+
+  <!-- Glass -->
+  <g transform="translate(64 610)">
+    <rect width="352" height="236" rx="20" fill="url(#glassbg)"/>
+    <circle cx="260" cy="70" r="60" fill="#efe5d7" opacity="0.35"/>
+    <rect x="28" y="92" width="296" height="64" rx="32" fill="#f8f4ec" fill-opacity="0.12" stroke="#ffffff" stroke-opacity="0.18"/>
+    <text x="56" y="130" font-family="'Cormorant Garamond', Georgia, serif" font-size="20" fill="#f8f4ec">NOIR CAFÉ</text>
+    <text x="28" y="196" font-family="'IBM Plex Mono', ui-monospace, monospace" font-size="11" fill="#f8f4ec" letter-spacing="1">rgba(248,244,236,.08) · blur 30px</text>
+    <text x="28" y="216" font-family="'IBM Plex Mono', ui-monospace, monospace" font-size="11" fill="#efe5d7" letter-spacing="1">border rgba(255,255,255,.15)</text>
+  </g>
+
+  <!-- Radius -->
+  <g transform="translate(448 610)" font-family="'IBM Plex Mono', ui-monospace, monospace" font-size="11" fill="#6d645b">
+    <rect x="0" y="0" width="72" height="72" rx="8" fill="#fffcf7" stroke="#d8cec0"/><text x="0" y="96">8 · field</text>
+    <rect x="96" y="0" width="72" height="72" rx="12" fill="#fffcf7" stroke="#d8cec0"/><text x="96" y="96">12 · card</text>
+    <rect x="192" y="0" width="72" height="72" rx="24" fill="#fffcf7" stroke="#d8cec0"/><text x="192" y="96">24 · panel</text>
+    <rect x="288" y="18" width="96" height="40" rx="20" fill="#17120e"/><text x="288" y="96">full · pill</text>
+  </g>
+
+  <!-- Shadow -->
+  <g transform="translate(448 780)">
+    <rect width="384" height="72" rx="14" fill="#fffcf7" filter="url(#shadow)"/>
+    <text x="24" y="44" font-family="'IBM Plex Mono', ui-monospace, monospace" font-size="12" fill="#3c2415">0 16px 48px #3C24151A — low contrast, generous blur</text>
+  </g>
+
+  <!-- Motion curve -->
+  <g transform="translate(864 610)">
+    <rect width="352" height="236" rx="20" fill="#17120e"/>
+    <path d="M40 196H312M40 196V40" stroke="#35302b"/>
+    <path d="M40 196C100 196 90 40 312 40" fill="none" stroke="#a86a3c" stroke-width="2"/>
+    <circle r="5" fill="#f8f4ec">
+      <animateMotion dur="2.4s" repeatCount="indefinite" path="M40 196C100 196 90 40 312 40" keyPoints="0;1" keyTimes="0;1" calcMode="spline" keySplines="0.22 1 0.36 1"/>
+    </circle>
+    <text x="40" y="224" font-family="'IBM Plex Mono', ui-monospace, monospace" font-size="11" fill="#b67a4b" letter-spacing="1">EASE (0.22, 1, 0.36, 1) · .25/.7/1.1S</text>
+  </g>
+</svg>

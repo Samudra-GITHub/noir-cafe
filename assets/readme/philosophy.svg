@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="440" viewBox="0 0 1280 440" role="img" aria-labelledby="t">
+  <title id="t">Coffee should slow time, not fill it.</title>
+  <defs>
+    <filter id="grain" x="0" y="0" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="3" stitchTiles="stitch"/>
+      <feColorMatrix values="0 0 0 0 0.24  0 0 0 0 0.14  0 0 0 0 0.08  0 0 0 0.05 0"/>
+    </filter>
+  </defs>
+  <rect width="1280" height="440" rx="28" fill="#f8f4ec"/>
+  <rect width="1280" height="440" rx="28" fill="none" stroke="#d8cec0"/>
+  <g font-family="'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace" font-size="13" letter-spacing="1.5" fill="#905b33">
+    <text x="96" y="104">01 · THE DAILY RITUAL</text>
+  </g>
+  <g font-family="'Cormorant Garamond', Georgia, 'Times New Roman', serif" fill="#17120e">
+    <text x="92" y="196" font-size="76">Coffee should slow</text>
+    <text x="92" y="276" font-size="76">time, not fill it.</text>
+    <text x="96" y="352" font-size="26" font-style="italic" fill="#905b33">— The Noir team</text>
+  </g>
+  <g font-family="Inter, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="19" fill="#3c2415">
+    <text x="820" y="178">Craft is attention made visible.</text>
+    <text x="820" y="210">Every surface, pause and pour in this</text>
+    <text x="820" y="242">project is designed the way a barista</text>
+    <text x="820" y="274">builds a cup — slowly, on purpose.</text>
+  </g>
+  <line x1="820" y1="316" x2="900" y2="316" stroke="#a86a3c" stroke-width="1.5"/>
+  <rect width="1280" height="440" rx="28" filter="url(#grain)"/>
+</svg>

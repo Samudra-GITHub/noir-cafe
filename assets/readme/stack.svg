@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="400" viewBox="0 0 1280 400" role="img" aria-labelledby="t">
+  <title id="t">Tech stack: Next.js 16, TypeScript, Tailwind CSS v4, Framer Motion, Lenis, React View Transitions, Lucide, Vercel, ESLint</title>
+  <rect width="1280" height="400" rx="28" fill="#17120e"/>
+  <g font-family="'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace" fill="#8f867e" font-size="11" letter-spacing="1.3">
+    <g transform="translate(64 64)">
+      <rect width="264" height="120" rx="16" fill="#1f1914" stroke="#35302b"/>
+      <circle cx="44" cy="46" r="20" fill="#f8f4ec"/><path d="M36 36v20M36 36l16 20M52 36v14" stroke="#17120e" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+      <text x="80" y="42" font-family="'Cormorant Garamond', Georgia, serif" font-size="24" fill="#f8f4ec" letter-spacing="0">Next.js 16</text>
+      <text x="80" y="62">APP ROUTER · RSC</text><text x="24" y="100">STATIC PRERENDER · 7 ROUTES</text>
+    </g>
+    <g transform="translate(344 64)">
+      <rect width="264" height="120" rx="16" fill="#1f1914" stroke="#35302b"/>
+      <rect x="24" y="26" width="40" height="40" rx="6" fill="#efe5d7"/><text x="34" y="58" font-family="Inter, 'Segoe UI', sans-serif" font-size="16" font-weight="700" fill="#17120e">TS</text>
+      <text x="80" y="42" font-family="'Cormorant Garamond', Georgia, serif" font-size="24" fill="#f8f4ec" letter-spacing="0">TypeScript</text>
+      <text x="80" y="62">STRICT MODE</text><text x="24" y="100">TYPED DATA · TYPED TOKENS</text>
+    </g>
+    <g transform="translate(624 64)">
+      <rect width="264" height="120" rx="16" fill="#1f1914" stroke="#35302b"/>
+      <path d="M26 50c6-12 14-16 24-12s12 10 20 6M26 62c6-12 14-16 24-12s12 10 20 6" stroke="#a86a3c" stroke-width="3" fill="none" stroke-linecap="round"/>
+      <text x="80" y="42" font-family="'Cormorant Garamond', Georgia, serif" font-size="24" fill="#f8f4ec" letter-spacing="0">Tailwind v4</text>
+      <text x="80" y="62">@THEME TOKENS</text><text x="24" y="100">CSS VARIABLES · UTILITIES</text>
+    </g>
+    <g transform="translate(904 64)">
+      <rect width="312" height="120" rx="16" fill="#1f1914" stroke="#35302b"/>
+      <path d="M26 30h36L44 48zM26 48h18l18 18H26z" fill="#efe5d7"/>
+      <text x="80" y="42" font-family="'Cormorant Garamond', Georgia, serif" font-size="24" fill="#f8f4ec" letter-spacing="0">Framer Motion</text>
+      <text x="80" y="62">SHARED VARIANTS</text><text x="24" y="100">LAYOUT · SCROLL · SPRINGS</text>
+    </g>
+    <g transform="translate(64 208)">
+      <rect width="264" height="120" rx="16" fill="#1f1914" stroke="#35302b"/>
+      <path d="M26 58c10-24 26-24 38 0" stroke="#a86a3c" stroke-width="3" fill="none" stroke-linecap="round"/>
+      <text x="80" y="42" font-family="'Cormorant Garamond', Georgia, serif" font-size="24" fill="#f8f4ec" letter-spacing="0">Lenis</text>
+      <text x="80" y="62">INERTIAL SCROLL</text><text x="24" y="100">OFF UNDER REDUCED MOTION</text>
+    </g>
+    <g transform="translate(344 208)">
+      <rect width="264" height="120" rx="16" fill="#1f1914" stroke="#35302b"/>
+      <rect x="24" y="30" width="28" height="32" rx="4" fill="none" stroke="#efe5d7" stroke-width="2"/><rect x="36" y="38" width="28" height="32" rx="4" fill="#a86a3c" opacity="0.8"/>
+      <text x="80" y="42" font-family="'Cormorant Garamond', Georgia, serif" font-size="21" fill="#f8f4ec" letter-spacing="0">View Transitions</text>
+      <text x="80" y="62">REACT · NATIVE API</text><text x="24" y="100">BLUR + GRAIN DISSOLVE</text>
+    </g>
+    <g transform="translate(624 208)">
+      <rect width="176" height="120" rx="16" fill="#1f1914" stroke="#35302b"/>
+      <path d="M26 64l12-28 12 28M30 54h16" stroke="#efe5d7" stroke-width="2" fill="none" stroke-linecap="round"/>
+      <text x="64" y="54" font-family="'Cormorant Garamond', Georgia, serif" font-size="24" fill="#f8f4ec" letter-spacing="0">Lucide</text>
+      <text x="24" y="100">1.25 STROKE ICONS</text>
+    </g>
+    <g transform="translate(816 208)">
+      <rect width="176" height="120" rx="16" fill="#1f1914" stroke="#35302b"/>
+      <path d="M44 32l18 32H26z" fill="#f8f4ec"/>
+      <text x="76" y="54" font-family="'Cormorant Garamond', Georgia, serif" font-size="24" fill="#f8f4ec" letter-spacing="0">Vercel</text>
+      <text x="24" y="100">EDGE-READY DEPLOY</text>
+    </g>
+    <g transform="translate(1008 208)">
+      <rect width="208" height="120" rx="16" fill="#1f1914" stroke="#35302b"/>
+      <path d="M44 28l16 9v18l-16 9-16-9V37z" fill="none" stroke="#a86a3c" stroke-width="2"/>
+      <text x="76" y="54" font-family="'Cormorant Garamond', Georgia, serif" font-size="24" fill="#f8f4ec" letter-spacing="0">ESLint</text>
+      <text x="24" y="100">NEXT CORE WEB VITALS</text>
+    </g>
+  </g>
+</svg>
