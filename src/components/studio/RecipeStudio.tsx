@@ -66,6 +66,17 @@ function useSavedRecipes() {
   return { saved, write };
 }
 
+function useLinkedMethod() {
+  return useSyncExternalStore(
+    () => () => {},
+    () => {
+      const id = new URLSearchParams(window.location.search).get("method");
+      return BREW_METHODS.some((m) => m.id === id) ? id : null;
+    },
+    () => null,
+  );
+}
+
 function Card({ title, eyebrow, children, className }: { title: string; eyebrow: string; children: React.ReactNode; className?: string }) {
   return (
     <section aria-label={title} className={cn("rounded-xl border border-sand bg-surface p-6 md:p-8", className)}>
@@ -84,9 +95,14 @@ function Card({ title, eyebrow, children, className }: { title: string; eyebrow:
  */
 export function RecipeStudio() {
   const safe = useMotionSafe();
-  const [methodId, setMethodId] = useState(BREW_METHODS[0].id);
+  // ?method=v60 (from a product's brew guide) preselects a house recipe. Derived,
+  // not copied into state, so the page still prerenders and hydrates cleanly.
+  const linked = useLinkedMethod();
+  const [chosen, setMethodId] = useState<string | null>(null);
+  const methodId = chosen ?? linked ?? BREW_METHODS[0].id;
   const method = BREW_METHODS.find((m) => m.id === methodId)!;
-  const [recipe, setRecipe] = useState<Recipe>(() => referenceRecipe(BREW_METHODS[0]));
+  const [edited, setRecipe] = useState<Recipe | null>(null);
+  const recipe = edited && edited.methodId === methodId ? edited : referenceRecipe(method);
   const [art, setArt] = useState<LatteArt>("rosetta");
   const { saved, write } = useSavedRecipes();
 
@@ -98,7 +114,7 @@ export function RecipeStudio() {
   const seconds = brewSeconds(method, recipe);
   const emphasis = useMemo(() => flavourEmphasis(recipe.roast, ey), [recipe.roast, ey]);
   const crema = cremaHex(recipe.roast, ey);
-  const set = (patch: Partial<Recipe>) => setRecipe((r) => ({ ...r, ...patch }));
+  const set = (patch: Partial<Recipe>) => setRecipe({ ...recipe, ...patch });
 
   const chooseMethod = (id: string) => {
     const next = BREW_METHODS.find((m) => m.id === id)!;

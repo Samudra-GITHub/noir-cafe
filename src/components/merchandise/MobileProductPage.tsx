@@ -9,7 +9,9 @@ import { useMotionSafe } from "@/hooks/useMotionSafe";
 import { successReveal } from "@/lib/motion";
 import { cn } from "@/lib/cn";
 import { feedback, useFeedbackOnChange } from "@/lib/feedback";
+import { BrewGuide } from "./BrewGuide";
 import { OriginMap } from "./OriginMap";
+import { ProductReviews } from "./ProductReviews";
 
 /**
  * Mobile product page — Apple Store–style, shown full screen below 768px:
@@ -142,6 +144,12 @@ export function MobileProductPage({ product }: { product: ShopProduct }) {
             <OriginMap title={product.origin.title} points={product.origin.points} />
           </div>
         </section>
+
+        <BrewGuide product={product} roast={roast} className="mt-10" />
+
+        <div className="mt-10">
+          <ProductReviews product={product.slug} name={product.name} />
+        </div>
       </div>
 
       {/* Sticky buy bar */}

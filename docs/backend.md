@@ -44,6 +44,12 @@ every feature says plainly when it is running without its backend.
   Capacities live in `reservation_capacity` (defaults 8 / 16 / 10 covers).
 - The confirmation carries a code (`NC-XXXXXX`) and a QR (`NOIR-RES:<code>`) for the host stand, an RFC 5545 invite (`src/lib/ics.ts`), and — with Resend — an email (`src/server/email.ts`).
 
+## Reviews
+
+Only genuine reviews are shown — none are seeded or invented. Submissions land in
+`reviews` as *pending* (`supabase/migrations/0003_reviews.sql`); set `status = 'approved'`
+to publish one. Without Supabase the product pages say there are no reviews yet.
+
 ## Stripe setup
 
 1. Set `STRIPE_SECRET_KEY` (test mode first).
@@ -64,3 +70,4 @@ every feature says plainly when it is running without its backend.
 | `/api/favorites` | GET · PUT | Account favourites (Clerk + Supabase) |
 | `/api/reservations/availability` | GET | Remaining covers per time and area |
 | `/api/reservations` | POST | Book a table (atomic with Supabase), email confirmation |
+| `/api/reviews` | GET · POST | Approved product reviews · submit one for moderation |

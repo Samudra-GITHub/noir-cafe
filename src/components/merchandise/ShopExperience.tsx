@@ -11,6 +11,8 @@ import { useMotionSafe } from "@/hooks/useMotionSafe";
 import { ease, productHover, successReveal } from "@/lib/motion";
 import { cn } from "@/lib/cn";
 import { feedback } from "@/lib/feedback";
+import { BrewGuide } from "./BrewGuide";
+import { ProductReviews } from "./ProductReviews";
 import { MobileProductPage } from "./MobileProductPage";
 
 type FilterId = (typeof SHOP_FILTERS)[number]["id"];
@@ -263,6 +265,11 @@ function QuickView({ product }: { product: ShopProduct }) {
                 </m.p>
               )}
             </AnimatePresence>
+          </div>
+
+          <BrewGuide product={product} roast={roast} className="mt-10 border-t border-sand pt-8" />
+          <div className="mt-10 border-t border-sand pt-8">
+            <ProductReviews product={product.slug} name={product.name} />
           </div>
 
           <ul aria-label="Details" className="mt-6 flex flex-wrap gap-2">
