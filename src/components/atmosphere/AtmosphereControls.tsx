@@ -5,6 +5,7 @@ import { Switch } from "@/components/ui";
 import { setHapticsEnabled, useHaptics } from "@/lib/haptics";
 import { setSoundEnabled, useSoundEnabled } from "@/lib/sound";
 import { cn } from "@/lib/cn";
+import { PushSwitch } from "@/components/pwa/PushSwitch";
 
 const LABEL: Record<LightChoice, string> = { auto: "Auto", morning: "Morning", afternoon: "Afternoon", evening: "Evening" };
 
@@ -70,6 +71,7 @@ export function AtmosphereControls({ className }: { className?: string }) {
         )}
       </div>
       <Switch checked={sound} onChange={(on) => void setSoundEnabled(on)} label="Café sound" description="Room tone, felt piano, the bar at work" />
+      <PushSwitch />
       {haptics.supported && (
         <Switch checked={haptics.enabled} onChange={setHapticsEnabled} label="Haptics" description="A light tap on presses and swipes" />
       )}

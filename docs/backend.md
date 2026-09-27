@@ -10,6 +10,7 @@ every feature says plainly when it is running without its backend.
 | **Supabase** (`SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`) | Orders and reservations stored in Postgres, live availability (menu and tables), synced favourites | Orders and bookings are validated by the server against default capacity but not stored — labelled *demo* |
 | **Stripe** (`STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET`) | "Pay now" via Checkout; the webhook marks orders paid | Pay at pickup only |
 | **Resend** (`RESEND_API_KEY`, `RESERVATIONS_FROM`) | Reservation confirmation emails (HTML + calendar invite) | The pass, QR and calendar download still work; no email is sent |
+| **Web Push** (`NEXT_PUBLIC_VAPID_PUBLIC_KEY`, `VAPID_PRIVATE_KEY`, `PUSH_ADMIN_TOKEN`) | A Notifications switch in the phone menu; `POST /api/push/send` notifies subscribers (needs Supabase for storage) | No notification offer anywhere |
 | **Clerk** (`NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY`, `CLERK_SECRET_KEY`) | Sign-in on `/order`; favourites follow the account | Guests order without an account; favourites stay on the device |
 
 ## Security model
@@ -50,6 +51,15 @@ Only genuine reviews are shown — none are seeded or invented. Submissions land
 `reviews` as *pending* (`supabase/migrations/0003_reviews.sql`); set `status = 'approved'`
 to publish one. Without Supabase the product pages say there are no reviews yet.
 
+## Installable app (PWA)
+
+`public/sw.js` (no dependencies): pages network-first with the offline page as
+fallback; `/menu`, `/locations` and `/offline` precached with their build assets
+so they open offline; hashed assets cache-first; photography stale-while-
+revalidate (capped); films and APIs never cached; push display and click. The
+manifest carries shortcuts and install screenshots; iOS launch screens come from
+`scripts/generate-splash.mjs`. Phones get an install offer from the second visit.
+
 ## Stripe setup
 
 1. Set `STRIPE_SECRET_KEY` (test mode first).
@@ -71,3 +81,5 @@ to publish one. Without Supabase the product pages say there are no reviews yet.
 | `/api/reservations/availability` | GET | Remaining covers per time and area |
 | `/api/reservations` | POST | Book a table (atomic with Supabase), email confirmation |
 | `/api/reviews` | GET · POST | Approved product reviews · submit one for moderation |
+| `/api/push/subscribe` | POST · DELETE | Store / forget a push subscription |
+| `/api/push/send` | POST | Notify every subscriber (Bearer `PUSH_ADMIN_TOKEN`) |

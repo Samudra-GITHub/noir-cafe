@@ -7,6 +7,7 @@ import { Atmosphere } from "@/components/layout/Atmosphere";
 import { ClientEnhancements } from "@/components/layout/ClientEnhancements";
 import { GrainDissolve } from "@/components/layout/GrainDissolve";
 import { TransitionDirector } from "@/components/layout/TransitionDirector";
+import { PwaClient } from "@/components/pwa/PwaClient";
 import { LOADER_BOOT, Loader } from "@/components/layout/Loader";
 import { SHOW_LOADER } from "@/constants/site";
 import { SiteFooter } from "@/components/layout/SiteFooter";
@@ -18,6 +19,7 @@ import { MobileDock } from "@/components/navigation/MobileDock";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { DEFAULT_DESCRIPTION, SITE_URL, pageMetadata } from "@/lib/seo";
 import { organizationSchema } from "@/lib/schema";
+import SPLASH from "@/constants/splash.json";
 import { EARLY_REVEAL } from "@/lib/early-reveal";
 import { ATMOSPHERE_BOOT } from "@/lib/atmosphere-boot";
 
@@ -77,7 +79,8 @@ export const metadata: Metadata = {
   },
   applicationName: "Noir Café",
   ...pageMetadata({ description: DEFAULT_DESCRIPTION, path: "/" }),
-  appleWebApp: { capable: true, title: "Noir Café", statusBarStyle: "black-translucent" },
+  // Installed on iOS: full-bleed under the status bar, with branded launch screens (scripts/generate-splash.mjs).
+  appleWebApp: { capable: true, title: "Noir Café", statusBarStyle: "black-translucent", startupImage: SPLASH },
   formatDetection: { telephone: false },
 };
 
@@ -119,6 +122,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <Atmosphere />
           <GrainDissolve />
           <TransitionDirector />
+          <PwaClient />
           <ClientEnhancements />
         </SmoothScroll>
         </MotionProvider>

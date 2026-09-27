@@ -16,6 +16,14 @@ const nextConfig: NextConfig = {
   async headers() {
     return [
       {
+        // The service worker must always be fresh so updates roll out.
+        source: "/sw.js",
+        headers: [
+          { key: "Cache-Control", value: "no-cache, no-store, must-revalidate" },
+          { key: "Content-Type", value: "application/javascript; charset=utf-8" },
+        ],
+      },
+      {
         // Videos and photography are content-addressed by name; cache hard and allow range requests.
         source: "/:dir(videos|images|icons)/:path*",
         headers: [
