@@ -26,6 +26,7 @@ export const RESERVE_HREF = "/reservation";
 
 /** Secondary destinations, listed in the phone and tablet menu sheet. */
 export const MORE_LINKS = [
+  { label: "Order ahead", href: "/order" },
   { label: "Ask the barista", href: "/concierge" },
   { label: "Recipe studio", href: "/brewing-lab/studio" },
   { label: "From seed to cup · 3D", href: "/cup" },
