@@ -12,6 +12,7 @@ import { feedback, useFeedbackOnChange } from "@/lib/feedback";
 import { BrewGuide } from "./BrewGuide";
 import { OriginMap } from "./OriginMap";
 import { ProductReviews } from "./ProductReviews";
+import { useFormat, useI18n } from "@/i18n/client";
 
 /**
  * Mobile product page — Apple Store–style, shown full screen below 768px:
@@ -20,6 +21,8 @@ import { ProductReviews } from "./ProductReviews";
  * the home indicator.
  */
 export function MobileProductPage({ product }: { product: ShopProduct }) {
+  const { tr } = useI18n();
+  const format = useFormat();
   const safe = useMotionSafe();
   const { add, count } = useBag();
   const galleryRef = useRef<HTMLUListElement>(null);
@@ -35,8 +38,8 @@ export function MobileProductPage({ product }: { product: ShopProduct }) {
   // Three frames: the object, a detail crop, and it in use.
   const lifestyle = product.slug === HOME_RITUAL_SET.slug ? "/images/home/shop-ritual.jpg" : HOME_RITUAL_SET.image;
   const frames = [
-    { src: product.image, alt: product.imageAlt, className: "" },
-    { src: product.image, alt: `${product.name}, detail`, className: "scale-[1.7] object-[42%_46%]" },
+    { src: product.image, alt: tr(product.imageAlt), className: "" },
+    { src: product.image, alt: tr("{name}, detail", { name: tr(product.name) }), className: "scale-[1.7] object-[42%_46%]" },
     { src: lifestyle, alt: "The object in a morning coffee ritual", className: "" },
   ];
 
@@ -55,18 +58,18 @@ export function MobileProductPage({ product }: { product: ShopProduct }) {
 
   const variantLabel = [roast && `${roast} roast`, ...Object.values(variants)].filter(Boolean).join(" · ");
   const specs = [
-    { label: "Format", value: product.spec },
-    ...product.details.map((d, i) => ({ label: ["Detail", "Care", "Notes"][i] ?? "Detail", value: d })),
-    ...(roast ? [{ label: "Roast", value: roast }] : []),
+    { label: tr("Format"), value: tr(product.spec) },
+    ...product.details.map((d, i) => ({ label: tr(["Detail", "Care", "Notes"][i] ?? "Detail"), value: tr(d) })),
+    ...(roast ? [{ label: tr("Roast"), value: tr(roast) }] : []),
   ];
 
   return (
     <div className="flex min-h-dvh flex-col bg-canvas">
       {/* Gallery */}
       <div className="relative bg-cream">
-        <ul ref={galleryRef} aria-label={`${product.name} gallery`} className="swipe-rail">
+        <ul ref={galleryRef} aria-label={tr("{name} gallery", { name: tr(product.name) })} className="swipe-rail">
           {frames.map((f, i) => (
-            <li key={i} data-index={i} className="w-screen" aria-label={`Image ${i + 1} of ${frames.length}`}>
+            <li key={i} data-index={i} className="w-screen" aria-label={tr("Image {n} of {total}", { n: i + 1, total: frames.length })}>
               <ZoomableImage
                 src={f.src}
                 alt={f.alt}
@@ -86,13 +89,13 @@ export function MobileProductPage({ product }: { product: ShopProduct }) {
       </div>
 
       <div className="flex-1 px-[var(--gutter)] pt-7 pb-8">
-        <p className="font-mono text-eyebrow text-caramel-ink uppercase">{product.spec}</p>
-        <h3 className="mt-2 font-display text-[2.75rem] leading-[1] text-strong">{product.name}</h3>
-        <p className="mt-4 font-sans text-body-sm leading-[26px] text-stone">{product.description}</p>
+        <p className="font-mono text-eyebrow text-caramel-ink uppercase">{tr(product.spec)}</p>
+        <h3 className="mt-2 font-display text-[2.75rem] leading-[1] text-strong">{tr(product.name)}</h3>
+        <p className="mt-4 font-sans text-body-sm leading-[26px] text-stone">{tr(product.description)}</p>
 
         {product.roasts && (
           <fieldset className="mt-8">
-            <legend className="font-mono text-micro text-stone uppercase">Roast</legend>
+            <legend className="font-mono text-micro text-stone uppercase">{tr("Roast")}</legend>
             <div className="swipe-rail mt-3 gap-2 [&>*]:snap-start">
               {product.roasts.map((r) => (
                 <Chip key={r} size="lg" selected={roast === r} onClick={() => setRoast(r)} icon={<RoastMeter roast={r} />} className="h-11">
@@ -105,7 +108,7 @@ export function MobileProductPage({ product }: { product: ShopProduct }) {
 
         {product.variants.map((group) => (
           <fieldset key={group.name} className="mt-6">
-            <legend className="font-mono text-micro text-stone uppercase">{group.name}</legend>
+            <legend className="font-mono text-micro text-stone uppercase">{tr(group.name)}</legend>
             <div className="mt-3 grid grid-cols-2 gap-2">
               {group.options.map((option) => (
                 <Chip
@@ -115,7 +118,7 @@ export function MobileProductPage({ product }: { product: ShopProduct }) {
                   onClick={() => setVariants((v) => ({ ...v, [group.name]: option }))}
                   className="h-11 w-full"
                 >
-                  {option}
+                  {tr(option)}
                 </Chip>
               ))}
             </div>
@@ -123,14 +126,12 @@ export function MobileProductPage({ product }: { product: ShopProduct }) {
         ))}
 
         <section aria-labelledby={`${product.slug}-specs`} className="mt-10">
-          <h4 id={`${product.slug}-specs`} className="font-display text-[1.75rem] text-strong">
-            Specifications
-          </h4>
+          <h4 id={`${product.slug}-specs`} className="font-display text-[1.75rem] text-strong">{tr("Specifications")}</h4>
           <dl className="mt-3 border-t border-sand">
             {specs.map((s) => (
               <div key={s.label + s.value} className="flex items-baseline justify-between gap-6 border-b border-sand py-3.5">
                 <dt className="font-mono text-micro text-stone uppercase">{s.label}</dt>
-                <dd className="text-right font-sans text-body-xs text-strong">{s.value}</dd>
+                <dd className="text-end font-sans text-body-xs text-strong">{s.value}</dd>
               </div>
             ))}
           </dl>
@@ -138,10 +139,10 @@ export function MobileProductPage({ product }: { product: ShopProduct }) {
 
         <section aria-labelledby={`${product.slug}-origin`} className="mt-10">
           <h4 id={`${product.slug}-origin`} className="font-display text-[1.75rem] text-strong">
-            {product.origin.title}
+            {tr(product.origin.title)}
           </h4>
           <div className="mt-4">
-            <OriginMap title={product.origin.title} points={product.origin.points} />
+            <OriginMap title={tr(product.origin.title)} points={product.origin.points} />
           </div>
         </section>
 
@@ -160,9 +161,7 @@ export function MobileProductPage({ product }: { product: ShopProduct }) {
         <div aria-live="polite" className="min-h-5">
           <AnimatePresence>
             {added && (
-              <m.p variants={safe ? successReveal : undefined} initial="hidden" animate="visible" className="mb-3 font-mono text-micro text-caramel-ink uppercase">
-                Added · {count} {count === 1 ? "item" : "items"} set aside
-              </m.p>
+              <m.p variants={safe ? successReveal : undefined} initial="hidden" animate="visible" className="mb-3 font-mono text-micro text-caramel-ink uppercase">{count === 1 ? tr("Added · 1 item set aside") : tr("Added · {n} items set aside", { n: count })}</m.p>
             )}
           </AnimatePresence>
         </div>
@@ -170,14 +169,13 @@ export function MobileProductPage({ product }: { product: ShopProduct }) {
           <QuantitySelector value={quantity} onChange={setQuantity} />
           <Button
             fullWidth
-            className="justify-between pr-6"
+            className="justify-between pe-6"
             onClick={() => {
               add({ slug: product.slug, name: product.name, variant: variantLabel, quantity, price: product.price });
               setAdded(true);
               feedback("add");
             }}
-          >
-            Add · ${(product.price * quantity).toFixed(0)}
+          >{tr("Add · {price}", { price: format.price(product.price * quantity, true) })}
           </Button>
         </div>
       </div>

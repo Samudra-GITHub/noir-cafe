@@ -7,6 +7,7 @@ import { RoastMeter, Button } from "@/components/ui";
 import { useMotionSafe } from "@/hooks/useMotionSafe";
 import { feedback, useFeedbackOnChange } from "@/lib/feedback";
 import { cn } from "@/lib/cn";
+import { useI18n } from "@/i18n/client";
 
 const RING = 2 * Math.PI * 108;
 const pct = (v: number, min: number, max: number) => Math.min(1, Math.max(0, (v - min) / (max - min)));
@@ -18,6 +19,7 @@ const pct = (v: number, min: number, max: number) => Math.min(1, Math.max(0, (v 
  * runs a real brew timer that walks through the stages.
  */
 export function MobileBrewStory() {
+  const { tr } = useI18n();
   const railRef = useRef<HTMLDivElement>(null);
   const [active, setActive] = useState(0);
   useFeedbackOnChange(active, "swipe");
@@ -37,10 +39,8 @@ export function MobileBrewStory() {
 
   return (
     <section aria-labelledby="brew-story-title" className="relative mt-20 bg-espresso text-beige md:hidden">
-      <h2 id="brew-story-title" className="sr-only">
-        Five brewing methods
-      </h2>
-      <div ref={railRef} className="swipe-rail h-dvh" aria-roledescription="carousel">
+      <h2 id="brew-story-title" className="sr-only">{tr("Five brewing methods")}</h2>
+      <div ref={railRef} className="swipe-rail h-dvh" aria-roledescription={tr("carousel")}>
         {BREW_METHODS.map((method, i) => (
           <BrewSlide key={method.id} method={method} index={i} active={i === active} />
         ))}
@@ -63,16 +63,15 @@ export function MobileBrewStory() {
 
       {/* Into the studio, to change the recipes yourself. */}
       <div className="container-page flex items-center justify-between gap-4 border-t border-char py-8">
-        <p className="font-sans text-body-sm text-cream">Change dose, grind, heat and roast — and watch the cup change.</p>
-        <Button href="/brewing-lab/studio" variant="inverse" className="shrink-0">
-          Studio
-        </Button>
+        <p className="font-sans text-body-sm text-cream">{tr("Change dose, grind, heat and roast — and watch the cup change.")}</p>
+        <Button href="/brewing-lab/studio" variant="inverse" className="shrink-0">{tr("Studio")}</Button>
       </div>
     </section>
   );
 }
 
 function BrewSlide({ method, index, active }: { method: BrewMethod; index: number; active: boolean }) {
+  const { tr } = useI18n();
   const safe = useMotionSafe();
   const [running, setRunning] = useState(false);
   const [elapsed, setElapsed] = useState(0);
@@ -121,8 +120,8 @@ function BrewSlide({ method, index, active }: { method: BrewMethod; index: numbe
     <div
       data-index={index}
       role="group"
-      aria-roledescription="slide"
-      aria-label={`${index + 1} of ${BREW_METHODS.length}: ${method.method}`}
+      aria-roledescription={tr("slide")}
+      aria-label={tr("{n} of {total}: {name}", { n: index + 1, total: BREW_METHODS.length, name: tr(method.method) })}
       className="relative flex w-screen flex-col justify-between px-[var(--gutter)]"
       style={{ paddingTop: "calc(var(--safe-top) + 108px)", paddingBottom: "calc(var(--dock-height) + 44px + var(--safe-bottom))" }}
     >
@@ -132,9 +131,9 @@ function BrewSlide({ method, index, active }: { method: BrewMethod; index: numbe
       />
       <div>
         <p className="font-mono text-eyebrow text-caramel-glow uppercase">
-          {String(index + 1).padStart(2, "0")} · {method.code}
+          {String(index + 1).padStart(2, "0")} · {tr(method.code)}
         </p>
-        <h3 className="mt-3 font-display text-[2.75rem] leading-[0.95]">{method.method}</h3>
+        <h3 className="mt-3 font-display text-[2.75rem] leading-[0.95]">{tr(method.method)}</h3>
         <p className="mt-2 font-display text-[1.375rem] text-cream italic">
           {method.coffee.join(" ")}
         </p>
@@ -151,7 +150,7 @@ function BrewSlide({ method, index, active }: { method: BrewMethod; index: numbe
           if (!running) feedback("pour");
           setRunning((r) => !r);
         }}
-        aria-label={running ? "Pause brew timer" : "Start brew timer"}
+        aria-label={running ? tr("Pause brew timer") : tr("Start brew timer")}
         className="relative mx-auto grid size-[244px] place-items-center"
       >
         <svg viewBox="0 0 244 244" className="absolute inset-0 -rotate-90" aria-hidden>
@@ -175,20 +174,20 @@ function BrewSlide({ method, index, active }: { method: BrewMethod; index: numbe
           </span>
           <span className="mt-3 flex items-center justify-center gap-2 font-mono text-micro text-cream uppercase">
             {running ? <Pause aria-hidden className="size-3" /> : elapsed >= total ? <RotateCcw aria-hidden className="size-3" /> : <Play aria-hidden className="size-3" />}
-            {live ? method.stages[stage].label : "Tap to brew"}
+            {live ? tr(method.stages[stage].label) : tr("Tap to brew")}
           </span>
         </span>
       </button>
       <p aria-live="polite" className="-mt-4 text-center font-sans text-body-xs text-cream">
-        {live ? method.stages[stage].detail : `${method.dose} · ${method.water}`}
+        {live ? tr(method.stages[stage].detail) : `${method.dose} · ${tr(method.water)}`}
       </p>
 
       {/* Gauges */}
       <div className="flex flex-col gap-5">
-        <Gauge label="Temperature" value={`${method.temperatureC}°C`} fill={active ? temp : 0} className={transition} />
-        <Gauge label="Grind size" value={`${method.grindMicrons} µm`} marker={active ? grind : 0} className={transition} ends={["Fine", "Coarse"]} />
+        <Gauge label={tr("Temperature")} value={`${method.temperatureC}°C`} fill={active ? temp : 0} className={transition} />
+        <Gauge label={tr("Grind size")} value={`${method.grindMicrons} µm`} marker={active ? grind : 0} className={transition} ends={[tr("Fine"), tr("Coarse")]} />
         <div className="flex items-center justify-between border-t border-beige/15 pt-4">
-          <span className="font-mono text-micro text-cream uppercase">Recommended roast</span>
+          <span className="font-mono text-micro text-cream uppercase">{tr("Recommended roast")}</span>
           <RoastMeter roast={method.roast} size="md" />
         </div>
       </div>
@@ -220,7 +219,7 @@ function Gauge({
       </div>
       <div className="relative mt-3 h-px bg-beige/15">
         {fill !== undefined && (
-          <span className={cn("absolute inset-y-0 left-0 w-full origin-left bg-caramel transition-transform", className)} style={{ transform: `scaleX(${fill})` }} />
+          <span className={cn("absolute inset-y-0 inset-s-0 w-full origin-left bg-caramel transition-transform", className)} style={{ transform: `scaleX(${fill})` }} />
         )}
         {marker !== undefined && (
           <span

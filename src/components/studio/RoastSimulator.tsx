@@ -3,6 +3,7 @@
 import { RoastMeter } from "@/components/ui";
 import { ROAST_LANDMARKS, beanHex, beanTemperature, roastLevel, roastProfile } from "@/lib/brew-model";
 import { StudioSlider } from "./StudioSlider";
+import { useI18n } from "@/i18n/client";
 
 const W = 340;
 const H = 190;
@@ -30,6 +31,7 @@ export function RoastSimulator({
   onChange: (v: number) => void;
   onCommit?: (v: number) => void;
 }) {
+  const { tr } = useI18n();
   const profile = roastProfile(roast);
   const level = roastLevel(roast);
   const path = Array.from({ length: Math.round(MAX_MIN * 10) + 1 }, (_, i) => i / 10)
@@ -45,7 +47,7 @@ export function RoastSimulator({
   return (
     <div className="grid gap-8 lg:grid-cols-[1fr_280px] lg:items-start">
       <figure className="max-w-[560px]">
-        <svg viewBox={`0 0 ${W} ${H}`} className="w-full" role="img" aria-label={`Roast curve: dropped at ${profile.drop}°C after ${clock(profile.minutes)}, ${profile.development}% development`}>
+        <svg viewBox={`0 0 ${W} ${H}`} className="w-full" role="img" aria-label={tr("Roast curve: dropped at {temp}°C after {time}, {dev}% development", { temp: profile.drop, time: clock(profile.minutes), dev: profile.development })}>
           {[100, 150, 200].map((t) => (
             <g key={t}>
               <line x1={X0} x2={X1} y1={y(t)} y2={y(t)} stroke="var(--noir-sand)" strokeWidth={1} />
@@ -61,14 +63,12 @@ export function RoastSimulator({
             <g key={l.label}>
               <line x1={x(l.at)} x2={x(l.at)} y1={Y1} y2={Y0} stroke="var(--noir-stone)" strokeDasharray="3 3" strokeWidth={0.8} />
               {/* Staggered so neighbouring landmarks never collide. */}
-              <text x={x(l.at) - 3} y={Y1 + 4 + (i % 2) * 11} textAnchor="end" className="fill-stone font-mono text-[6.5px] uppercase">{l.label}</text>
+              <text x={x(l.at) - 3} y={Y1 + 4 + (i % 2) * 11} textAnchor="end" className="fill-stone font-mono text-[6.5px] uppercase">{tr(l.label)}</text>
             </g>
           ))}
           <circle cx={x(profile.minutes)} cy={y(profile.drop)} r={5} fill="var(--noir-caramel)" stroke="var(--noir-ivory)" strokeWidth={2} />
         </svg>
-        <figcaption className="mt-2 font-sans text-body-xs text-stone">
-          Bean temperature over a typical roast. Shaded: development after first crack.
-        </figcaption>
+        <figcaption className="mt-2 font-sans text-body-xs text-stone">{tr("Bean temperature over a typical roast. Shaded: development after first crack.")}</figcaption>
       </figure>
 
       <div className="flex flex-col gap-6">
@@ -78,27 +78,27 @@ export function RoastSimulator({
             <path d="M30 6 C 22 24, 38 58, 30 78" fill="none" stroke="rgb(23 18 14 / 0.55)" strokeWidth="3" strokeLinecap="round" />
           </svg>
           <div>
-            <p className="font-display text-[1.75rem] leading-none text-strong">{level} roast</p>
+            <p className="font-display text-[1.75rem] leading-none text-strong">{level}{" "}{tr("roast")}</p>
             <RoastMeter roast={level} size="md" className="mt-2" />
           </div>
         </div>
         <StudioSlider
-          label="Roast"
+          label={tr("Roast")}
           value={roast}
           min={0}
           max={1}
           step={0.01}
           display={`${profile.drop}°C`}
-          valueText={`${level} roast, dropped at ${profile.drop} degrees`}
-          ends={["Light", "Dark"]}
+          valueText={tr("{level} roast, dropped at {temp} degrees", { level: tr(level), temp: profile.drop })}
+          ends={[tr("Light"), tr("Dark")]}
           onChange={onChange}
           onCommit={onCommit}
         />
         <dl className="grid grid-cols-3 gap-3 border-t border-sand pt-4">
           {[
-            ["Drop", `${profile.drop}°C`],
-            ["Time", clock(profile.minutes)],
-            ["Development", `${profile.development}%`],
+            [tr("Drop"), `${profile.drop}°C`],
+            [tr("Time"), clock(profile.minutes)],
+            [tr("Development"), `${profile.development}%`],
           ].map(([k, v]) => (
             <div key={k}>
               <dt className="font-mono text-micro text-stone uppercase">{k}</dt>

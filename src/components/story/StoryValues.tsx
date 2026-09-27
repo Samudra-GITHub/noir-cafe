@@ -1,14 +1,16 @@
 import { FadeUp, Stagger, StaggerItem } from "@/components/motion/FadeUp";
 import { SectionIntro } from "@/components/shared/SectionIntro";
 import { STORY_VALUES } from "@/data/story";
+import { getTranslator } from "@/i18n/server";
 
 /** What stays constant — the three values as an indexed, ruled list. */
-export function StoryValues() {
+export async function StoryValues() {
+  const tr = await getTranslator();
   return (
     <section aria-labelledby="values-title" className="bg-cream pt-20 pb-20 lg:pt-28 lg:pb-[111px]">
       <div className="container-page grid gap-10 lg:grid-cols-[492px_1fr] lg:gap-0">
         <FadeUp className="lg:pt-[3px]">
-          <SectionIntro id="values-title" eyebrow="What stays constant" gap="mt-[13px]" title="Care is the craft." />
+          <SectionIntro id="values-title" eyebrow={tr("What stays constant")} gap="mt-[13px]" title={tr("Care is the craft.")} />
         </FadeUp>
 
         <Stagger as="ol" className="border-t border-sand">
@@ -22,10 +24,10 @@ export function StoryValues() {
                     {String(i + 1).padStart(2, "0")}
                   </span>
                   <h3 className="font-display text-heading-sm leading-[1.2] text-strong transition-transform duration-500 ease-noir group-hover/value:translate-x-1">
-                    {value.title}
+                    {tr(value.title)}
                   </h3>
                   <p className="col-start-2 font-sans text-body-xs leading-[20.8px] text-stone md:col-start-3">
-                    {value.text}
+                    {tr(value.text)}
                   </p>
               </StaggerItem>
             ))}

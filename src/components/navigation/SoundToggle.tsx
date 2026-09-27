@@ -3,6 +3,7 @@
 import { useEffect } from "react";
 import { resumeRememberedSound, toggleSound, useSoundEnabled, useSoundSupported } from "@/lib/sound";
 import { cn } from "@/lib/cn";
+import { useI18n } from "@/i18n/client";
 
 /**
  * Sound toggle — four hairline bars that lie flat when muted and sway softly
@@ -12,6 +13,7 @@ import { cn } from "@/lib/cn";
 export function SoundToggle({ inverse = false, className }: { inverse?: boolean; className?: string }) {
   const enabled = useSoundEnabled();
   const supported = useSoundSupported();
+  const { t } = useI18n();
 
   // Sound left on earlier this session resumes at the next gesture.
   useEffect(() => resumeRememberedSound(), []);
@@ -22,7 +24,7 @@ export function SoundToggle({ inverse = false, className }: { inverse?: boolean;
       type="button"
       onClick={() => void toggleSound()}
       aria-pressed={enabled}
-      aria-label={enabled ? "Mute ambient café sound" : "Play ambient café sound"}
+      aria-label={enabled ? t.sound.mute : t.sound.play}
       data-cursor="link"
       className={cn(
         "group/sound grid size-11 place-items-center rounded-full transition-colors duration-500 ease-noir",

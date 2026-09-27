@@ -4,6 +4,7 @@ import { useEffect, useState, useSyncExternalStore } from "react";
 import { X } from "lucide-react";
 import { whenIdle, whenLoaded } from "@/lib/page-ready";
 import { cn } from "@/lib/cn";
+import { useI18n } from "@/i18n/client";
 
 type BeforeInstallPromptEvent = Event & { prompt: () => Promise<void>; userChoice: Promise<{ outcome: "accepted" | "dismissed" }> };
 
@@ -37,6 +38,7 @@ const isIos = () => /iphone|ipad|ipod/i.test(navigator.userAgent) && !/crios|fxi
  */
 export function PwaClient() {
   const online = useOnline();
+  const { t } = useI18n();
   const [deferred, setDeferred] = useState<BeforeInstallPromptEvent | null>(null);
   const [offer, setOffer] = useState<"prompt" | "ios" | null>(null);
 
@@ -90,12 +92,12 @@ export function PwaClient() {
           online ? "-translate-y-3 opacity-0" : "translate-y-0 opacity-100",
         )}
       >
-        {online ? "" : "Offline · showing saved pages"}
+        {online ? "" : t.pwa.offline}
       </p>
 
       {offer && (
         <aside
-          aria-label="Install Noir Café"
+          aria-label={t.pwa.installLabel}
           className="fixed inset-x-4 z-40 mx-auto max-w-[420px] rounded-2xl bg-espresso p-4 text-beige shadow-[0_18px_40px_-12px_rgb(23_18_14/0.6)] md:hidden motion-safe:animate-[float-up_0.5s_var(--ease-noir)_both]"
           style={{ bottom: "calc(var(--dock-height) + 28px + var(--safe-bottom))" }}
         >
@@ -103,9 +105,9 @@ export function PwaClient() {
             {/* eslint-disable-next-line @next/next/no-img-element -- tiny static icon */}
             <img src="/icons/icon-192.png" alt="" width={44} height={44} className="rounded-xl" />
             <div className="flex-1">
-              <p className="font-sans text-body-sm font-semibold">Noir Café on your home screen</p>
+              <p className="font-sans text-body-sm font-semibold">{t.pwa.installTitle}</p>
               <p className="mt-0.5 font-sans text-body-xs text-cream">
-                {offer === "ios" ? "Tap Share, then “Add to Home Screen”." : "Opens like an app — the menu and our cafés work offline."}
+                {offer === "ios" ? t.pwa.iosHint : t.pwa.promptHint}
               </p>
               {offer === "prompt" && deferred && (
                 <button
@@ -118,11 +120,11 @@ export function PwaClient() {
                   }}
                   className="mt-3 h-10 rounded-full bg-beige px-5 font-sans text-button font-semibold text-espresso uppercase"
                 >
-                  Install
+                  {t.pwa.install}
                 </button>
               )}
             </div>
-            <button type="button" onClick={dismiss} aria-label="Not now" className="grid size-11 shrink-0 place-items-center rounded-full text-cream hover:bg-beige/10">
+            <button type="button" onClick={dismiss} aria-label={t.pwa.notNow} className="grid size-11 shrink-0 place-items-center rounded-full text-cream hover:bg-beige/10">
               <X aria-hidden className="size-4" />
             </button>
           </div>

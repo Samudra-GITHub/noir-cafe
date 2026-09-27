@@ -1,9 +1,10 @@
 "use server";
 
+/** Outcomes are codes; the form shows them in the visitor's language. */
 export type NewsletterState =
   | { status: "idle" }
-  | { status: "error"; message: string; email: string; at: number }
-  | { status: "success"; message: string };
+  | { status: "error"; code: "invalid"; email: string; at: number }
+  | { status: "success" };
 
 const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
@@ -16,7 +17,7 @@ const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 export async function subscribe(_prev: NewsletterState, formData: FormData): Promise<NewsletterState> {
   const email = String(formData.get("email") ?? "").trim();
   if (!EMAIL.test(email)) {
-    return { status: "error", message: "Enter a valid email address", email, at: Date.now() };
+    return { status: "error", code: "invalid", email, at: Date.now() };
   }
-  return { status: "success", message: "You’re on the list — the next note is yours" };
+  return { status: "success" };
 }

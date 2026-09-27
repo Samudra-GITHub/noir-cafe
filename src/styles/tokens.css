@@ -88,3 +88,12 @@
     --section-y: 136px;
   }
 }
+
+/* ── Japanese (M23) ───────────────────────────────────────────────
+   Latin glyphs keep the brand faces; Japanese falls through to Noto
+   Serif JP / Noto Sans JP (Japanese pages only, display: optional), then the
+   platform's Mincho / Gothic so nothing ever waits on a download. */
+:root:lang(ja) {
+  --family-display: var(--font-cormorant), "Noto Serif JP", "Hiragino Mincho ProN", "Yu Mincho", serif;
+  --family-body: var(--font-inter), "Noto Sans JP", "Hiragino Sans", "Yu Gothic", sans-serif;
+}

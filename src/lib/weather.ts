@@ -3,9 +3,9 @@
 import { useSyncExternalStore } from "react";
 
 /**
- * New York's weather, now — from Open-Meteo (free, no key, no personal data:
- * the request carries fixed SoHo coordinates, never the visitor's). Cached in
- * the session for 20 minutes and fetched only when something asks for it.
+ * New York's weather, now — through /api/weather (Open-Meteo, cached on the
+ * server; fixed SoHo coordinates, never the visitor's). Cached in the session
+ * for 20 minutes and fetched only when something asks for it.
  */
 export type NycWeather = {
   temperatureF: number;
@@ -18,8 +18,7 @@ export type NycWeather = {
   fetchedAt: number;
 };
 
-const ENDPOINT =
-  "https://api.open-meteo.com/v1/forecast?latitude=40.7208&longitude=-74.0023&current=temperature_2m,weather_code,is_day&daily=sunrise,sunset&timezone=America%2FNew_York&forecast_days=1&temperature_unit=fahrenheit";
+const ENDPOINT = "/api/weather";
 const CACHE_KEY = "noir:nyc-weather";
 const TTL = 20 * 60_000;
 
@@ -59,6 +58,7 @@ export function getNycWeather(): Promise<NycWeather | null> {
   inflight ??= fetch(ENDPOINT)
     .then((r) => (r.ok ? r.json() : Promise.reject(r.status)))
     .then((d) => {
+      if (!d.available) return null;
       const code = d.current.weather_code as number;
       const w: NycWeather = {
         temperatureF: Math.round(d.current.temperature_2m),

@@ -1,20 +1,20 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
+import Link from "@/i18n/link";
+import { useI18n, useLocalizedHref, usePagePath } from "@/i18n/client";
 import { m } from "framer-motion";
 import { CalendarCheck, Coffee, House, MapPin, ShoppingBag, type LucideIcon } from "lucide-react";
 import { useMotionSafe } from "@/hooks/useMotionSafe";
 import { ease } from "@/lib/motion";
 import { cn } from "@/lib/cn";
 
-const ITEMS: { href: string; label: string; icon: LucideIcon }[] = [
-  { href: "/", label: "Home", icon: House },
-  { href: "/menu", label: "Menu", icon: Coffee },
-  { href: "/locations", label: "Visit", icon: MapPin },
-  { href: "/reservation", label: "Reserve", icon: CalendarCheck },
-  { href: "/shop", label: "Shop", icon: ShoppingBag },
+const ITEMS: { href: "/" | "/menu" | "/locations" | "/reservation" | "/shop"; icon: LucideIcon }[] = [
+  { href: "/", icon: House },
+  { href: "/menu", icon: Coffee },
+  { href: "/locations", icon: MapPin },
+  { href: "/reservation", icon: CalendarCheck },
+  { href: "/shop", icon: ShoppingBag },
 ];
 
 const isActive = (pathname: string, href: string) =>
@@ -26,7 +26,9 @@ const isActive = (pathname: string, href: string) =>
  * the page top, and whenever focus enters it. Safe-area aware.
  */
 export function MobileDock() {
-  const pathname = usePathname();
+  const pathname = usePagePath();
+  const { t } = useI18n();
+  const localized = useLocalizedHref();
   const safe = useMotionSafe();
   const [hidden, setHidden] = useState(false);
   const last = useRef(0);
@@ -61,7 +63,7 @@ export function MobileDock() {
 
   return (
     <nav
-      aria-label="Mobile"
+      aria-label={t.a11y.mobileNav}
       onFocusCapture={() => setHidden(false)}
       className={cn(
         "mobile-dock fixed inset-x-4 z-50 md:hidden",
@@ -71,12 +73,12 @@ export function MobileDock() {
       style={{ bottom: "calc(14px + var(--safe-bottom))", viewTransitionName: "mobile-dock" }}
     >
       <ul className="mx-auto flex h-[var(--dock-height)] max-w-[420px] items-stretch justify-between rounded-full border border-white/15 bg-espresso/80 px-2 text-beige shadow-[0_18px_40px_-12px_rgb(23_18_14/0.6)] backdrop-blur-[30px] backdrop-saturate-[1.2]">
-        {ITEMS.map(({ href, label, icon: Icon }) => {
+        {ITEMS.map(({ href, icon: Icon }) => {
           const active = isActive(pathname, href);
           return (
             <li key={href} className="flex flex-1">
               <Link
-                href={href}
+                href={localized(href)}
                 aria-current={active ? "page" : undefined}
                 className="relative flex flex-1 flex-col items-center justify-center gap-1 rounded-full"
               >
@@ -99,7 +101,7 @@ export function MobileDock() {
                     active ? "text-beige" : "text-beige/70",
                   )}
                 >
-                  {label}
+                  {t.dock[href]}
                 </span>
               </Link>
             </li>

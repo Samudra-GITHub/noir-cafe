@@ -1,26 +1,35 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
+import Link from "@/i18n/link";
 import { Chat, type ChatMessage } from "@/components/chat/Chat";
 import { Eyebrow } from "@/components/ui";
 import { PageTitle } from "@/components/layout/PageTitle";
 import { MENU } from "@/data/menu";
 import { HOME_RITUAL_SET, PRODUCTS } from "@/data/shop";
+import { useFormat, useI18n } from "@/i18n/client";
+import { rich } from "@/i18n/rich";
 
-type Mention = { name: string; detail: string; price: number; href: string; image?: string };
+/** `detail` is English source text, translated as it renders: [category, ...notes] for drinks, [spec] for objects. */
+type Mention = { name: string; detail: string[]; price: number; href: string; image?: string };
 
 // Everything the barista might name, longest first so "Classic Latte" wins over "Latte".
 const CATALOGUE: Mention[] = [
-  ...MENU.flatMap((c) => c.items.map((i) => ({ name: i.name, detail: `${c.title} · ${i.notes.join(", ")}`, price: i.price, href: "/menu" }))),
-  ...[...PRODUCTS, HOME_RITUAL_SET].map((p) => ({ name: p.name, detail: p.spec, price: p.price, href: "/shop", image: p.image })),
+  ...MENU.flatMap((c) => c.items.map((i) => ({ name: i.name, detail: [c.title, ...i.notes], price: i.price, href: "/menu" }))),
+  ...[...PRODUCTS, HOME_RITUAL_SET].map((p) => ({ name: p.name, detail: [p.spec], price: p.price, href: "/shop", image: p.image })),
 ].sort((a, b) => b.name.length - a.name.length);
 
-function mentions(text: string) {
+const escape = (s: string) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+
+/** Items the reply names — by their English name or the name in the visitor's language. */
+function mentions(text: string, tr: (s: string) => string) {
   const found: (Mention & { at: number })[] = [];
   let rest = text;
   for (const item of CATALOGUE) {
-    const re = new RegExp(`\\b${item.name.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}\\b`, "i");
+    const local = tr(item.name);
+    const names = local === item.name ? escape(item.name) : `${escape(item.name)}|${escape(local)}`;
+    // Word boundaries only make sense around Latin names.
+    const re = new RegExp(/^[\x00-\x7F]+$/.test(local) ? `\\b(?:${names})\\b` : `(?:${names})`, "i");
     const match = re.exec(rest);
     if (match) {
       found.push({ ...item, at: match.index });
@@ -32,13 +41,15 @@ function mentions(text: string) {
 }
 
 function MentionCards({ message }: { message: ChatMessage }) {
-  const items = mentions(message.content);
+  const { tr } = useI18n();
+  const format = useFormat();
+  const items = mentions(message.content, tr);
   if (!items.length) return null;
   return (
-    <ul aria-label="Mentioned" className="mt-3 flex flex-col gap-2">
+    <ul aria-label={tr("Mentioned")} className="mt-3 flex flex-col gap-2">
       {items.map((m) => (
         <li key={m.name}>
-          <Link href={m.href} className="flex items-center gap-3 rounded-xl border border-sand bg-surface p-2.5 pr-4 transition-colors hover:border-espresso">
+          <Link href={m.href} className="flex items-center gap-3 rounded-xl border border-sand bg-surface p-2.5 pe-4 transition-colors hover:border-espresso">
             {m.image ? (
               <Image src={m.image} alt="" width={48} height={48} className="size-12 rounded-lg object-cover" />
             ) : (
@@ -47,10 +58,10 @@ function MentionCards({ message }: { message: ChatMessage }) {
               </span>
             )}
             <span className="flex flex-1 flex-col">
-              <span className="font-sans text-body-sm font-semibold text-strong">{m.name}</span>
-              <span className="font-sans text-body-xs text-stone">{m.detail}</span>
+              <span className="font-sans text-body-sm font-semibold text-strong">{tr(m.name)}</span>
+              <span className="font-sans text-body-xs text-stone">{m.detail.length > 1 ? `${tr(m.detail[0])} · ${m.detail.slice(1).map((n) => tr(n)).join(", ")}` : tr(m.detail[0])}</span>
             </span>
-            <span className="font-mono text-eyebrow text-strong tabular-nums">${m.price.toFixed(2)}</span>
+            <span className="font-mono text-eyebrow text-strong tabular-nums">{format.price(m.price)}</span>
           </Link>
         </li>
       ))}
@@ -64,43 +75,42 @@ function MentionCards({ message }: { message: ChatMessage }) {
  * come live from the model (app/api/concierge), grounded in the site's data.
  */
 export function Concierge() {
+  const { tr, locale } = useI18n();
   return (
     <div className="container-page flex h-[calc(100dvh-var(--dock-height)-28px-var(--safe-bottom))] max-w-[760px] flex-col pt-[calc(var(--safe-top)+96px)] pb-4 md:h-dvh md:pt-32 md:pb-10">
       <header className="shrink-0">
-        <Eyebrow>Concierge</Eyebrow>
+        <Eyebrow>{tr("Concierge")}</Eyebrow>
         <PageTitle>
-          <h1 className="type-display-md mt-3 text-strong">Ask the barista</h1>
+          <h1 className="type-display-md mt-3 text-strong">{tr("Ask the barista")}</h1>
         </PageTitle>
       </header>
       <Chat
         endpoint="/api/concierge"
-        label="Conversation with the barista"
+        label={tr("Conversation with the barista")}
         className="mt-4 flex-1"
-        placeholder="Ask about drinks, beans, brewing, gifts…"
+        placeholder={tr("Ask about drinks, beans, brewing, gifts…")}
         intro={
-          <>
-            Tell me what you feel like — bright or chocolatey, hot or iced, a gift under a certain budget — and I&rsquo;ll suggest something from
-            our menu and shop. I can help you dial in a brew at home too.
-          </>
+          <>{tr("Tell me what you feel like — bright or chocolatey, hot or iced, a gift under a certain budget — and I’ll suggest something from our menu and shop. I can help you dial in a brew at home too.")}</>
         }
         offline={
           <>
-            The concierge is resting at the moment. Our baristas are happy to help in person, or browse the <Link href="/menu" className="underline">menu</Link> and{" "}
-            <Link href="/shop" className="underline">shop</Link>.
+            {rich(tr("The concierge is resting at the moment. Our baristas are happy to help in person, or browse the {menu} and {shop}."), {
+              menu: <Link href="/menu" className="underline">{tr("menu")}</Link>,
+              shop: <Link href="/shop" className="underline">{tr("shop")}</Link>,
+            })}
           </>
         }
+        locale={locale}
         suggestions={[
-          "Recommend a drink for a slow afternoon",
-          "Which beans should I brew on a V60?",
-          "What pairs with a cortado?",
-          "A gift under $40",
-          "My pour-over tastes sour",
+          tr("Recommend a drink for a slow afternoon"),
+          tr("Which beans should I brew on a V60?"),
+          tr("What pairs with a cortado?"),
+          tr("A gift under $40"),
+          tr("My pour-over tastes sour"),
         ]}
         renderExtras={(m) => <MentionCards message={m} />}
       />
-      <p className="mt-3 shrink-0 font-sans text-body-xs text-stone">
-        Answers are written by AI from our menu and shop. For allergies, please speak with the barista.
-      </p>
+      <p className="mt-3 shrink-0 font-sans text-body-xs text-stone">{tr("Answers are written by AI from our menu and shop. For allergies, please speak with the barista.")}</p>
     </div>
   );
 }

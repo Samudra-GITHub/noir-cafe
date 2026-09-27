@@ -3,22 +3,16 @@
 import { useState } from "react";
 import { Heart } from "lucide-react";
 import { Button, NoteChip, QuantitySelector } from "@/components/ui";
-import {
-  EXTRA_SHOT_CENTS,
-  OAT_CENTS,
-  defaultModifiers,
-  money,
-  unitCents,
-  type Modifiers,
-  type OrderableItem,
-} from "@/data/ordering";
+import { EXTRA_SHOT_CENTS, OAT_CENTS, defaultModifiers, unitCents, type Modifiers, type OrderableItem } from "@/data/ordering";
 import { feedback } from "@/lib/feedback";
 import { cn } from "@/lib/cn";
 import { favorites, isFavorite, toggleFavorite } from "./stores";
+import { useFormat, useI18n } from "@/i18n/client";
 
 type Choice<T extends string> = { value: T; label: string; extra?: string };
 
 function Choices<T extends string>({ legend, value, options, onChange }: { legend: string; value: T; options: Choice<T>[]; onChange: (v: T) => void }) {
+  const { tr } = useI18n();
   return (
     <fieldset>
       <legend className="font-mono text-micro text-stone uppercase">{legend}</legend>
@@ -51,7 +45,7 @@ function Choices<T extends string>({ legend, value, options, onChange }: { legen
               value === o.value ? "border-espresso bg-espresso text-beige" : "border-sand text-strong hover:border-espresso",
             )}
           >
-            {o.label}
+            {tr(o.label)}
             {o.extra && <span className={value === o.value ? "text-cream" : "text-stone"}>{o.extra}</span>}
           </button>
         ))}
@@ -66,6 +60,8 @@ function Choices<T extends string>({ legend, value, options, onChange }: { legen
  * The heart saves this exact drink as a favourite.
  */
 export function CustomizeDrink({ item, onAdd }: { item: OrderableItem; onAdd: (modifiers: Modifiers, quantity: number) => void }) {
+  const { tr } = useI18n();
+  const format = useFormat();
   const [mods, setMods] = useState<Modifiers>(() => defaultModifiers(item));
   const [quantity, setQuantity] = useState(1);
   const favs = favorites.use();
@@ -75,12 +71,12 @@ export function CustomizeDrink({ item, onAdd }: { item: OrderableItem; onAdd: (m
 
   return (
     <div className="flex flex-col gap-7 p-6 pb-[calc(24px+var(--safe-bottom))] md:p-10">
-      <div className="flex items-start justify-between gap-4 pr-10">
+      <div className="flex items-start justify-between gap-4 pe-10">
         <div>
-          <p className="font-mono text-eyebrow text-caramel-ink uppercase">{item.categoryTitle}</p>
+          <p className="font-mono text-eyebrow text-caramel-ink uppercase">{tr(item.categoryTitle)}</p>
           <h2 className="mt-2 font-display text-[2.25rem] leading-none text-strong">{item.name}</h2>
-          <p className="mt-2 font-sans text-body-sm text-stone">{item.description}</p>
-          <ul aria-label="Tasting notes" className="mt-3 flex flex-wrap gap-1.5">
+          <p className="mt-2 font-sans text-body-sm text-stone">{tr(item.description)}</p>
+          <ul aria-label={tr("Tasting notes")} className="mt-3 flex flex-wrap gap-1.5">
             {item.notes.map((n) => (
               <li key={n}>
                 <NoteChip>{n}</NoteChip>
@@ -91,7 +87,7 @@ export function CustomizeDrink({ item, onAdd }: { item: OrderableItem; onAdd: (m
         <button
           type="button"
           aria-pressed={fav}
-          aria-label={fav ? "Remove from favourites" : "Save as a favourite"}
+          aria-label={fav ? tr("Remove from favourites") : tr("Save as a favourite")}
           onClick={() => {
             if (!fav) feedback("favorite");
             toggleFavorite(item.slug, mods);
@@ -104,35 +100,34 @@ export function CustomizeDrink({ item, onAdd }: { item: OrderableItem; onAdd: (m
 
       {o.temperature && (
         <Choices
-          legend="Served"
+          legend={tr("Served")}
           value={mods.temperature ?? "hot"}
-          options={[{ value: "hot", label: "Hot" }, { value: "iced", label: "Iced" }]}
+          options={[{ value: "hot", label: tr("Hot") }, { value: "iced", label: tr("Iced") }]}
           onChange={(temperature) => set({ temperature, ice: temperature === "iced" ? (mods.ice ?? "regular") : undefined })}
         />
       )}
       {mods.temperature === "iced" && (
-        <Choices legend="Ice" value={mods.ice ?? "regular"} options={[{ value: "light", label: "Light ice" }, { value: "regular", label: "Regular ice" }]} onChange={(ice) => set({ ice })} />
+        <Choices legend={tr("Ice")} value={mods.ice ?? "regular"} options={[{ value: "light", label: tr("Light ice") }, { value: "regular", label: tr("Regular ice") }]} onChange={(ice) => set({ ice })} />
       )}
       {o.milk === "choice" && (
         <Choices
-          legend="Milk"
+          legend={tr("Milk")}
           value={mods.milk ?? "whole"}
-          options={[{ value: "whole", label: "Whole" }, { value: "oat", label: "Oat", extra: `+${money(OAT_CENTS)}` }]}
+          options={[{ value: "whole", label: tr("Whole") }, { value: "oat", label: tr("Oat"), extra: `+${format.money(OAT_CENTS)}` }]}
           onChange={(milk) => set({ milk })}
         />
       )}
-      {o.milk === "oat" && <p className="font-sans text-body-xs text-stone">Made with oat milk.</p>}
+      {o.milk === "oat" && <p className="font-sans text-body-xs text-stone">{tr("Made with oat milk.")}</p>}
       {(o.shot || o.decaf) && (
         <fieldset className="flex flex-wrap gap-2">
-          <legend className="mb-2.5 font-mono text-micro text-stone uppercase">Espresso</legend>
+          <legend className="mb-2.5 font-mono text-micro text-stone uppercase">{tr("Espresso")}</legend>
           {o.shot && (
             <button
               type="button"
               aria-pressed={!!mods.extraShot}
               onClick={() => set({ extraShot: !mods.extraShot })}
               className={cn("inline-flex h-11 items-center gap-1.5 rounded-full border px-4 font-sans text-body-xs", mods.extraShot ? "border-espresso bg-espresso text-beige" : "border-sand text-strong")}
-            >
-              Extra shot <span className={mods.extraShot ? "text-cream" : "text-stone"}>+{money(EXTRA_SHOT_CENTS)}</span>
+            >{tr("Extra shot")}{" "}<span className={mods.extraShot ? "text-cream" : "text-stone"}>+{format.money(EXTRA_SHOT_CENTS)}</span>
             </button>
           )}
           {o.decaf && (
@@ -141,17 +136,15 @@ export function CustomizeDrink({ item, onAdd }: { item: OrderableItem; onAdd: (m
               aria-pressed={!!mods.decaf}
               onClick={() => set({ decaf: !mods.decaf })}
               className={cn("inline-flex h-11 items-center rounded-full border px-4 font-sans text-body-xs", mods.decaf ? "border-espresso bg-espresso text-beige" : "border-sand text-strong")}
-            >
-              Decaf
-            </button>
+            >{tr("Decaf")}</button>
           )}
         </fieldset>
       )}
       {o.sweetness && (
         <Choices
-          legend="Sweetness"
+          legend={tr("Sweetness")}
           value={mods.sweetness ?? "none"}
-          options={[{ value: "none", label: "Unsweetened" }, { value: "light", label: "Lightly sweet" }, { value: "regular", label: "Sweet" }]}
+          options={[{ value: "none", label: tr("Unsweetened") }, { value: "light", label: tr("Lightly sweet") }, { value: "regular", label: tr("Sweet", null, "sweetness") }]}
           onChange={(sweetness) => set({ sweetness })}
         />
       )}
@@ -160,13 +153,12 @@ export function CustomizeDrink({ item, onAdd }: { item: OrderableItem; onAdd: (m
         <QuantitySelector value={quantity} onChange={setQuantity} />
         <Button
           fullWidth
-          className="justify-between pr-6"
+          className="justify-between pe-6"
           onClick={() => {
             feedback("add");
             onAdd(mods, quantity);
           }}
-        >
-          Add · {money(unitCents(item, mods) * quantity)}
+        >{tr("Add · {price}", { price: format.money(unitCents(item, mods) * quantity) })}
         </Button>
       </div>
     </div>

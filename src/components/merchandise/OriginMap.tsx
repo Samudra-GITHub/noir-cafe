@@ -1,4 +1,5 @@
 import type { OriginPoint } from "@/data/shop";
+import { useI18n } from "@/i18n/client";
 
 const W = 340;
 const H = 190;
@@ -14,12 +15,13 @@ const y = (lat: number) => ((LAT_TOP - lat) / (LAT_TOP - LAT_BOTTOM)) * H;
  * travelling to the roastery in New York.
  */
 export function OriginMap({ title, points }: { title: string; points: OriginPoint[] }) {
+  const { tr } = useI18n();
   const roastery = points.find((p) => p.name.startsWith("Roasted"));
   const origins = points.filter((p) => p !== roastery);
 
   return (
     <figure>
-      <svg viewBox={`0 0 ${W} ${H}`} role="img" aria-label={`${title}: ${points.map((p) => p.name).join(", ")}`} className="w-full">
+      <svg viewBox={`0 0 ${W} ${H}`} role="img" aria-label={`${title}: ${points.map((p) => tr(p.name)).join(", ")}`} className="w-full">
         <rect width={W} height={H} rx="14" fill="var(--noir-cream)" />
         {/* Coffee belt */}
         <rect x="0" y={y(23.4)} width={W} height={y(-23.4) - y(23.4)} fill="var(--noir-caramel)" opacity="0.08" />
@@ -34,12 +36,8 @@ export function OriginMap({ title, points }: { title: string; points: OriginPoin
             strokeDasharray={lat === 0 ? undefined : "3 4"}
           />
         ))}
-        <text x="10" y={y(0) - 5} fontSize="7" fill="var(--noir-stone)" fontFamily="var(--family-code)" letterSpacing="1">
-          EQUATOR
-        </text>
-        <text x="10" y={y(23.4) - 5} fontSize="7" fill="var(--noir-stone)" fontFamily="var(--family-code)" letterSpacing="1">
-          COFFEE BELT
-        </text>
+        <text x="10" y={y(0) - 5} fontSize="7" fill="var(--noir-stone)" fontFamily="var(--family-code)" letterSpacing="1">{tr("EQUATOR")}</text>
+        <text x="10" y={y(23.4) - 5} fontSize="7" fill="var(--noir-stone)" fontFamily="var(--family-code)" letterSpacing="1">{tr("COFFEE BELT")}</text>
         {roastery &&
           origins.map((p) => {
             const [x1, y1, x2, y2] = [x(p.lon), y(p.lat), x(roastery.lon), y(roastery.lat)];
@@ -58,7 +56,7 @@ export function OriginMap({ title, points }: { title: string; points: OriginPoin
         {points.map((p) => (
           <span key={p.name} className="flex items-center gap-1.5">
             <span aria-hidden className={p === roastery ? "size-1.5 rounded-full bg-espresso" : "size-1.5 rounded-full bg-caramel"} />
-            {p.name}
+            {tr(p.name)}
           </span>
         ))}
       </figcaption>

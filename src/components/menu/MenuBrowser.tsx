@@ -11,6 +11,7 @@ import { useScrollTo } from "@/hooks/useScrollTo";
 import { useMotionSafe } from "@/hooks/useMotionSafe";
 import { ease } from "@/lib/motion";
 import { cn } from "@/lib/cn";
+import { useI18n } from "@/i18n/client";
 
 const IDS = MENU.map((c) => c.id);
 const pad = (n: number) => String(n).padStart(2, "0");
@@ -21,6 +22,7 @@ const pad = (n: number) => String(n).padStart(2, "0");
  * an accordion (Espresso opens first).
  */
 export function MenuBrowser() {
+  const { tr } = useI18n();
   const active = useScrollSpy(IDS);
   const scrollTo = useScrollTo();
   const safe = useMotionSafe();
@@ -32,7 +34,7 @@ export function MenuBrowser() {
       <MobileMenu />
     </div>
     <div className="container-page mt-16 hidden gap-10 md:grid lg:mt-[91px] lg:grid-cols-[292px_1fr] lg:gap-0">
-      <nav aria-label="Menu categories" className="hidden lg:block">
+      <nav aria-label={tr("Menu categories")} className="hidden lg:block">
         <ol className="sticky top-[140px] -mt-1 flex flex-col gap-[17px] leading-[14px]">
           {MENU.map((category, i) => {
             const isActive = active === category.id;
@@ -55,11 +57,11 @@ export function MenuBrowser() {
                       layoutId="menu-index-rule"
                       aria-hidden
                       transition={safe ? ease(0.5) : { duration: 0 }}
-                      className="absolute top-1/2 -left-5 h-px w-3 bg-caramel"
+                      className="absolute top-1/2 -inset-s-5 h-px w-3 bg-caramel"
                     />
                   )}
                   <span className="transition-transform duration-300 ease-noir group-hover/index:translate-x-0.5">
-                    {pad(i + 1)} · {category.title}
+                    {pad(i + 1)} · {tr(category.title)}
                   </span>
                 </a>
               </li>
@@ -88,9 +90,9 @@ export function MenuBrowser() {
                     aria-expanded={expanded}
                     aria-controls={panelId}
                     onClick={() => setOpen((s) => ({ ...s, [category.id]: !expanded }))}
-                    className="flex items-center gap-3 text-left lg:hidden"
+                    className="flex items-center gap-3 text-start lg:hidden"
                   >
-                    {category.title}
+                    {tr(category.title)}
                     <ChevronDown
                       aria-hidden
                       strokeWidth={1.25}
@@ -100,7 +102,7 @@ export function MenuBrowser() {
                       )}
                     />
                   </button>
-                  <span className="hidden lg:inline">{category.title}</span>
+                  <span className="hidden lg:inline">{tr(category.title)}</span>
                 </h2>
                 <p className="mb-2 font-mono text-[0.5625rem] text-stone">
                   {pad(i + 1)} / {pad(MENU.length)}

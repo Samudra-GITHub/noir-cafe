@@ -18,6 +18,8 @@ import zlib from "node:zlib";
 
 const ROOT = process.cwd();
 const APP = path.join(ROOT, ".next/server/app");
+// Pages are prerendered per language under app/<locale>/ (English at unprefixed URLs); --locale ja reports Japanese.
+const LOCALE = process.argv.includes("--locale") ? process.argv[process.argv.indexOf("--locale") + 1] : "en";
 const ROUTES = ["index", "menu", "story", "brewing-lab", "reservation", "locations", "shop", "cup", "brewing-lab/studio"];
 
 const gz = (file) => zlib.gzipSync(fs.readFileSync(file)).length;
@@ -26,7 +28,7 @@ const kb = (n) => (n / 1024).toFixed(1);
 function report() {
   const rows = {};
   for (const route of ROUTES) {
-    const htmlFile = path.join(APP, `${route}.html`);
+    const htmlFile = path.join(APP, route === "index" ? `${LOCALE}.html` : `${LOCALE}/${route}.html`);
     if (!fs.existsSync(htmlFile)) continue;
     const html = fs.readFileSync(htmlFile, "utf8");
     const pick = (re) => [...new Set([...html.matchAll(re)].map((m) => m[1]))];

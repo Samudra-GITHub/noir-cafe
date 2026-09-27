@@ -8,6 +8,7 @@ import { BackgroundVideo } from "@/components/ui";
 import { VIDEOS } from "@/constants/media";
 import { STORY_TIMELINE } from "@/data/story";
 import { useMotionSafe } from "@/hooks/useMotionSafe";
+import { useI18n } from "@/i18n/client";
 
 /**
  * Founding timeline — five milestones on a caramel rule that draws itself as
@@ -15,6 +16,7 @@ import { useMotionSafe } from "@/hooks/useMotionSafe";
  * under a deep espresso wash (lazy-loaded, paused off screen).
  */
 export function StoryTimeline() {
+  const { tr } = useI18n();
   const ref = useRef<HTMLElement>(null);
   const safe = useMotionSafe();
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start 80%", "end 60%"] });
@@ -33,39 +35,39 @@ export function StoryTimeline() {
       <div className="container-page">
         <SectionIntro
           id="timeline-title"
-          eyebrow="The long conversation"
+          eyebrow={tr("The long conversation")}
           eyebrowTone="accent-inverse"
           inverse
           gap="mt-5"
-          title="Nine years, one table."
+          title={tr("Nine years, one table.")}
         />
 
         <div className="relative mt-16 lg:mt-20">
           {/* Rule: horizontal from lg, vertical below. */}
-          <div aria-hidden className="absolute top-[5px] left-0 hidden h-px w-full bg-char lg:block" />
+          <div aria-hidden className="absolute top-[5px] inset-s-0 hidden h-px w-full bg-char lg:block" />
           <m.div
             aria-hidden
-            className="absolute top-[5px] left-0 hidden h-px w-full origin-left bg-caramel lg:block"
+            className="absolute top-[5px] inset-s-0 hidden h-px w-full origin-left bg-caramel lg:block"
             style={{ scaleX: draw }}
           />
-          <div aria-hidden className="absolute top-0 bottom-0 left-[5px] w-px bg-char lg:hidden" />
+          <div aria-hidden className="absolute top-0 bottom-0 inset-s-[5px] w-px bg-char lg:hidden" />
           <m.div
             aria-hidden
-            className="absolute top-0 bottom-0 left-[5px] w-px origin-top bg-caramel lg:hidden"
+            className="absolute top-0 bottom-0 inset-s-[5px] w-px origin-top bg-caramel lg:hidden"
             style={{ scaleY: draw }}
           />
 
-          <Stagger as="ol" className="relative grid gap-10 pl-8 lg:grid-cols-5 lg:gap-8 lg:pl-0">
+          <Stagger as="ol" className="relative grid gap-10 ps-8 lg:grid-cols-5 lg:gap-8 lg:ps-0">
               {STORY_TIMELINE.map((milestone) => (
                 <StaggerItem as="li" key={milestone.year} className="relative">
                     <span
                       aria-hidden
-                      className="absolute top-0 -left-8 size-[11px] rounded-full border border-caramel bg-espresso lg:static lg:block"
+                      className="absolute top-0 -inset-s-8 size-[11px] rounded-full border border-caramel bg-espresso lg:static lg:block"
                     />
                     <p className="font-mono text-eyebrow text-caramel-glow lg:mt-6">{milestone.year}</p>
-                    <h3 className="mt-3 font-display text-heading-sm leading-[1.2]">{milestone.title}</h3>
+                    <h3 className="mt-3 font-display text-heading-sm leading-[1.2]">{tr(milestone.title)}</h3>
                     <p className="mt-2 max-w-[220px] font-sans text-body-xs leading-[20.8px] text-cream">
-                      {milestone.text}
+                      {tr(milestone.text)}
                     </p>
                 </StaggerItem>
               ))}

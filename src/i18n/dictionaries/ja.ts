@@ -1,6 +1,6 @@
-import type { Dictionary } from "./en";
+import type { CoreDictionary } from "./en";
 
-export const ja: Dictionary = {
+export const ja: CoreDictionary = {
   meta: {
     siteTitle: "Noir Café — ニューヨークのスペシャルティコーヒー",
     description:
@@ -86,7 +86,6 @@ export const ja: Dictionary = {
 
   site: {
     hours: "月–日 · 07:00–20:00",
-    tagline: "スペシャルティコーヒー · ニューヨーク",
   },
 
   footer: {
@@ -176,11 +175,6 @@ export const ja: Dictionary = {
     },
   },
 
-  headers: {
-    studio: { eyebrow: "ブリューイング・ラボ · スタジオ", title: "レシピスタジオ" },
-    concierge: { eyebrow: "コンシェルジュ", title: "バリスタに聞く" },
-    order: { eyebrow: "事前注文", title: "お好きな時間に、ご用意します。" },
-  },
 
   menu: {
     extras: "オーツミルク +{oat} · エクストラショット +{shot} · デカフェもございます",

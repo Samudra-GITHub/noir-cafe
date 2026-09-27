@@ -6,6 +6,7 @@ import type { BrewMethod } from "@/data/brewing";
 import { formatClock } from "@/data/brewing";
 import { feedback } from "@/lib/feedback";
 import { cn } from "@/lib/cn";
+import { useI18n } from "@/i18n/client";
 
 const R = 88;
 const CIRC = 2 * Math.PI * R;
@@ -17,6 +18,7 @@ const CIRC = 2 * Math.PI * R;
  * preview. Each new stage is announced to screen readers.
  */
 export function StudioTimer({ method, seconds, crema }: { method: BrewMethod; seconds: number; crema: string }) {
+  const { tr } = useI18n();
   const [elapsed, setElapsed] = useState(0);
   const [running, setRunning] = useState(false);
   const [speed, setSpeed] = useState<1 | 10>(1);
@@ -78,7 +80,7 @@ export function StudioTimer({ method, seconds, crema }: { method: BrewMethod; se
         <button
           type="button"
           onClick={toggle}
-          aria-label={running ? "Pause brew timer" : done ? "Restart brew timer" : "Start brew timer"}
+          aria-label={running ? tr("Pause brew timer") : done ? tr("Restart brew timer") : tr("Start brew timer")}
           className="relative grid size-[200px] place-items-center rounded-full focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-caramel"
         >
           <svg viewBox="0 0 200 200" className="absolute inset-0 -rotate-90" aria-hidden>
@@ -102,7 +104,7 @@ export function StudioTimer({ method, seconds, crema }: { method: BrewMethod; se
             <span className="font-display text-[2.75rem] leading-none text-strong tabular-nums">{formatClock(Math.floor(elapsed))}</span>
             <span className="mt-2 inline-flex items-center gap-1.5 font-mono text-micro text-stone uppercase">
               {running ? <Pause aria-hidden className="size-3" /> : done ? <RotateCcw aria-hidden className="size-3" /> : <Play aria-hidden className="size-3" />}
-              {running ? "Pause" : done ? "Again" : "Brew"} · {formatClock(seconds)}
+              {running ? tr("Pause") : done ? tr("Again") : tr("Brew", null, "action")} · {formatClock(seconds)}
             </span>
           </span>
         </button>
@@ -137,23 +139,22 @@ export function StudioTimer({ method, seconds, crema }: { method: BrewMethod; se
               )}
             >
               <span className="font-sans text-body-sm font-semibold">
-                {s.label}
-                <span className="ml-2 font-normal text-stone">{s.detail}</span>
+                {tr(s.label)}
+                <span className="ms-2 font-normal text-stone">{tr(s.detail)}</span>
               </span>
               <span className="font-mono text-micro tabular-nums">{formatClock(s.at)}</span>
             </li>
           ))}
         </ol>
         <p className="sr-only" aria-live="polite">
-          {running ? `${stages[current].label}: ${stages[current].detail}` : done ? "Brew complete" : ""}
+          {running ? `${tr(stages[current].label)}: ${tr(stages[current].detail)}` : done ? tr("Brew complete") : ""}
         </p>
         <button
           type="button"
           onClick={() => setSpeed((s) => (s === 1 ? 10 : 1))}
           aria-pressed={speed === 10}
           className="mt-4 inline-flex min-h-11 items-center gap-2 font-mono text-eyebrow text-caramel-ink uppercase"
-        >
-          Preview ×10 {speed === 10 ? "· on" : "· off"}
+        >{tr("Preview ×10")}{" "}{speed === 10 ? "· on" : "· off"}
         </button>
       </div>
     </div>

@@ -11,6 +11,7 @@ import { useMotionSafe } from "@/hooks/useMotionSafe";
 import { useOpenNow } from "@/hooks/useOpenNow";
 import { ease, hoverLift } from "@/lib/motion";
 import { cn } from "@/lib/cn";
+import { useI18n } from "@/i18n/client";
 
 /**
  * Locations — an illustrated map of the three rooms beside the selected
@@ -18,6 +19,7 @@ import { cn } from "@/lib/cn";
  * the three location cards. Pins, cards and the panel stay in sync.
  */
 export function LocationsExperience() {
+  const { tr } = useI18n();
   const [activeId, setActiveId] = useState(CAFES[0].id);
   const active = CAFES.find((c) => c.id === activeId) ?? CAFES[0];
 
@@ -30,7 +32,7 @@ export function LocationsExperience() {
         <CafePanel cafe={active} />
       </div>
 
-      <Stagger as="ul" aria-label="Our cafés" className="container-page mt-16 grid gap-6 md:grid-cols-3 lg:mt-20">
+      <Stagger as="ul" aria-label={tr("Our cafés")} className="container-page mt-16 grid gap-6 md:grid-cols-3 lg:mt-20">
         {CAFES.map((cafe) => (
           <StaggerItem as="li" key={cafe.id}>
             <LocationCard cafe={cafe} active={cafe.id === activeId} onSelect={() => setActiveId(cafe.id)} />
@@ -43,6 +45,7 @@ export function LocationsExperience() {
 
 /** Stylised map: a pin silhouette with an inner ring, three numbered markers. */
 function IllustratedMap({ activeId, onSelect }: { activeId: string; onSelect: (id: string) => void }) {
+  const { tr } = useI18n();
   return (
     <div className="relative aspect-[850/560] overflow-hidden rounded-xl bg-cream">
       <svg aria-hidden viewBox="0 0 850 560" className="absolute inset-0 size-full" fill="none">
@@ -54,7 +57,7 @@ function IllustratedMap({ activeId, onSelect }: { activeId: string; onSelect: (i
         <ellipse cx="424.5" cy="233" rx="107" ry="70" stroke="var(--noir-sand)" strokeWidth="1" />
       </svg>
 
-      <ul aria-label="Map of Noir cafés">
+      <ul aria-label={tr("Map of Noir cafés")}>
         {CAFES.map((cafe) => (
           <li
             key={cafe.id}
@@ -71,12 +74,14 @@ function IllustratedMap({ activeId, onSelect }: { activeId: string; onSelect: (i
 
 /** Map marker — a 38px espresso disc that turns into a coffee bean on hover or focus. */
 function BeanMarker({ cafe, active, onSelect }: { cafe: Cafe; active: boolean; onSelect: () => void }) {
+  const { tr } = useI18n();
   return (
     <button
       type="button"
       onClick={onSelect}
       aria-pressed={active}
       aria-label={`${cafe.index} · ${cafe.cardName}, ${cafe.shortAddress}`}
+      aria-description={tr(cafe.label)}
       className="group/pin relative grid size-11 place-items-center"
     >
       {/* Disc */}
@@ -117,6 +122,7 @@ function BeanMarker({ cafe, active, onSelect }: { cafe: Cafe; active: boolean; o
 }
 
 function CafePanel({ cafe }: { cafe: Cafe }) {
+  const { tr } = useI18n();
   const safe = useMotionSafe();
   const open = useOpenNow(cafe.opens, cafe.closes);
   const isFlagship = cafe.index === "01";
@@ -155,7 +161,7 @@ function CafePanel({ cafe }: { cafe: Cafe }) {
           className="flex flex-1 flex-col"
         >
           <Eyebrow tone="accent-inverse">
-            {cafe.index} · {cafe.label}
+            {cafe.index} · {tr(cafe.label)}
           </Eyebrow>
           <h2 id="cafe-panel-title" className="mt-4 font-display text-heading-xl leading-[0.95]">
             {cafe.name[0]}
@@ -170,7 +176,7 @@ function CafePanel({ cafe }: { cafe: Cafe }) {
           <div className="mt-16 lg:mt-auto lg:pb-[108px]">
             <p className="flex items-center gap-2 font-mono text-micro text-taupe uppercase">
               <StatusDot tone={open ? "open" : "accent"} />
-              {open ? "Open today" : "Closed now · opens"} {!open && cafe.opens}
+              {open ? tr("Open today") : tr("Closed now · opens {time}", { time: cafe.opens })}
             </p>
             <p className="mt-2 font-mono text-mono-sm text-beige">
               {cafe.opens} — {cafe.closes}
@@ -186,15 +192,14 @@ function CafePanel({ cafe }: { cafe: Cafe }) {
         variant="inverse"
         fullWidth
         className="mt-10 lg:mt-0"
-        aria-label={`Get directions to ${cafe.cardName} (opens in a new tab)`}
-      >
-        Get directions
-      </Button>
+        aria-label={tr("Get directions to {name} (opens in a new tab)", { name: cafe.cardName })}
+      >{tr("Get directions")}</Button>
     </section>
   );
 }
 
 function LocationCard({ cafe, active, onSelect }: { cafe: Cafe; active: boolean; onSelect: () => void }) {
+  const { tr } = useI18n();
   const safe = useMotionSafe();
   const open = useOpenNow(cafe.opens, cafe.closes);
   return (
@@ -209,7 +214,7 @@ function LocationCard({ cafe, active, onSelect }: { cafe: Cafe; active: boolean;
       <div className="relative aspect-[413/259] overflow-hidden bg-cream">
         <Image
           src={cafe.image}
-          alt={cafe.imageAlt}
+          alt={tr(cafe.imageAlt)}
           fill
           sizes="(min-width: 1280px) 415px, (min-width: 768px) 33vw, 100vw"
           className="object-cover transition-transform duration-[1.2s] ease-noir group-hover/card:scale-[1.05]"
@@ -222,7 +227,7 @@ function LocationCard({ cafe, active, onSelect }: { cafe: Cafe; active: boolean;
               type="button"
               onClick={onSelect}
               aria-pressed={active}
-              className="text-left outline-none after:absolute after:inset-0 after:content-['']"
+              className="text-start outline-none after:absolute after:inset-0 after:content-['']"
             >
               {cafe.cardName}
             </button>
@@ -235,10 +240,10 @@ function LocationCard({ cafe, active, onSelect }: { cafe: Cafe; active: boolean;
         <div className="mt-[18px] flex items-center justify-between">
           <p className="flex items-center gap-2 font-mono text-micro text-stone uppercase">
             <StatusDot tone={open ? "open" : "accent"} />
-            {open ? "Open" : "Closed"}
+            {open ? tr("Open") : tr("Closed")}
           </p>
           <p className="font-mono text-[0.5625rem] text-strong">
-            <span className="sr-only">Hours </span>
+            <span className="sr-only">{tr("Hours")}{" "}</span>
             {cafe.opens}–{cafe.closes}
           </p>
         </div>

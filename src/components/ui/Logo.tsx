@@ -1,5 +1,8 @@
-import Link from "next/link";
+"use client";
+
+import Link from "@/i18n/link";
 import { cn } from "@/lib/cn";
+import { useI18n } from "@/i18n/client";
 
 /** Logo — 28px outlined circle + "NOIR CAFÉ" wordmark in Cormorant (26px). */
 export function Logo({
@@ -11,6 +14,7 @@ export function Logo({
   href?: string | null;
   className?: string;
 }) {
+  const { tr } = useI18n();
   const mark = (
     <span
       className={cn(
@@ -26,7 +30,7 @@ export function Logo({
 
   if (href === null) return mark;
   return (
-    <Link href={href} aria-label="Noir Café — home" className="inline-flex">
+    <Link href={href} aria-label={tr("Noir Café — home")} className="inline-flex">
       {mark}
     </Link>
   );

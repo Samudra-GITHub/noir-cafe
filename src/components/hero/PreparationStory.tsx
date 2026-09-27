@@ -9,6 +9,7 @@ import { ease } from "@/lib/motion";
 import { cn } from "@/lib/cn";
 import { JOURNEY, type JourneyChapter } from "@/data/journey";
 import { FilmGrain } from "./HeroAtmosphere";
+import { useI18n } from "@/i18n/client";
 
 type Chapter = JourneyChapter & { video: VideoAsset };
 
@@ -29,6 +30,7 @@ const CHAPTERS: Chapter[] = JOURNEY.map((c) => ({ ...c, video: FILMS[c.id] }));
  * screen plays; the rest stay paused on their posters.
  */
 export function PreparationStory() {
+  const { tr } = useI18n();
   const ref = useRef<HTMLElement>(null);
   const safe = useMotionSafe();
   const [index, setIndex] = useState(0);
@@ -74,11 +76,11 @@ export function PreparationStory() {
         <div className="container-page flex h-full items-center">
           <div className="grid w-full gap-12 lg:grid-cols-[180px_1fr]">
             {/* Timeline */}
-            <ol aria-label="Preparation" className="relative hidden flex-col gap-6 pl-6 lg:flex">
-              <span aria-hidden className="absolute top-1 bottom-1 left-[3px] w-px bg-beige/15" />
+            <ol aria-label={tr("Preparation")} className="relative hidden flex-col gap-6 ps-6 lg:flex">
+              <span aria-hidden className="absolute top-1 bottom-1 inset-s-[3px] w-px bg-beige/15" />
               <m.span
                 aria-hidden
-                className="absolute top-1 bottom-1 left-[3px] w-px origin-top bg-caramel"
+                className="absolute top-1 bottom-1 inset-s-[3px] w-px origin-top bg-caramel"
                 style={{ scaleY: progress }}
               />
               {CHAPTERS.map((c, i) => (
@@ -93,18 +95,17 @@ export function PreparationStory() {
                   <span
                     aria-hidden
                     className={cn(
-                      "absolute top-1/2 -left-6 size-[7px] -translate-y-1/2 rounded-full border transition-colors duration-500",
+                      "absolute top-1/2 -inset-s-6 size-[7px] -translate-y-1/2 rounded-full border transition-colors duration-500",
                       i <= index ? "border-caramel bg-caramel" : "border-beige/30 bg-espresso",
                     )}
                   />
-                  {String(i + 1).padStart(2, "0")} · {c.step}
+                  {String(i + 1).padStart(2, "0")} · {tr(c.step)}
                 </li>
               ))}
             </ol>
 
             <div className="max-w-[620px]">
-              <Eyebrow tone="accent-inverse" id="preparation-title">
-                From seed to cup · {String(index + 1).padStart(2, "0")} / {String(CHAPTERS.length).padStart(2, "0")}
+              <Eyebrow tone="accent-inverse" id="preparation-title">{tr("From seed to cup ·")}{" "}{String(index + 1).padStart(2, "0")} / {String(CHAPTERS.length).padStart(2, "0")}
               </Eyebrow>
               <AnimatePresence mode="wait" initial={false}>
                 <m.div
@@ -115,8 +116,8 @@ export function PreparationStory() {
                   transition={ease(0.7)}
                   aria-live="polite"
                 >
-                  <h2 className="type-display-xl mt-5 text-beige">{chapter.title}</h2>
-                  <p className="mt-6 max-w-[420px] font-sans text-body leading-[26px] text-cream">{chapter.text}</p>
+                  <h2 className="type-display-xl mt-5 text-beige">{tr(chapter.title)}</h2>
+                  <p className="mt-6 max-w-[420px] font-sans text-body leading-[26px] text-cream">{tr(chapter.text)}</p>
                 </m.div>
               </AnimatePresence>
             </div>
@@ -126,7 +127,7 @@ export function PreparationStory() {
         {/* Mobile progress rule */}
         <m.span
           aria-hidden
-          className="absolute right-0 bottom-0 left-0 h-px origin-left bg-caramel lg:hidden"
+          className="absolute inset-e-0 bottom-0 inset-s-0 h-px origin-left bg-caramel lg:hidden"
           style={{ scaleX: progress }}
         />
       </div>

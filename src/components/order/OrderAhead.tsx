@@ -1,19 +1,22 @@
 "use client";
 
 import { useEffect, useMemo, useState, useSyncExternalStore } from "react";
-import Link from "next/link";
+import Link from "@/i18n/link";
 import { Heart, Plus } from "lucide-react";
 import { Button, Dialog, Eyebrow, StatusDot } from "@/components/ui";
 import { useOpenNow } from "@/hooks/useOpenNow";
 import { PageTitle } from "@/components/layout/PageTitle";
 import { CAFES } from "@/data/locations";
-import { ITEMS_BY_SLUG, ORDER_MENU, defaultModifiers, describe, money, unitCents, type OrderableItem } from "@/data/ordering";
+import { ITEMS_BY_SLUG, ORDER_MENU, defaultModifiers, describe, unitCents, type OrderableItem } from "@/data/ordering";
 import { formatPickup, pickupSlots } from "@/lib/pickup";
 import { feedback } from "@/lib/feedback";
 import { cn } from "@/lib/cn";
 import { CustomizeDrink } from "./CustomizeDrink";
 import { OrderReview } from "./OrderReview";
 import { addToBag, favorites, lastOrder, orderBag, type PlacedOrder } from "./stores";
+import { useFormat, useI18n } from "@/i18n/client";
+import { rich } from "@/i18n/rich";
+import { LOCALE_META } from "@/i18n/config";
 
 type Config = { unavailable: string[]; card: boolean; accounts: boolean; persisted: boolean };
 
@@ -50,35 +53,33 @@ function useOrderingConfig() {
 }
 
 export function Confirmation({ order, onNew }: { order: PlacedOrder; onNew: () => void }) {
+  const { tr, locale } = useI18n();
+  const format = useFormat();
   return (
     <section aria-labelledby="order-confirmed" className="mx-auto max-w-[560px] rounded-xl bg-espresso p-8 text-beige md:p-10">
-      <p className="font-mono text-eyebrow text-caramel-glow uppercase">{order.persisted ? "Order received" : "Order placed · demo"}</p>
+      <p className="font-mono text-eyebrow text-caramel-glow uppercase">{order.persisted ? tr("Order received") : tr("Order placed · demo")}</p>
       <h2 id="order-confirmed" className="mt-3 font-display text-[3.5rem] leading-none tabular-nums" tabIndex={-1}>
         {order.number}
       </h2>
       <p className="mt-3 font-sans text-body-sm text-cream">
-        {order.name}, your order will be ready at {order.cafeName} at {formatPickup(order.pickupAt)}. {order.payment === "pickup" ? "Pay at the counter." : ""}
+        {tr("{name}, your order will be ready at {cafe} at {time}.", { name: order.name, cafe: order.cafeName, time: formatPickup(order.pickupAt, LOCALE_META[locale].intl) })}{order.payment === "pickup" ? ` ${tr("Pay at the counter.")}` : ""}
       </p>
       <ul className="mt-6 border-t border-char">
         {order.lines.map((l, i) => (
           <li key={i} className="flex justify-between gap-4 border-b border-char py-3 font-sans text-body-sm">
             <span>
               {l.quantity} × {l.name}
-              {l.detail && <span className="block text-body-xs text-taupe">{l.detail}</span>}
+              {l.detail && <span className="block text-body-xs text-taupe">{l.detail.split(" · ").map((p) => tr(p)).join(" · ")}</span>}
             </span>
-            <span className="font-mono text-eyebrow tabular-nums">{money(l.totalCents)}</span>
+            <span className="font-mono text-eyebrow tabular-nums">{format.money(l.totalCents)}</span>
           </li>
         ))}
       </ul>
-      <p className="mt-4 text-right font-display text-[1.75rem] tabular-nums">{money(order.subtotalCents)}</p>
+      <p className="mt-4 text-end font-display text-[1.75rem] tabular-nums">{format.money(order.subtotalCents)}</p>
       {!order.persisted && (
-        <p className="mt-4 font-sans text-body-xs text-taupe">
-          Demo mode: this order was validated and priced by the server but not sent to a bar — connect Supabase to receive orders.
-        </p>
+        <p className="mt-4 font-sans text-body-xs text-taupe">{tr("Demo mode: this order was validated and priced by the server but not sent to a bar — connect Supabase to receive orders.")}</p>
       )}
-      <Button variant="inverse" className="mt-8" onClick={onNew}>
-        Start a new order
-      </Button>
+      <Button variant="inverse" className="mt-8" onClick={onNew}>{tr("Start a new order")}</Button>
     </section>
   );
 }
@@ -89,6 +90,8 @@ export function Confirmation({ order, onNew }: { order: PlacedOrder; onNew: () =
  * is connected to Supabase; card checkout appears when Stripe is configured.
  */
 export function OrderAhead({ accountSlot }: { accountSlot?: React.ReactNode }) {
+  const { tr, locale } = useI18n();
+  const format = useFormat();
   const config = useOrderingConfig();
   const minute = useMinute();
   const bag = orderBag.use();
@@ -127,19 +130,19 @@ export function OrderAhead({ accountSlot }: { accountSlot?: React.ReactNode }) {
     <div className="container-page pt-32 pb-40 lg:pt-[172px]">
       <header className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
         <div>
-          <Eyebrow>Order ahead</Eyebrow>
+          <Eyebrow>{tr("Order ahead")}</Eyebrow>
           <PageTitle>
-            <h1 className="type-display-lg mt-[13px] text-strong">Ready when you are.</h1>
+            <h1 className="type-display-lg mt-[13px] text-strong">{tr("Ready when you are.")}</h1>
           </PageTitle>
         </div>
         <div className="flex items-center gap-3">{accountSlot}</div>
       </header>
 
       {/* Café and pickup */}
-      <section aria-label="Café and pickup time" className="mt-10 grid gap-6 lg:grid-cols-[1fr_280px]">
+      <section aria-label={tr("Café and pickup time")} className="mt-10 grid gap-6 lg:grid-cols-[1fr_280px]">
         <div
           role="radiogroup"
-          aria-label="Café"
+          aria-label={tr("Café")}
           className="grid gap-2 sm:grid-cols-3"
           onKeyDown={(e) => {
             const step = e.key === "ArrowRight" || e.key === "ArrowDown" ? 1 : e.key === "ArrowLeft" || e.key === "ArrowUp" ? -1 : 0;
@@ -156,7 +159,7 @@ export function OrderAhead({ accountSlot }: { accountSlot?: React.ReactNode }) {
           ))}
         </div>
         <label className="flex min-w-0 flex-col gap-2">
-          <span className="font-mono text-micro text-stone uppercase">Pickup</span>
+          <span className="font-mono text-micro text-stone uppercase">{tr("Pickup")}</span>
           {slots.length ? (
             <select
               value={pickup ?? ""}
@@ -165,13 +168,13 @@ export function OrderAhead({ accountSlot }: { accountSlot?: React.ReactNode }) {
             >
               {slots.map((s, i) => (
                 <option key={s} value={s}>
-                  {i === 0 ? `As soon as possible · ${formatPickup(s)}` : formatPickup(s)}
+                  {i === 0 ? tr("As soon as possible · {time}", { time: formatPickup(s, LOCALE_META[locale].intl) }) : formatPickup(s, LOCALE_META[locale].intl)}
                 </option>
               ))}
             </select>
           ) : (
             <p className="flex h-13 items-center rounded-full border border-sand px-5 font-sans text-body-sm text-stone">
-              {minute ? `Closed now — ordering reopens at ${cafe.opens}` : "Checking times…"}
+              {minute ? tr("Closed now — ordering reopens at {time}", { time: cafe.opens }) : tr("Checking times…")}
             </p>
           )}
         </label>
@@ -180,7 +183,7 @@ export function OrderAhead({ accountSlot }: { accountSlot?: React.ReactNode }) {
       {/* Favourites */}
       {favs.length > 0 && (
         <section aria-labelledby="favs" className="mt-10">
-          <h2 id="favs" className="font-mono text-eyebrow text-stone uppercase">Your favourites</h2>
+          <h2 id="favs" className="font-mono text-eyebrow text-stone uppercase">{tr("Your favourites")}</h2>
           <ul className="swipe-rail -mx-[var(--gutter)] mt-3 gap-2 px-[var(--gutter)] [&>*]:snap-start">
             {favs.map((f, i) => {
               const item = ITEMS_BY_SLUG.get(f.slug);
@@ -194,14 +197,14 @@ export function OrderAhead({ accountSlot }: { accountSlot?: React.ReactNode }) {
                       feedback("add");
                       addToBag(item.slug, f.modifiers);
                     }}
-                    className="flex h-full min-h-16 w-60 items-center gap-3 rounded-xl border border-sand bg-surface px-4 py-3 text-left hover:border-espresso disabled:opacity-40"
+                    className="flex h-full min-h-16 w-60 items-center gap-3 rounded-xl border border-sand bg-surface px-4 py-3 text-start hover:border-espresso disabled:opacity-40"
                   >
                     <Heart aria-hidden className="size-4 shrink-0 fill-caramel text-caramel" />
                     <span className="flex flex-1 flex-col">
                       <span className="font-sans text-body-sm font-semibold text-strong">{item.name}</span>
-                      <span className="font-sans text-body-xs text-stone">{describe(item, f.modifiers) || item.description}</span>
+                      <span className="font-sans text-body-xs text-stone">{describe(item, f.modifiers, tr) || tr(item.description)}</span>
                     </span>
-                    <span className="font-mono text-eyebrow tabular-nums">{money(unitCents(item, f.modifiers))}</span>
+                    <span className="font-mono text-eyebrow tabular-nums">{format.money(unitCents(item, f.modifiers))}</span>
                   </button>
                 </li>
               );
@@ -215,7 +218,7 @@ export function OrderAhead({ accountSlot }: { accountSlot?: React.ReactNode }) {
         {ORDER_MENU.map((category) => (
           <section key={category.id} aria-labelledby={`order-${category.id}`}>
             <h2 id={`order-${category.id}`} className="font-display text-[2rem] leading-none text-strong">
-              {category.title}
+              {tr(category.title)}
             </h2>
             <ul className="mt-4 border-t border-sand">
               {category.items.map((item) => {
@@ -226,16 +229,16 @@ export function OrderAhead({ accountSlot }: { accountSlot?: React.ReactNode }) {
                     <div className="flex-1">
                       <p className="font-sans text-body-sm font-semibold text-strong">
                         {item.name}
-                        {soldOut && <span className="ml-2 rounded-full bg-cream px-2 py-0.5 font-mono text-micro text-stone uppercase">Sold out today</span>}
+                        {soldOut && <span className="ms-2 rounded-full bg-cream px-2 py-0.5 font-mono text-micro text-stone uppercase">{tr("Sold out today")}</span>}
                       </p>
-                      <p className="font-sans text-body-xs text-stone">{item.description}</p>
+                      <p className="font-sans text-body-xs text-stone">{tr(item.description)}</p>
                     </div>
-                    <span className="font-mono text-eyebrow text-strong tabular-nums">{money(Math.round(item.price * 100))}</span>
+                    <span className="font-mono text-eyebrow text-strong tabular-nums">{format.money(Math.round(item.price * 100))}</span>
                     <button
                       type="button"
                       disabled={soldOut}
                       onClick={() => (plain ? quickAdd(item) : setCustomizing(item))}
-                      aria-label={plain ? `Add ${item.name}` : `Customise ${item.name}`}
+                      aria-label={plain ? tr("Add {name}", { name: item.name }) : tr("Customise {name}", { name: item.name })}
                       className="grid size-11 shrink-0 place-items-center rounded-full border border-sand text-strong transition-colors hover:border-espresso hover:bg-espresso hover:text-beige disabled:opacity-30"
                     >
                       <Plus aria-hidden className="size-4" />
@@ -248,20 +251,17 @@ export function OrderAhead({ accountSlot }: { accountSlot?: React.ReactNode }) {
         ))}
       </div>
 
-      <p className="mt-10 font-sans text-body-xs text-stone">
-        Prices are confirmed at checkout. Please tell the barista about allergies — see the <Link href="/menu" className="underline">menu</Link> notes.
-      </p>
+      <p className="mt-10 font-sans text-body-xs text-stone">{rich(tr("Prices are confirmed at checkout. Please tell the barista about allergies — see the {menu} notes."), { menu: <Link href="/menu" className="underline">{tr("menu")}</Link> })}</p>
 
       {/* Order bar */}
       {count > 0 && (
         <div className="fixed inset-x-4 z-40 mx-auto max-w-[560px] bottom-[calc(var(--dock-height)+28px+var(--safe-bottom))] md:bottom-8">
-          <Button fullWidth className="justify-between pr-6 shadow-[0_18px_40px_-12px_rgb(23_18_14/0.6)]" onClick={() => setReviewing(true)}>
-            Review order · {count} {count === 1 ? "item" : "items"} · {money(subtotal)}
+          <Button fullWidth className="justify-between pe-6 shadow-[0_18px_40px_-12px_rgb(23_18_14/0.6)]" onClick={() => setReviewing(true)}>{count === 1 ? tr("Review order · 1 item · {total}", { total: format.money(subtotal) }) : tr("Review order · {n} items · {total}", { n: count, total: format.money(subtotal) })}
           </Button>
         </div>
       )}
 
-      <Dialog open={!!customizing} onClose={() => setCustomizing(null)} title={customizing ? `Customise ${customizing.name}` : "Customise"} className="max-md:h-dvh max-md:max-h-none max-md:rounded-none">
+      <Dialog open={!!customizing} onClose={() => setCustomizing(null)} title={customizing ? tr("Customise {name}", { name: customizing.name }) : tr("Customise")} className="max-md:h-dvh max-md:max-h-none max-md:rounded-none">
         {customizing && (
           <CustomizeDrink
             key={customizing.slug}
@@ -274,7 +274,7 @@ export function OrderAhead({ accountSlot }: { accountSlot?: React.ReactNode }) {
         )}
       </Dialog>
 
-      <Dialog open={reviewing} onClose={() => setReviewing(false)} title="Review order" className="max-md:h-dvh max-md:max-h-none max-md:rounded-none">
+      <Dialog open={reviewing} onClose={() => setReviewing(false)} title={tr("Review order")} className="max-md:h-dvh max-md:max-h-none max-md:rounded-none">
         {reviewing && (
           <OrderReview
             cafeId={cafe.id}
@@ -295,6 +295,7 @@ export function OrderAhead({ accountSlot }: { accountSlot?: React.ReactNode }) {
 }
 
 function CafeOption({ cafe, selected, onSelect }: { cafe: (typeof CAFES)[number]; selected: boolean; onSelect: () => void }) {
+  const { tr } = useI18n();
   const open = useOpenNow(cafe.opens, cafe.closes);
   return (
     <button
@@ -305,14 +306,14 @@ function CafeOption({ cafe, selected, onSelect }: { cafe: (typeof CAFES)[number]
       data-cafe={cafe.id}
       onClick={onSelect}
       className={cn(
-        "flex min-h-16 flex-col items-start justify-center rounded-xl border px-4 py-3 text-left transition-colors",
+        "flex min-h-16 flex-col items-start justify-center rounded-xl border px-4 py-3 text-start transition-colors",
         selected ? "border-espresso bg-espresso text-beige" : "border-sand bg-surface text-strong hover:border-espresso",
       )}
     >
       <span className="font-sans text-body-sm font-semibold">{cafe.cardName}</span>
       <span className={cn("mt-0.5 inline-flex items-center gap-1.5 font-mono text-micro uppercase", selected ? "text-cream" : "text-stone")}>
         <StatusDot tone={open ? "open" : "strong"} />
-        {open ? "Open" : "Closed"} · {cafe.opens}–{cafe.closes}
+        {open ? tr("Open") : tr("Closed")} · {cafe.opens}–{cafe.closes}
       </span>
     </button>
   );

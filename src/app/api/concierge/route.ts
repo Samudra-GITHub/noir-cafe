@@ -1,12 +1,14 @@
 import Anthropic from "@anthropic-ai/sdk";
 import { CONCIERGE_SYSTEM } from "@/server/concierge/prompt";
 import { rateLimit } from "@/server/rate-limit";
+import { LOCALE_META, isLocale } from "@/i18n/config";
 
 /**
  * AI barista-concierge.
  *
  *   GET  → { available } — whether a model key is configured.
- *   POST → { messages: [{ role, content }] } → streamed plain text.
+ *   POST → { messages: [{ role, content }], locale? } → streamed plain text,
+ *          written in the visitor's language (en, ja, fr, it).
  *
  * The key stays on the server (ANTHROPIC_API_KEY); the model defaults to the
  * latest Claude and can be overridden with CONCIERGE_MODEL. Without a key the
@@ -48,8 +50,11 @@ export async function POST(request: Request) {
   }
 
   let messages: Turn[] | null = null;
+  let locale: string | undefined;
   try {
-    messages = parse(await request.json());
+    const json = await request.json();
+    messages = parse(json);
+    locale = (json as { locale?: unknown })?.locale as string | undefined;
   } catch {}
   if (!messages) return Response.json({ error: "bad_request" }, { status: 400 });
 
@@ -57,7 +62,14 @@ export async function POST(request: Request) {
   const stream = client.messages.stream({
     model: MODEL,
     max_tokens: 700,
-    system: [{ type: "text", text: CONCIERGE_SYSTEM, cache_control: { type: "ephemeral" } }],
+    // The long, stable prompt is cached; the language line follows it so every
+    // locale shares the same cached prefix.
+    system: [
+      { type: "text", text: CONCIERGE_SYSTEM, cache_control: { type: "ephemeral" } },
+      ...(isLocale(locale) && locale !== "en"
+        ? [{ type: "text" as const, text: `Reply in ${LOCALE_META[locale].name} (${LOCALE_META[locale].intl}). Keep drink and product names as they appear on the menu and in the shop.` }]
+        : []),
+    ],
     messages,
   });
 

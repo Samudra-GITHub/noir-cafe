@@ -55,6 +55,7 @@ export function isValidPickup(cafe: Cafe, iso: string, now = new Date()) {
   return pickupSlots(cafe, grace).includes(new Date(at).toISOString());
 }
 
-export function formatPickup(iso: string) {
-  return new Intl.DateTimeFormat("en-US", { timeZone: ZONE, hour: "numeric", minute: "2-digit" }).format(new Date(iso));
+/** Pickup time in New York, in the visitor's language (Intl tag, default English). */
+export function formatPickup(iso: string, intl = "en-US") {
+  return new Intl.DateTimeFormat(intl, { timeZone: ZONE, hour: "numeric", minute: "2-digit" }).format(new Date(iso));
 }

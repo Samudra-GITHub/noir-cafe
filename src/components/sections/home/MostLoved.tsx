@@ -10,6 +10,7 @@ import { MOST_LOVED } from "@/data/drinks";
 import { useMotionSafe } from "@/hooks/useMotionSafe";
 import { feedback } from "@/lib/feedback";
 import { CAROUSEL_TILT, carouselSlide, tiltSpring } from "@/lib/motion";
+import { useI18n } from "@/i18n/client";
 
 const AUTOPLAY_MS = 6000;
 const pad = (n: number) => String(n).padStart(2, "0");
@@ -25,6 +26,7 @@ const pad = (n: number) => String(n).padStart(2, "0");
 const SWIPE_DISTANCE = 80;
 const SWIPE_VELOCITY = 400;
 export function MostLoved() {
+  const { tr } = useI18n();
   const safe = useMotionSafe();
   const [[index, direction], setSlide] = useState<[number, 1 | -1]>([0, 1]);
   const [paused, setPaused] = useState(false);
@@ -71,7 +73,7 @@ export function MostLoved() {
 
   return (
     <section
-      aria-roledescription="carousel"
+      aria-roledescription={tr("carousel")}
       aria-labelledby="loved-title"
       className="grid bg-espresso text-beige lg:min-h-[760px] lg:grid-cols-2"
       onMouseEnter={() => setPaused(true)}
@@ -103,12 +105,12 @@ export function MostLoved() {
               animate="center"
               exit="exit"
               className="absolute inset-0"
-              aria-roledescription="slide"
-              aria-label={`${pad(index + 1)} of ${pad(total)}: ${slide.name}`}
+              aria-roledescription={tr("slide")}
+              aria-label={tr("{n} of {total}: {name}", { n: pad(index + 1), total: pad(total), name: slide.name })}
             >
               <Image
                 src={slide.image}
-                alt={slide.imageAlt}
+                alt={tr(slide.imageAlt)}
                 fill
                 draggable={false}
                 sizes="(min-width: 1024px) 50vw, 100vw"
@@ -119,20 +121,18 @@ export function MostLoved() {
         </m.div>
       </div>
 
-      <div className="flex flex-col justify-between gap-16 px-[var(--gutter)] pt-14 pb-16 lg:pt-[72px] lg:pr-[var(--gutter)] lg:pb-[135px] lg:pl-[72px]">
+      <div className="flex flex-col justify-between gap-16 px-[var(--gutter)] pt-14 pb-16 lg:pt-[72px] lg:pe-[var(--gutter)] lg:pb-[135px] lg:ps-[72px]">
         <FadeUp className="max-w-[374px]">
           <SectionIntro
             id="loved-title"
-            eyebrow="03 · Most loved"
+            eyebrow={tr("03 · Most loved")}
             eyebrowTone="inverse"
             inverse
             gap="mt-[22px]"
             titleClassName="leading-[0.97]"
-            title="The cups people return for."
+            title={tr("The cups people return for.")}
           />
-          <p className="mt-[15px] font-sans text-body-sm leading-[26px] text-cream">
-            Espresso, milk, and patient technique. Discover the signatures that define our bar.
-          </p>
+          <p className="mt-[15px] font-sans text-body-sm leading-[26px] text-cream">{tr("Espresso, milk, and patient technique. Discover the signatures that define our bar.")}</p>
         </FadeUp>
 
         <div className="w-full max-w-[373px]">
@@ -140,9 +140,7 @@ export function MostLoved() {
             <p aria-live="polite" className="pt-0.5 font-mono text-mono-sm text-beige uppercase">
               {pad(index + 1)} / {pad(total)} · {slide.name}
             </p>
-            <Button variant="inverse" onClick={() => step(1)} aria-label={`Next drink: ${MOST_LOVED[(index + 1) % total].name}`}>
-              Next
-            </Button>
+            <Button variant="inverse" onClick={() => step(1)} aria-label={tr("Next drink: {name}", { name: MOST_LOVED[(index + 1) % total].name })}>{tr("Next")}</Button>
           </div>
 
           {/* Progress: completed slides, then the current slide's dwell filling in.
@@ -150,7 +148,7 @@ export function MostLoved() {
               slide advances when it completes. */}
           <div className="relative mt-[22px] h-0.5 w-full overflow-hidden bg-char" aria-hidden>
             <div
-              className="absolute inset-y-0 left-0 bg-caramel transition-[width] duration-700 ease-noir"
+              className="absolute inset-y-0 inset-s-0 bg-caramel transition-[width] duration-700 ease-noir"
               style={{ width: `${(index / total) * 100}%` }}
             />
             <div

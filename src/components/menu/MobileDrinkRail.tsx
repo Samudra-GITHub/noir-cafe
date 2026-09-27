@@ -2,11 +2,12 @@
 
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import Link from "next/link";
+import Link from "@/i18n/link";
 import { Price } from "@/components/ui";
 import type { Drink } from "@/data/types";
 import { useFeedbackOnChange } from "@/lib/feedback";
 import { cn } from "@/lib/cn";
+import { useI18n } from "@/i18n/client";
 
 const ROAST_LEVEL: Record<Drink["roast"], number> = { Light: 1, Medium: 2, Dark: 3 };
 
@@ -16,6 +17,7 @@ const ROAST_LEVEL: Record<Drink["roast"], number> = { Light: 1, Medium: 2, Dark:
  * in sequence and flavor notes float upward. Pressing a card zooms its image.
  */
 export function MobileDrinkRail({ drinks }: { drinks: Drink[] }) {
+  const { tr } = useI18n();
   const railRef = useRef<HTMLUListElement>(null);
   const [active, setActive] = useState(0);
   useFeedbackOnChange(active, "swipe");
@@ -43,7 +45,7 @@ export function MobileDrinkRail({ drinks }: { drinks: Drink[] }) {
     <div className="md:hidden">
       <ul
         ref={railRef}
-        aria-label="Featured drinks"
+        aria-label={tr("Featured drinks")}
         className="swipe-rail -mx-[var(--gutter)] mt-10 gap-3 px-[var(--gutter)] pb-2"
       >
         {drinks.map((drink, i) => {
@@ -57,7 +59,7 @@ export function MobileDrinkRail({ drinks }: { drinks: Drink[] }) {
               >
                 <Image
                   src={drink.image}
-                  alt={drink.imageAlt}
+                  alt={tr(drink.imageAlt)}
                   fill
                   sizes="84vw"
                   className={cn(
@@ -72,8 +74,8 @@ export function MobileDrinkRail({ drinks }: { drinks: Drink[] }) {
 
                 <div className="absolute inset-x-0 bottom-0 p-6">
                   {/* Flavor notes float up when the card arrives. */}
-                  <ul aria-label="Tasting notes" className="flex flex-wrap gap-2">
-                    {drink.flavor.split(",").map((note, n) => (
+                  <ul aria-label={tr("Tasting notes")} className="flex flex-wrap gap-2">
+                    {tr(drink.flavor).split(/[,、]/).map((note, n) => (
                       <li
                         key={note}
                         className={cn(
@@ -95,12 +97,10 @@ export function MobileDrinkRail({ drinks }: { drinks: Drink[] }) {
                     </h3>
                     <Price value={drink.price} size="md" tone="accent-inverse" />
                   </div>
-                  <p className="mt-3 font-mono text-eyebrow text-cream uppercase">{drink.origin}</p>
+                  <p className="mt-3 font-mono text-eyebrow text-cream uppercase">{tr(drink.origin)}</p>
 
                   <div className="mt-5 flex items-center justify-between border-t border-beige/15 pt-4">
-                    <span className="flex items-center gap-2.5 font-mono text-micro text-cream uppercase">
-                      Roast
-                      <span role="img" aria-label={`${drink.roast} roast, ${level} of 3`} className="flex gap-1.5">
+                    <span className="flex items-center gap-2.5 font-mono text-micro text-cream uppercase">{tr("Roast")}<span role="img" aria-label={tr("{roast} roast, {level} of 3", { roast: tr(drink.roast), level })} className="flex gap-1.5">
                         {[1, 2, 3].map((p) => (
                           <span
                             key={p}
@@ -124,7 +124,7 @@ export function MobileDrinkRail({ drinks }: { drinks: Drink[] }) {
         })}
       </ul>
 
-      <div className="mt-5 flex justify-center gap-2" role="tablist" aria-label="Choose a drink">
+      <div className="mt-5 flex justify-center gap-2" role="tablist" aria-label={tr("Choose a drink")}>
         {drinks.map((d, i) => (
           <button
             key={d.slug}

@@ -1,6 +1,7 @@
 "use client";
 
 import { cn } from "@/lib/cn";
+import { useI18n } from "@/i18n/client";
 
 /**
  * Chip — "Chip · selected · icon · dismissible"
@@ -24,6 +25,7 @@ export function Chip({
   count?: number;
   onDismiss?: () => void;
 } & React.ButtonHTMLAttributes<HTMLButtonElement>) {
+  const { tr } = useI18n();
   return (
     <button
       type="button"
@@ -47,7 +49,7 @@ export function Chip({
         <span
           role="button"
           tabIndex={0}
-          aria-label="Remove"
+          aria-label={tr("Remove")}
           onClick={(e) => {
             e.stopPropagation();
             onDismiss();
@@ -59,7 +61,7 @@ export function Chip({
               onDismiss();
             }
           }}
-          className="-mr-1 ml-0.5 opacity-60 hover:opacity-100"
+          className="-me-1 ms-0.5 opacity-60 hover:opacity-100"
         >
           ×
         </span>

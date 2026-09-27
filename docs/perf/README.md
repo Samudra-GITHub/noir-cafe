@@ -70,3 +70,23 @@ the motion hooks used by the scroll-linked hero and nav (~45 KB), two preloaded
 fonts (69 KB) and, on `/`, `/menu` and `/brewing-lab`, HTML just over the first
 TCP round trip (14.6 KB), which costs ~0.3 s of simulated FCP. The observed LCP on
 all pages is 150–400 ms.
+
+## M23: main-thread fixes in the atmosphere engine
+
+While measuring the i18n build, I found and fixed two paths in the phone atmosphere engine (added in M10) that forced repeated style and layout work:
+
+| Cause | Effect (home, mobile, Lighthouse) | Fix |
+| --- | --- | --- |
+| The light's registered custom properties (`--sun-x`, `--sun-color`…) were `inherits: true` and transitioned on `:root`. When New York's weather turned rain on after load, every element restyled on every frame for 2.4 s. | Style & Layout 5.1 s and TBT ≈ 3 s whenever it rained in New York | The properties are now `inherits: false`, and they live and transition on the two light layers only. |
+| The steam and rain canvas read `window.scrollY` inside its frame loop and wrote a data attribute every 15 frames. | A forced style and layout pass on every frame | The scroll position now comes from scroll events. The attribute is written only when its value changes. The loop starts after the page has loaded and gone idle. |
+
+Measured while it was raining in New York, which is the worst case (median of 5 runs):
+
+| Metric | Before | After |
+| --- | --- | --- |
+| Style & Layout | 5,132 ms | 758 ms |
+| TBT | 3,060 ms | 130 ms |
+| Home score | 58 | 84 |
+
+The weather now comes from `/api/weather`, which the server caches for 15 minutes, instead of each browser calling Open-Meteo directly.
+

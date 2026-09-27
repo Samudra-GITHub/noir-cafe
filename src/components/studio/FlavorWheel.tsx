@@ -1,9 +1,10 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import Link from "next/link";
+import Link from "@/i18n/link";
 import { FLAVOUR_FAMILIES, drinksWithFamily } from "@/data/flavours";
 import { cn } from "@/lib/cn";
+import { useI18n } from "@/i18n/client";
 
 const SIZE = 320;
 const C = SIZE / 2;
@@ -30,6 +31,7 @@ const strength = (w: number) => (w > 0.66 ? "Pronounced" : w > 0.4 ? "Present" :
  * notes and the drinks on our menu that carry them.
  */
 export function FlavorWheel({ emphasis }: { emphasis: Record<string, number> }) {
+  const { tr } = useI18n();
   const [selected, setSelected] = useState(FLAVOUR_FAMILIES[0].id);
   const family = FLAVOUR_FAMILIES.find((f) => f.id === selected)!;
   const drinks = useMemo(() => drinksWithFamily(family), [family]);
@@ -37,7 +39,7 @@ export function FlavorWheel({ emphasis }: { emphasis: Record<string, number> }) 
 
   return (
     <div className="grid gap-8 lg:grid-cols-[320px_1fr] lg:items-center">
-      <svg viewBox={`0 0 ${SIZE} ${SIZE}`} className="mx-auto w-full max-w-[320px]" role="group" aria-label="Flavour wheel">
+      <svg viewBox={`0 0 ${SIZE} ${SIZE}`} className="mx-auto w-full max-w-[320px]" role="group" aria-label={tr("Flavour wheel")}>
         {FLAVOUR_FAMILIES.map((f, i) => {
           const w = emphasis[f.id] ?? 0;
           const mid = ((i + 0.5) / n) * Math.PI * 2 - Math.PI / 2;
@@ -52,7 +54,7 @@ export function FlavorWheel({ emphasis }: { emphasis: Record<string, number> }) 
               role="button"
               tabIndex={0}
               aria-pressed={on}
-              aria-label={`${f.label} — ${strength(w).toLowerCase()} in this recipe`}
+              aria-label={tr("{family} — {strength} in this recipe", { family: tr(f.label), strength: tr(strength(w)).toLowerCase() })}
               onClick={() => setSelected(f.id)}
               onKeyDown={(e) => {
                 if (e.key === "Enter" || e.key === " ") {
@@ -78,37 +80,35 @@ export function FlavorWheel({ emphasis }: { emphasis: Record<string, number> }) 
                 dominantBaseline="middle"
                 className={cn("pointer-events-none font-mono text-[10px] uppercase", w > 0.55 ? "fill-ivory" : "fill-espresso")}
               >
-                {f.label}
+                {tr(f.label)}
               </text>
             </g>
           );
         })}
         <circle cx={C} cy={C} r={INNER - 6} fill="var(--noir-ivory)" />
         <text x={C} y={C - 6} textAnchor="middle" className="fill-stone font-mono text-[9px] uppercase">
-          {strength(emphasis[family.id] ?? 0)}
+          {tr(strength(emphasis[family.id] ?? 0))}
         </text>
         <text x={C} y={C + 12} textAnchor="middle" className="fill-espresso font-display text-[17px]">
-          {family.label}
+          {tr(family.label)}
         </text>
       </svg>
 
       <div aria-live="polite">
-        <p className="font-mono text-eyebrow text-caramel-ink uppercase">{family.label}</p>
+        <p className="font-mono text-eyebrow text-caramel-ink uppercase">{tr(family.label)}</p>
         <p className="mt-2 font-display text-[1.75rem] leading-[1.1] text-strong">{family.notes.join(" · ")}</p>
         {drinks.length > 0 && (
           <>
-            <p className="mt-6 font-mono text-micro text-stone uppercase">On our menu</p>
+            <p className="mt-6 font-mono text-micro text-stone uppercase">{tr("On our menu")}</p>
             <ul className="mt-2 border-t border-sand">
               {drinks.map((d) => (
                 <li key={d.name} className="flex items-baseline justify-between gap-4 border-b border-sand py-3">
                   <span className="font-sans text-body-sm font-semibold text-strong">{d.name}</span>
-                  <span className="text-right font-sans text-body-xs text-stone">{d.notes.join(", ")}</span>
+                  <span className="text-end font-sans text-body-xs text-stone">{d.notes.join(", ")}</span>
                 </li>
               ))}
             </ul>
-            <Link href="/menu" className="mt-4 inline-flex min-h-11 items-center font-mono text-eyebrow text-caramel-ink uppercase underline decoration-caramel/40 underline-offset-4">
-              See the menu
-            </Link>
+            <Link href="/menu" className="mt-4 inline-flex min-h-11 items-center font-mono text-eyebrow text-caramel-ink uppercase underline decoration-caramel/40 underline-offset-4">{tr("See the menu")}</Link>
           </>
         )}
       </div>

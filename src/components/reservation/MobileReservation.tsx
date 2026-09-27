@@ -23,12 +23,13 @@ import { useBooking } from "./useBooking";
 import { useMotionSafe } from "@/hooks/useMotionSafe";
 import { ease } from "@/lib/motion";
 import { cn } from "@/lib/cn";
-import { Calendar, LONG_DATE } from "./Calendar";
+import { Calendar } from "./Calendar";
+import { LONG_DATE } from "@/i18n/format";
 import { feedback } from "@/lib/feedback";
-import { EMAIL, SEAT_SUMMARY, to12h, useToday } from "./ReservationExperience";
+import { EMAIL, SEAT_SUMMARY, useToday } from "./ReservationExperience";
+import { useFormat, useI18n } from "@/i18n/client";
 
 const STEPS = ["Date", "Time & guests", "Seating", "Details"] as const;
-const SHORT_DATE = new Intl.DateTimeFormat("en-US", { weekday: "short", month: "short", day: "numeric" });
 
 /**
  * Mobile reservation (below 768px) — Apple Wallet–style. A pass at the top
@@ -37,6 +38,8 @@ const SHORT_DATE = new Intl.DateTimeFormat("en-US", { weekday: "short", month: "
  * and seating area) and the pass is issued — Wallet-style — with its QR code.
  */
 export function MobileReservation() {
+  const { tr } = useI18n();
+  const format = useFormat();
   const safe = useMotionSafe();
   const today = useToday();
   const titleId = useId();
@@ -111,11 +114,9 @@ export function MobileReservation() {
                 }),
               )
             }
-          >
-            Add to calendar
-          </Button>
+          >{tr("Add to calendar")}</Button>
           <p className="text-center font-sans text-body-xs text-stone">
-            {booking.emailed ? `A confirmation is on its way to ${email.trim()}.` : "Show this pass at the host stand."}
+            {booking.emailed ? tr("A confirmation is on its way to {email}.", { email: email.trim() }) : tr("Show this pass at the host stand.")}
           </p>
         </div>
       )}
@@ -125,10 +126,9 @@ export function MobileReservation() {
           {/* Step indicator */}
           <div className="flex items-baseline justify-between">
             <h2 id={titleId} className="font-display text-[2rem] leading-none text-strong">
-              {STEPS[step]}
+              {tr(STEPS[step])}
             </h2>
-            <p className="font-mono text-eyebrow text-stone uppercase">
-              Step {step + 1} of {STEPS.length}
+            <p className="font-mono text-eyebrow text-stone uppercase">{tr("Step {n} of {total}", { n: step + 1, total: STEPS.length })}
             </p>
           </div>
           <div aria-hidden className="mt-4 grid grid-cols-4 gap-1.5">
@@ -154,7 +154,7 @@ export function MobileReservation() {
                 {step === 1 && (
                   <div className="flex flex-col gap-8">
                     <fieldset>
-                      <legend className="font-mono text-micro text-stone uppercase">Time</legend>
+                      <legend className="font-mono text-micro text-stone uppercase">{tr("Time")}</legend>
                       <div className="mt-3 grid grid-cols-2 gap-2.5">
                         {RESERVATION_TIMES.map((t) => (
                           <Chip
@@ -165,14 +165,14 @@ export function MobileReservation() {
                             onClick={() => setTime(t)}
                             className="h-12 w-full text-[0.6875rem] disabled:opacity-40"
                           >
-                            {to12h(t)}
-                            {!booking.timeOpen(t, guests) && <span className="ml-1.5 text-stone">· Full</span>}
+                            {format.time(t)}
+                            {!booking.timeOpen(t, guests) && <span className="ms-1.5 text-stone">{tr("· Full")}</span>}
                           </Chip>
                         ))}
                       </div>
                     </fieldset>
                     <fieldset>
-                      <legend className="font-mono text-micro text-stone uppercase">Guests</legend>
+                      <legend className="font-mono text-micro text-stone uppercase">{tr("Guests")}</legend>
                       <div className="mt-3 grid grid-cols-4 gap-2.5">
                         {RESERVATION_GUESTS.map((g) => (
                           <Chip
@@ -180,7 +180,7 @@ export function MobileReservation() {
                             size="lg"
                             selected={guests === g}
                             onClick={() => setGuests(g)}
-                            aria-label={g === "4+" ? "4 or more guests" : `${g} ${g === "1" ? "guest" : "guests"}`}
+                            aria-label={g === "4+" ? tr("4 or more guests") : g === "1" ? tr("1 guest") : tr("{n} guests", { n: g })}
                             className="h-12 w-full min-w-0 px-0 text-[0.75rem]"
                           >
                             {g}
@@ -194,7 +194,7 @@ export function MobileReservation() {
                 {step === 2 && (
                   <div className="flex flex-col gap-4">
                   <SeatMap selected={seating} onSelect={setSeating} left={(id) => booking.left(time, id)} covers={covers} className="rounded-xl bg-surface p-3 shadow-card" />
-                  <div role="radiogroup" aria-label="Seating" className="flex flex-col gap-3">
+                  <div role="radiogroup" aria-label={tr("Seating")} className="flex flex-col gap-3">
                     {SEATING.map((option) => {
                       const checked = seating === option.id;
                       const left = booking.left(time, option.id);
@@ -209,7 +209,7 @@ export function MobileReservation() {
                           onClick={() => !full && setSeating(option.id)}
                           className={cn(
                             full && "opacity-50",
-                            "group/seat relative isolate h-[132px] overflow-hidden rounded-xl text-left text-beige ring-offset-2 ring-offset-canvas transition-shadow duration-300",
+                            "group/seat relative isolate h-[132px] overflow-hidden rounded-xl text-start text-beige ring-offset-2 ring-offset-canvas transition-shadow duration-300",
                             checked && "ring-2 ring-caramel",
                           )}
                         >
@@ -221,17 +221,17 @@ export function MobileReservation() {
                             className={cn("-z-10 object-cover transition-transform duration-700 ease-noir", checked ? "scale-105" : "scale-100")}
                           />
                           <span aria-hidden className="absolute inset-0 -z-10 bg-[linear-gradient(90deg,rgb(23_18_14/0.85),rgb(23_18_14/0.2))]" />
-                          <span className="absolute bottom-4 left-5">
-                            <span className="block font-display text-[1.75rem] leading-none">{option.label}</span>
+                          <span className="absolute bottom-4 inset-s-5">
+                            <span className="block font-display text-[1.75rem] leading-none">{tr(option.label)}</span>
                             <span className="mt-1.5 block font-mono text-micro text-cream uppercase">
-                              {option.detail}
-                              {left != null && <> · {full ? "Full" : `${left} seats left`}</>}
+                              {tr(option.detail)}
+                              {left != null && <> · {full ? tr("Full") : left === 1 ? tr("1 seat left") : tr("{n} seats left", { n: left })}</>}
                             </span>
                           </span>
                           <span
                             aria-hidden
                             className={cn(
-                              "absolute top-4 right-4 grid size-6 place-items-center rounded-full border border-beige/70 transition-colors",
+                              "absolute top-4 inset-e-4 grid size-6 place-items-center rounded-full border border-beige/70 transition-colors",
                               checked && "border-caramel bg-caramel",
                             )}
                           >
@@ -247,7 +247,7 @@ export function MobileReservation() {
                 {step === 3 && (
                   <div className="flex flex-col gap-4">
                     <Field
-                      label="Guest name"
+                      label={tr("Guest name")}
                       name="name"
                       autoComplete="name"
                       value={name}
@@ -255,10 +255,10 @@ export function MobileReservation() {
                         setName(e.target.value);
                         if (errors.name) setErrors((er) => ({ ...er, name: undefined }));
                       }}
-                      error={errors.name}
+                      error={errors.name && tr(errors.name)}
                     />
                     <Field
-                      label="Email address"
+                      label={tr("Email address")}
                       name="email"
                       type="email"
                       inputMode="email"
@@ -268,7 +268,7 @@ export function MobileReservation() {
                         setEmail(e.target.value);
                         if (errors.email) setErrors((er) => ({ ...er, email: undefined }));
                       }}
-                      error={errors.email}
+                      error={errors.email && tr(errors.email)}
                     />
                   </div>
                 )}
@@ -277,26 +277,22 @@ export function MobileReservation() {
 
           <div className="mt-8 flex gap-3">
             {step > 0 && (
-              <Button variant="secondary" arrow={false} onClick={() => go(step - 1)} className="flex-1">
-                Back
-              </Button>
+              <Button variant="secondary" arrow={false} onClick={() => go(step - 1)} className="flex-1">{tr("Back")}</Button>
             )}
             {step < STEPS.length - 1 ? (
-              <Button onClick={() => go(step + 1)} className="flex-[2] justify-between pr-6">
-                Continue
-              </Button>
+              <Button onClick={() => go(step + 1)} className="flex-[2] justify-between pe-6">{tr("Continue")}</Button>
             ) : (
-              <Button variant="accent" onClick={() => void confirm()} disabled={booking.status === "sending"} className="flex-[2] justify-between pr-6">
-                {booking.status === "sending" ? "Booking…" : "Confirm"}
+              <Button variant="accent" onClick={() => void confirm()} disabled={booking.status === "sending"} className="flex-[2] justify-between pe-6">
+                {booking.status === "sending" ? tr("Booking…") : tr("Confirm")}
               </Button>
             )}
           </div>
           {booking.error && (
             <p role="alert" className="mt-4 font-sans text-body-sm text-caramel-ink">
-              {booking.error}
+              {tr(booking.error)}
             </p>
           )}
-          <p className="mt-5 text-center font-mono text-micro text-stone uppercase">{RESERVATION_VENUE.note}</p>
+          <p className="mt-5 text-center font-mono text-micro text-stone uppercase">{tr(RESERVATION_VENUE.note)}</p>
         </section>
       )}
     </div>
@@ -323,16 +319,18 @@ function Pass({
   code?: string;
   demo?: boolean;
 }) {
+  const { tr } = useI18n();
+  const format = useFormat();
   const safe = useMotionSafe();
   const rows = [
-    { label: "Date", value: SHORT_DATE.format(date) },
-    { label: "Time", value: to12h(time) },
-    { label: "Guests", value: guests === "4+" ? "4+" : guests },
-    { label: "Seat", value: SEAT_SUMMARY[seating].replace(" table", "") },
+    { label: tr("Date"), value: format.date(date, { weekday: "short", month: "short", day: "numeric" }) },
+    { label: tr("Time"), value: format.time(time) },
+    { label: tr("Guests"), value: guests === "4+" ? "4+" : guests },
+    { label: tr("Seat"), value: tr(SEAT_SUMMARY[seating].replace(" table", "")) },
   ];
   return (
     <m.section
-      aria-label="Your reservation pass"
+      aria-label={tr("Your reservation pass")}
       aria-live="polite"
       layout={safe}
       transition={ease(0.6)}
@@ -345,7 +343,7 @@ function Pass({
       <span aria-hidden className="absolute inset-x-5 -top-2 -z-10 h-4 rounded-t-2xl bg-walnut" />
       <div className="flex items-start justify-between px-6 pt-6">
         <div>
-          <p className="font-mono text-micro text-caramel-glow uppercase">{code ? (demo ? "Booked · demo" : "Booked") : done ? "Requested" : RESERVATION_VENUE.eyebrow}</p>
+          <p className="font-mono text-micro text-caramel-glow uppercase">{code ? (demo ? tr("Booked · demo") : tr("Booked")) : done ? tr("Requested") : tr(RESERVATION_VENUE.eyebrow)}</p>
           <p className="mt-2 font-display text-[1.75rem] leading-[1.05]">
             {RESERVATION_VENUE.name[0]}
             <br />
@@ -379,19 +377,19 @@ function Pass({
 
       {/* Perforation */}
       <div aria-hidden className="relative mt-6 h-6">
-        <span className="absolute top-1/2 -left-3 size-6 -translate-y-1/2 rounded-full bg-canvas" />
-        <span className="absolute top-1/2 -right-3 size-6 -translate-y-1/2 rounded-full bg-canvas" />
+        <span className="absolute top-1/2 -inset-s-3 size-6 -translate-y-1/2 rounded-full bg-canvas" />
+        <span className="absolute top-1/2 -inset-e-3 size-6 -translate-y-1/2 rounded-full bg-canvas" />
         <span className="absolute inset-x-6 top-1/2 border-t border-dashed border-beige/20" />
       </div>
 
       <div className="flex items-center justify-between gap-4 px-6 pt-1 pb-6">
         <div>
-          <p className="font-mono text-micro text-taupe uppercase">Guest</p>
+          <p className="font-mono text-micro text-taupe uppercase">{tr("Guest")}</p>
           <p className="mt-1 font-sans text-[0.8125rem]">{name.trim() || "—"}</p>
         </div>
         {code ? (
-          <div className="text-right">
-            <p className="font-mono text-micro text-taupe uppercase">Reservation</p>
+          <div className="text-end">
+            <p className="font-mono text-micro text-taupe uppercase">{tr("Reservation")}</p>
             <p className="mt-1 font-mono text-eyebrow tracking-[0.12em]">{code}</p>
           </div>
         ) : (
@@ -417,7 +415,7 @@ function Pass({
         >
           <div className="flex items-center gap-5 border-t border-char px-6 py-6">
             <ReservationQR code={code} className="size-28 shrink-0" />
-            <p className="font-sans text-body-xs text-cream">Show this code at the host stand — we&rsquo;ll take you straight to your table.</p>
+            <p className="font-sans text-body-xs text-cream">{tr("Show this code at the host stand — we’ll take you straight to your table.")}</p>
           </div>
         </m.div>
       )}
@@ -430,7 +428,7 @@ function Pass({
           transition={ease(0.5, 0.2)}
           className="border-t border-char px-6 py-5 font-sans text-body-xs text-cream"
         >
-          Thank you, {name.trim().split(" ")[0]}. Your table for {LONG_DATE.format(date)} at {to12h(time)} is {code ? "booked" : "requested"}. We look forward to seeing you.
+          {tr(code ? "Thank you, {name}. Your table for {date} at {time} is booked. We look forward to seeing you." : "Thank you, {name}. Your table for {date} at {time} is requested. We look forward to seeing you.", { name: name.trim().split(" ")[0], date: format.date(date, LONG_DATE), time: format.time(time) })}
         </m.p>
       )}
     </m.section>

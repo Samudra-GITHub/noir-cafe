@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState, useSyncExternalStore } from "react";
+import { useState, useSyncExternalStore } from "react";
 import Image from "next/image";
 import { Bookmark, X } from "lucide-react";
 import { Button, Eyebrow } from "@/components/ui";
@@ -29,6 +29,7 @@ import { FlavorWheel } from "./FlavorWheel";
 import { RoastSimulator } from "./RoastSimulator";
 import { StudioSlider } from "./StudioSlider";
 import { StudioTimer } from "./StudioTimer";
+import { useI18n } from "@/i18n/client";
 
 const loadStudio = () => import("@/components/three/StudioScene");
 const SAVED_KEY = "noir:studio-recipes";
@@ -94,6 +95,7 @@ function Card({ title, eyebrow, children, className }: { title: string; eyebrow:
  * Recipes can be saved on this device.
  */
 export function RecipeStudio() {
+  const { tr } = useI18n();
   const safe = useMotionSafe();
   // ?method=v60 (from a product's brew guide) preselects a house recipe. Derived,
   // not copied into state, so the page still prerenders and hydrates cleanly.
@@ -112,7 +114,7 @@ export function RecipeStudio() {
   const strength = tds(method, recipe, ey);
   const result = band(ey);
   const seconds = brewSeconds(method, recipe);
-  const emphasis = useMemo(() => flavourEmphasis(recipe.roast, ey), [recipe.roast, ey]);
+  const emphasis = flavourEmphasis(recipe.roast, ey);
   const crema = cremaHex(recipe.roast, ey);
   const set = (patch: Partial<Recipe>) => setRecipe({ ...recipe, ...patch });
 
@@ -138,18 +140,16 @@ export function RecipeStudio() {
     <div className="container-page pt-32 pb-24 lg:pt-[172px]">
       <header className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
         <div>
-          <Eyebrow>Brewing Lab · Studio</Eyebrow>
+          <Eyebrow>{tr("Brewing Lab · Studio")}</Eyebrow>
           <PageTitle>
-            <h1 className="type-display-lg mt-[13px] text-strong">Recipe studio</h1>
+            <h1 className="type-display-lg mt-[13px] text-strong">{tr("Recipe studio")}</h1>
           </PageTitle>
         </div>
-        <p className="max-w-[420px] font-sans text-body-sm leading-[26px] text-stone">
-          Start from one of our house recipes, then change the dose, ratio, grind, heat and roast. The cup, the extraction and the flavour wheel follow every move.
-        </p>
+        <p className="max-w-[420px] font-sans text-body-sm leading-[26px] text-stone">{tr("Start from one of our house recipes, then change the dose, ratio, grind, heat and roast. The cup, the extraction and the flavour wheel follow every move.")}</p>
       </header>
 
       {/* Method presets */}
-      <div role="radiogroup" aria-label="House recipe" className="swipe-rail -mx-[var(--gutter)] mt-10 gap-2 px-[var(--gutter)] [&>*]:snap-start">
+      <div role="radiogroup" aria-label={tr("House recipe")} className="swipe-rail -mx-[var(--gutter)] mt-10 gap-2 px-[var(--gutter)] [&>*]:snap-start">
         {BREW_METHODS.map((m) => (
           <button
             key={m.id}
@@ -162,7 +162,7 @@ export function RecipeStudio() {
               m.id === methodId ? "border-espresso bg-espresso text-beige" : "border-sand text-strong hover:border-espresso",
             )}
           >
-            {m.method}
+            {tr(m.method)}
           </button>
         ))}
       </div>
@@ -174,12 +174,12 @@ export function RecipeStudio() {
             <LazyScene
               load={loadStudio}
               props={{ roast: recipe.roast, ey, art, onTap: () => setArt((a) => LATTE_ARTS[(LATTE_ARTS.indexOf(a) + 1) % LATTE_ARTS.length]), still: !safe }}
-              label={`A latte in 3D, its crema coloured by this recipe (${roastLevel(recipe.roast).toLowerCase()} roast, ${ey.toFixed(1)}% extraction)`}
+              label={tr("A latte in 3D, its crema coloured by this recipe ({roast} roast, {ey}% extraction)", { roast: tr(roastLevel(recipe.roast)).toLowerCase(), ey: ey.toFixed(1) })}
               className="aspect-square w-full"
               fallback={<Image src="/videos/latte-art-poster.webp" alt="" fill sizes="(min-width: 1024px) 40vw, 100vw" className="object-cover" />}
             />
             <div className="pointer-events-none absolute inset-x-0 bottom-0 flex items-center justify-between p-4">
-              <span className="font-mono text-micro text-stone uppercase">Drag to turn · tap to pour</span>
+              <span className="font-mono text-micro text-stone uppercase">{tr("Drag to turn · tap to pour")}</span>
               <span aria-hidden className="size-6 rounded-full border-2 border-ivory shadow" style={{ background: crema }} />
             </div>
           </div>
@@ -187,98 +187,96 @@ export function RecipeStudio() {
         </div>
 
         <div className="flex flex-col gap-6">
-          <Card eyebrow={method.code} title="The recipe">
+          <Card eyebrow={tr(method.code)} title={tr("The recipe")}>
             <div className="flex flex-col gap-7">
               <StudioSlider
-                label="Dose"
+                label={tr("Dose")}
                 value={recipe.dose}
                 min={espresso ? 14 : 8}
                 max={espresso ? 22 : 40}
                 step={0.5}
                 display={`${recipe.dose.toFixed(1)} g`}
-                valueText={`${recipe.dose} grams of coffee`}
+                valueText={tr("{n} grams of coffee", { n: recipe.dose })}
                 onChange={(dose) => set({ dose })}
               />
               <StudioSlider
-                label={espresso ? "Brew ratio" : "Ratio"}
+                label={espresso ? tr("Brew ratio") : tr("Ratio")}
                 value={recipe.ratio}
                 min={espresso ? 1.5 : 12}
                 max={espresso ? 3 : 18}
                 step={0.1}
                 display={`1:${recipe.ratio.toFixed(1)}`}
-                valueText={`1 to ${recipe.ratio.toFixed(1)}, ${water} grams ${espresso ? "out" : "of water"}`}
+                valueText={espresso ? tr("1 to {ratio}, {water} grams out", { ratio: recipe.ratio.toFixed(1), water }) : tr("1 to {ratio}, {water} grams of water", { ratio: recipe.ratio.toFixed(1), water })}
                 hint={espresso ? `${water} g in the cup. Ristretto near 1:1.5, lungo toward 1:3.` : `${water} g water. Most filter coffee sits between 1:15 and 1:17.`}
                 onChange={(ratio) => set({ ratio: Math.round(ratio * 10) / 10 })}
               />
               <StudioSlider
-                label="Grind"
+                label={tr("Grind")}
                 value={recipe.grind}
                 min={grindRange[0]}
                 max={grindRange[1]}
                 step={10}
                 display={`${recipe.grind} µm`}
-                valueText={`${recipe.grind} microns, ${grindName(recipe.grind)}`}
-                hint={grindName(recipe.grind)}
-                ends={["Finer", "Coarser"]}
+                valueText={`${tr("{n} microns", { n: recipe.grind })}, ${tr(grindName(recipe.grind))}`}
+                hint={tr(grindName(recipe.grind))}
+                ends={[tr("Finer"), tr("Coarser")]}
                 onChange={(grind) => set({ grind })}
                 onCommit={() => feedback("grind")}
               />
               <StudioSlider
-                label="Water"
+                label={tr("Water")}
                 value={recipe.temperature}
                 min={85}
                 max={98}
                 step={0.5}
                 display={`${recipe.temperature}°C`}
-                valueText={`${recipe.temperature} degrees Celsius`}
-                hint={recipe.temperature < 90 ? "Cooler water softens bitterness but extracts less." : recipe.temperature > 95 ? "Hot water extracts fast — watch for bitterness." : "The sweet spot for most coffees."}
+                valueText={tr("{n} degrees Celsius", { n: recipe.temperature })}
+                hint={recipe.temperature < 90 ? tr("Cooler water softens bitterness but extracts less.") : recipe.temperature > 95 ? tr("Hot water extracts fast — watch for bitterness.") : tr("The sweet spot for most coffees.")}
                 onChange={(temperature) => set({ temperature })}
               />
               <div className="flex flex-wrap gap-3 border-t border-sand pt-6">
                 <Button onClick={save} aria-pressed={isSaved} arrow={false}>
                   <span className="inline-flex items-center gap-2">
                     <Bookmark aria-hidden className={cn("size-4", isSaved && "fill-current")} strokeWidth={1.5} />
-                    {isSaved ? "Saved" : "Save recipe"}
+                    {isSaved ? tr("Saved") : tr("Save recipe")}
                   </span>
                 </Button>
-                <Button variant="secondary" arrow={false} onClick={() => setRecipe(referenceRecipe(method))}>
-                  Reset to house
-                </Button>
+                <Button variant="secondary" arrow={false} onClick={() => setRecipe(referenceRecipe(method))}>{tr("Reset to house")}</Button>
               </div>
             </div>
           </Card>
 
-          <Card eyebrow="Timer" title="Brew it">
+          <Card eyebrow={tr("Timer")} title={tr("Brew it")}>
             <StudioTimer method={method} seconds={seconds} crema={crema} />
           </Card>
         </div>
       </div>
 
       <div className="mt-6 grid grid-cols-[minmax(0,1fr)] gap-6">
-        <Card eyebrow="Roast" title="Roast simulator">
+        <Card eyebrow={tr("Roast")} title={tr("Roast simulator")}>
           <RoastSimulator roast={recipe.roast} onChange={(roast) => set({ roast })} onCommit={() => haptic("toggle")} />
         </Card>
-        <Card eyebrow="Taste" title="Flavour wheel">
+        <Card eyebrow={tr("Taste")} title={tr("Flavour wheel")}>
           <FlavorWheel emphasis={emphasis} />
         </Card>
         {saved.length > 0 && (
-          <Card eyebrow="On this device" title="Saved recipes">
+          <Card eyebrow={tr("On this device")} title={tr("Saved recipes")}>
             <ul className="flex flex-col">
               {saved.map((s) => (
                 <li key={s.savedAt} className="flex items-center justify-between gap-4 border-b border-sand py-3">
                   <button
                     type="button"
-                    className="min-h-11 flex-1 text-left font-sans text-body-sm font-semibold text-strong hover:text-caramel-ink"
+                    className="min-h-11 flex-1 text-start font-sans text-body-sm font-semibold text-strong hover:text-caramel-ink"
                     onClick={() => {
                       setMethodId(s.methodId);
                       setRecipe({ methodId: s.methodId, dose: s.dose, ratio: s.ratio, grind: s.grind, temperature: s.temperature, roast: s.roast });
                     }}
                   >
-                    {s.name}
+                    {s.name.split(" · ").map((p) => tr(p)).join(" · ")}
                   </button>
                   <button
                     type="button"
-                    aria-label={`Remove ${s.name}`}
+                    aria-label={tr("Remove {name}", { name: s.name.split(" · ").map((p) => tr(p)).join(" · ") })}
                     onClick={() => write(saved.filter((x) => x.savedAt !== s.savedAt))}
                     className="grid size-11 place-items-center rounded-full text-stone hover:bg-cream hover:text-strong"
                   >

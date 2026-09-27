@@ -1,23 +1,22 @@
-import Link from "next/link";
+import Link from "@/i18n/link";
 import { Logo } from "@/components/ui";
 import { SocialIcon } from "@/components/ui/SocialIcon";
 import { FOOTER_LINKS, SITE, SOCIAL_LINKS } from "@/constants/site";
+import { getDictionary, getTranslator } from "@/i18n/server";
 
 /**
  * Global footer — espresso band, tagline, meta row (address, store hours,
  * contact · links · social) and the oversized wordmark.
  */
-export function SiteFooter() {
+export async function SiteFooter() {
+  const tr = await getTranslator();
+  const t = await getDictionary();
   return (
     <footer className="relative z-10 bg-espresso text-beige">
       <div className="container-page pt-16 pb-12 md:pb-[68px]">
         <div className="flex flex-col gap-10 md:flex-row md:items-start md:justify-between">
           <Logo tone="inverse" />
-          <p className="font-display text-[1.75rem] leading-[1.07] md:w-[480px] md:text-heading">
-            Coffee, composed with care.
-            <br />
-            Every day, in every cup.
-          </p>
+          <p className="font-display text-[1.75rem] leading-[1.07] md:w-[480px] md:text-heading">{tr("Coffee, composed with care.")}<br />{tr("Every day, in every cup.")}</p>
         </div>
 
         <hr className="mt-12 h-px border-0 bg-sand md:mt-14" />
@@ -26,7 +25,7 @@ export function SiteFooter() {
           <address className="font-mono text-eyebrow leading-[1.7] text-cream uppercase not-italic">
             {SITE.address}
             <br />
-            {SITE.hours}
+            {t.site.hours}
             <br />
             <a href={`mailto:${SITE.email}`} className="normal-case transition-colors duration-250 hover:text-caramel-glow max-md:relative max-md:after:absolute max-md:after:-inset-y-3.5 max-md:after:-inset-x-1 max-md:after:content-['']">
               {SITE.email}
@@ -44,7 +43,7 @@ export function SiteFooter() {
                   href={link.href}
                   className="inline-flex min-h-11 items-center font-sans text-[0.75rem] leading-none text-beige transition-colors duration-250 ease-noir hover:text-caramel-glow md:min-h-0"
                 >
-                  {link.label}
+                  {t.footer[link.label]}
                 </Link>
               </li>
             ))}
@@ -54,14 +53,14 @@ export function SiteFooter() {
             <p className="font-mono text-eyebrow text-taupe uppercase">
               © {SITE.year} {SITE.name}
             </p>
-            <ul aria-label="Social" className="-ml-2.5 flex gap-1 md:-mr-2.5 md:ml-0">
+            <ul aria-label={tr("Social")} className="-ms-2.5 flex gap-1 md:-me-2.5 md:ms-0">
               {SOCIAL_LINKS.map((link) => (
                 <li key={link.icon}>
                   <a
                     href={link.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    aria-label={`${link.label} (opens in a new tab)`}
+                    aria-label={tr("{label} (opens in a new tab)", { label: link.label })}
                     className="grid size-11 place-items-center rounded-full text-cream transition-[color,translate] duration-250 ease-noir hover:-translate-y-0.5 hover:text-caramel-glow"
                   >
                     <SocialIcon name={link.icon} className="size-[18px]" />

@@ -20,10 +20,12 @@ import { useMotionSafe } from "@/hooks/useMotionSafe";
 import { checkDraw, ease, shake, successReveal } from "@/lib/motion";
 import { cn } from "@/lib/cn";
 import { feedback } from "@/lib/feedback";
-import { Calendar, LONG_DATE } from "./Calendar";
+import { Calendar } from "./Calendar";
+import { LONG_DATE } from "@/i18n/format";
 import { ReservationQR, downloadIcs } from "./ReservationQR";
 import { useBooking } from "./useBooking";
 import { reservationIcs } from "@/lib/ics";
+import { useFormat, useI18n } from "@/i18n/client";
 
 export const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
@@ -39,11 +41,6 @@ export function useToday() {
   );
   return new Date(ms);
 }
-
-export const to12h = (time: string) => {
-  const [h, m] = time.split(":").map(Number);
-  return `${((h + 11) % 12) + 1}:${String(m).padStart(2, "0")} ${h < 12 ? "AM" : "PM"}`;
-};
 
 export const SEAT_SUMMARY: Record<SeatingId, string> = {
   window: "Window table",
@@ -68,6 +65,8 @@ function StepTitle({ id, index, children }: { id: string; index: string; childre
  * code, its QR for the host stand, and a calendar invite.
  */
 export function ReservationExperience() {
+  const { tr } = useI18n();
+  const format = useFormat();
   const today = useToday();
   const safe = useMotionSafe();
   const ids = { date: useId(), time: useId(), guests: useId(), seating: useId(), details: useId() };
@@ -110,10 +109,10 @@ export function ReservationExperience() {
   };
 
   const summary = [
-    { label: "Date", value: LONG_DATE.format(date) },
-    { label: "Time", value: to12h(time) },
-    { label: "Guests", value: guests === "4+" ? "4 or more" : `${guests} ${guests === "1" ? "person" : "people"}` },
-    { label: "Seating", value: SEAT_SUMMARY[seating] },
+    { label: tr("Date"), value: format.date(date, LONG_DATE) },
+    { label: tr("Time"), value: format.time(time) },
+    { label: tr("Guests"), value: guests === "4+" ? tr("4 or more") : guests === "1" ? tr("1 person") : tr("{n} people", { n: guests }) },
+    { label: tr("Seating"), value: tr(SEAT_SUMMARY[seating]) },
   ];
 
   return (
@@ -123,14 +122,12 @@ export function ReservationExperience() {
           ref={formRef}
           noValidate
           onSubmit={(e) => void onSubmit(e)}
-          aria-label="Reserve a table"
+          aria-label={tr("Reserve a table")}
           className="rounded-2xl bg-surface p-6 shadow-card md:p-10"
         >
           <section aria-labelledby={ids.date}>
             <div className="flex items-start justify-between">
-              <StepTitle id={ids.date} index="01">
-                Choose a date
-              </StepTitle>
+              <StepTitle id={ids.date} index="01">{tr("Choose a date")}</StepTitle>
             </div>
             <div className="mt-3 md:-mt-8">
               <Calendar
@@ -148,9 +145,7 @@ export function ReservationExperience() {
 
           <div className="mt-12 grid gap-10 md:grid-cols-2 md:gap-6 lg:mt-[51px]">
             <fieldset aria-labelledby={ids.time}>
-              <StepTitle id={ids.time} index="02">
-                Time
-              </StepTitle>
+              <StepTitle id={ids.time} index="02">{tr("Time")}</StepTitle>
               <div className="mt-[15px] grid grid-cols-4 gap-[9px]">
                 {RESERVATION_TIMES.map((t) => (
                   <Chip key={t} size="lg" selected={time === t} onClick={() => setTime(t)} className="w-full min-w-0 px-0">
@@ -160,9 +155,7 @@ export function ReservationExperience() {
               </div>
             </fieldset>
             <fieldset aria-labelledby={ids.guests}>
-              <StepTitle id={ids.guests} index="03">
-                Guests
-              </StepTitle>
+              <StepTitle id={ids.guests} index="03">{tr("Guests")}</StepTitle>
               <div className="mt-[15px] grid grid-cols-4 gap-[9px]">
                 {RESERVATION_GUESTS.map((g) => (
                   <Chip
@@ -170,7 +163,7 @@ export function ReservationExperience() {
                     size="lg"
                     selected={guests === g}
                     onClick={() => setGuests(g)}
-                    aria-label={g === "4+" ? "4 or more guests" : `${g} ${g === "1" ? "guest" : "guests"}`}
+                    aria-label={g === "4+" ? tr("4 or more guests") : g === "1" ? tr("1 guest") : tr("{n} guests", { n: g })}
                     className="w-full min-w-0 px-0"
                   >
                     {g}
@@ -181,9 +174,7 @@ export function ReservationExperience() {
           </div>
 
           <fieldset aria-labelledby={ids.seating} className="mt-12 lg:mt-[43px]">
-            <StepTitle id={ids.seating} index="04">
-              Seating
-            </StepTitle>
+            <StepTitle id={ids.seating} index="04">{tr("Seating")}</StepTitle>
             <div role="radiogroup" aria-labelledby={ids.seating} className="mt-[17px] grid gap-[13px] sm:grid-cols-3">
               {SEATING.map((option) => {
                 const checked = seating === option.id;
@@ -195,13 +186,13 @@ export function ReservationExperience() {
                     aria-checked={checked}
                     onClick={() => setSeating(option.id)}
                     className={cn(
-                      "group/seat flex h-16 items-start justify-between rounded-sm border px-4 pt-[13px] text-left transition-[background-color,border-color,translate] duration-300 ease-noir hover:-translate-y-0.5",
+                      "group/seat flex h-16 items-start justify-between rounded-sm border px-4 pt-[13px] text-start transition-[background-color,border-color,translate] duration-300 ease-noir hover:-translate-y-0.5",
                       checked ? "border-caramel bg-cream" : "border-sand bg-surface hover:border-espresso/40",
                     )}
                   >
                     <span>
-                      <span className="block font-sans text-body-xs font-semibold text-strong">{option.label}</span>
-                      <span className="mt-0.5 block font-mono text-[0.5625rem] text-stone">{option.detail}</span>
+                      <span className="block font-sans text-body-xs font-semibold text-strong">{tr(option.label)}</span>
+                      <span className="mt-0.5 block font-mono text-[0.5625rem] text-stone">{tr(option.detail)}</span>
                     </span>
                     <span
                       aria-hidden
@@ -224,12 +215,10 @@ export function ReservationExperience() {
           </fieldset>
 
           <fieldset aria-labelledby={ids.details} className="mt-12">
-            <StepTitle id={ids.details} index="05">
-              Details
-            </StepTitle>
+            <StepTitle id={ids.details} index="05">{tr("Details")}</StepTitle>
             <div className="mt-[17px] grid gap-4 sm:grid-cols-2">
               <Field
-                label="Guest name"
+                label={tr("Guest name")}
                 name="name"
                 autoComplete="name"
                 value={name}
@@ -237,10 +226,10 @@ export function ReservationExperience() {
                   setName(e.target.value);
                   if (errors.name) setErrors((er) => ({ ...er, name: undefined }));
                 }}
-                error={errors.name}
+                error={errors.name && tr(errors.name)}
               />
               <Field
-                label="Email address"
+                label={tr("Email address")}
                 name="email"
                 type="email"
                 autoComplete="email"
@@ -249,24 +238,22 @@ export function ReservationExperience() {
                   setEmail(e.target.value);
                   if (errors.email) setErrors((er) => ({ ...er, email: undefined }));
                 }}
-                error={errors.email}
+                error={errors.email && tr(errors.email)}
               />
             </div>
           </fieldset>
 
           {/* Small screens: the confirm action lives with the form. */}
-          <Button type="submit" variant="accent" fullWidth className="mt-10 lg:hidden">
-            Confirm reservation
-          </Button>
+          <Button type="submit" variant="accent" fullWidth className="mt-10 lg:hidden">{tr("Confirm reservation")}</Button>
         </form>
       </FadeUp>
 
       <aside
-        aria-label="Reservation summary"
+        aria-label={tr("Reservation summary")}
         className="rounded-2xl bg-espresso p-6 text-beige md:p-9 lg:sticky lg:top-[132px]"
       >
         <Eyebrow tone="inverse" className="text-cream">
-          {RESERVATION_VENUE.eyebrow}
+          {tr(RESERVATION_VENUE.eyebrow)}
         </Eyebrow>
         <h2 className="mt-[21px] font-display text-[2.25rem] leading-[1.28]">
           {RESERVATION_VENUE.name[0]}
@@ -276,7 +263,7 @@ export function ReservationExperience() {
         <div className="relative mt-[31px] aspect-[349/219] overflow-hidden rounded-md">
           <Image
             src={RESERVATION_VENUE.image}
-            alt={RESERVATION_VENUE.imageAlt}
+            alt={tr(RESERVATION_VENUE.imageAlt)}
             fill
             priority
             sizes="(min-width: 1024px) 350px, 100vw"
@@ -328,15 +315,12 @@ export function ReservationExperience() {
                   animate="visible"
                 />
               </svg>
-              <p className="font-sans text-body-xs text-cream">
-                Thank you, {name.trim().split(" ")[0]}. Your table for {LONG_DATE.format(date)} at {to12h(time)} is
-                {booking.booked ? "booked" : "requested"}. We look forward to seeing you.
-                {booking.booked && (
+              <p className="font-sans text-body-xs text-cream">{tr(booking.booked ? "Thank you, {name}. Your table for {date} at {time} is booked. We look forward to seeing you." : "Thank you, {name}. Your table for {date} at {time} is requested. We look forward to seeing you.", { name: name.trim().split(" ")[0], date: format.date(date, LONG_DATE), time: format.time(time) })}{booking.booked && (
                   <>
                     <span className="mt-4 flex items-center gap-4">
                       <ReservationQR code={booking.booked.code} className="size-24 shrink-0" />
                       <span className="flex flex-col gap-1">
-                        <span className="font-mono text-micro text-taupe uppercase">Reservation{booking.booked.persisted ? "" : " · demo"}</span>
+                        <span className="font-mono text-micro text-taupe uppercase">{booking.booked.persisted ? tr("Reservation") : tr("Reservation · demo")}</span>
                         <span className="font-mono text-eyebrow tracking-[0.12em] text-beige">{booking.booked.code}</span>
                         <button
                           type="button"
@@ -357,9 +341,7 @@ export function ReservationExperience() {
                               }),
                             )
                           }
-                        >
-                          Add to calendar
-                        </button>
+                        >{tr("Add to calendar")}</button>
                       </span>
                     </span>
                   </>
@@ -374,18 +356,16 @@ export function ReservationExperience() {
                 fullWidth
                 className="mt-12 hidden lg:inline-flex"
                 onClick={() => formRef.current?.requestSubmit()}
-              >
-                Confirm reservation
-              </Button>
+              >{tr("Confirm reservation")}</Button>
             </m.div>
           )}
         </AnimatePresence>
         {booking.error && (
           <p role="alert" className="mt-4 font-sans text-body-xs text-caramel-glow">
-            {booking.error}
+            {tr(booking.error)}
           </p>
         )}
-        <p className="mt-9 text-center font-mono text-micro text-taupe uppercase">{RESERVATION_VENUE.note}</p>
+        <p className="mt-9 text-center font-mono text-micro text-taupe uppercase">{tr(RESERVATION_VENUE.note)}</p>
       </aside>
     </div>
   );

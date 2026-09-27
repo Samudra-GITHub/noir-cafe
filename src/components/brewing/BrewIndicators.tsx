@@ -5,6 +5,7 @@ import { RoastMeter, type RoastLevel } from "@/components/ui";
 import { GRIND_RANGE, TEMP_RANGE } from "@/data/brewing";
 import { useMotionSafe } from "@/hooks/useMotionSafe";
 import { ease, duration } from "@/lib/motion";
+import { useI18n } from "@/i18n/client";
 
 const pct = (value: number, min: number, max: number) =>
   Math.min(100, Math.max(0, ((value - min) / (max - min)) * 100));
@@ -41,7 +42,7 @@ function Scale({
       <div className="relative mt-3 h-px bg-sand">
         {fill && (
           <m.span
-            className="absolute inset-y-0 left-0 bg-caramel"
+            className="absolute inset-y-0 inset-s-0 bg-caramel"
             initial={{ width: safe ? "0%" : `${percent}%` }}
             animate={{ width: `${percent}%` }}
             transition={ease(duration.slow)}
@@ -65,26 +66,28 @@ function Scale({
 
 /** Grind size — fine (espresso) to coarse (French press). */
 export function GrindIndicator({ microns }: { microns: number }) {
+  const { tr } = useI18n();
   return (
     <Scale
-      label="Grind size"
+      label={tr("Grind size")}
       value={`${microns} µm`}
       percent={pct(microns, GRIND_RANGE.min, GRIND_RANGE.max)}
-      ends={["Fine", "Coarse"]}
-      valueText={`${microns} microns`}
+      ends={[tr("Fine"), tr("Coarse")]}
+      valueText={tr("{n} microns", { n: microns })}
     />
   );
 }
 
 /** Water temperature — a filled caramel rule across 85–96°C. */
 export function TemperatureIndicator({ celsius }: { celsius: number }) {
+  const { tr } = useI18n();
   return (
     <Scale
-      label="Water temperature"
+      label={tr("Water temperature")}
       value={`${celsius}°C`}
       percent={pct(celsius, TEMP_RANGE.min, TEMP_RANGE.max)}
       ends={[`${TEMP_RANGE.min}°C`, `${TEMP_RANGE.max}°C`]}
-      valueText={`${celsius} degrees Celsius`}
+      valueText={tr("{n} degrees Celsius", { n: celsius })}
       fill
     />
   );
@@ -92,10 +95,11 @@ export function TemperatureIndicator({ celsius }: { celsius: number }) {
 
 /** Roast recommendation — meter plus a sentence on why it suits the method. */
 export function RoastRecommendation({ roast, note }: { roast: RoastLevel; note: string }) {
+  const { tr } = useI18n();
   return (
     <div>
       <div className="flex items-baseline justify-between">
-        <span className="font-mono text-micro text-stone uppercase">Recommended roast</span>
+        <span className="font-mono text-micro text-stone uppercase">{tr("Recommended roast")}</span>
         <RoastMeter roast={roast} size="md" label />
       </div>
       <p className="mt-3 font-sans text-body-xs text-stone">{note}</p>

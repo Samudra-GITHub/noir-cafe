@@ -17,6 +17,7 @@ import { BrewTimer } from "./BrewTimer";
 import { MobileBrewStory } from "./MobileBrewStory";
 import { feedback } from "@/lib/feedback";
 import { GrindIndicator, RoastRecommendation, TemperatureIndicator } from "./BrewIndicators";
+import { useI18n } from "@/i18n/client";
 
 const SAVED_KEY = "noir:saved-recipes";
 
@@ -60,6 +61,7 @@ function useSavedRecipes() {
  * methods. Opening a method makes it the live recipe.
  */
 export function BrewingLab() {
+  const { tr } = useI18n();
   const [methodId, setMethodId] = useState(BREW_METHODS[0].id);
   const [openId, setOpenId] = useState<string | null>(BREW_METHODS[0].id);
   const [activeStep, setActiveStep] = useState(3);
@@ -87,7 +89,7 @@ export function BrewingLab() {
         <hr className="mt-16 h-px border-0 bg-sand lg:mt-[96px]" />
         <Stagger
           as="ol"
-          aria-label="Five transformations"
+          aria-label={tr("Five transformations")}
           className="mt-11 grid gap-6 sm:grid-cols-2 lg:grid-cols-5"
         >
           {LAB_STEPS.map((step, i) => {
@@ -99,7 +101,7 @@ export function BrewingLab() {
                   aria-pressed={active}
                   onClick={() => setActiveStep(i)}
                   className={cn(
-                    "group/step flex min-h-[210px] w-full flex-col sm:h-[300px] rounded-md border p-6 text-left transition-[background-color,border-color,translate,box-shadow] duration-500 ease-noir",
+                    "group/step flex min-h-[210px] w-full flex-col sm:h-[300px] rounded-md border p-6 text-start transition-[background-color,border-color,translate,box-shadow] duration-500 ease-noir",
                     "hover:-translate-y-1 hover:shadow-float",
                     active ? "border-caramel bg-cream" : "border-sand bg-surface hover:border-espresso/30",
                   )}
@@ -114,27 +116,23 @@ export function BrewingLab() {
                     />
                     <span className="font-mono text-eyebrow text-caramel-ink">{String(i + 1).padStart(2, "0")}</span>
                   </span>
-                  <span className="mt-[21px] font-display text-heading-md leading-[1.15] text-strong">{step.title}</span>
-                  <span className="mt-[18px] font-mono text-[0.5625rem] text-stone">{step.spec}</span>
-                  <span className="mt-auto font-sans text-[0.75rem] leading-[19px] text-strong">{step.text}</span>
+                  <span className="mt-[21px] font-display text-heading-md leading-[1.15] text-strong">{tr(step.title)}</span>
+                  <span className="mt-[18px] font-mono text-[0.5625rem] text-stone">{tr(step.spec)}</span>
+                  <span className="mt-auto font-sans text-[0.75rem] leading-[19px] text-strong">{tr(step.text)}</span>
                 </button>
               </StaggerItem>
             );
           })}
         </Stagger>
-        <p className="mt-[58px] font-mono text-eyebrow text-stone uppercase">
-          Variables logged daily · Recipe v1.8
-        </p>
+        <p className="mt-[58px] font-mono text-eyebrow text-stone uppercase">{tr("Variables logged daily · Recipe v1.8")}</p>
       </div>
 
       <MobileBrewStory />
 
       <section aria-labelledby="methods-title" className="container-page mt-24 hidden md:block lg:mt-[120px]">
         <FadeUp className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
-          <SectionIntro id="methods-title" eyebrow="Five methods" gap="mt-[15px]" title="Choose your ritual." />
-          <p className="max-w-[380px] font-sans text-body-sm leading-[26px] text-stone">
-            Each method changes the live recipe above. Start the timer and follow the pours in real time.
-          </p>
+          <SectionIntro id="methods-title" eyebrow={tr("Five methods")} gap="mt-[15px]" title={tr("Choose your ritual.")} />
+          <p className="max-w-[380px] font-sans text-body-sm leading-[26px] text-stone">{tr("Each method changes the live recipe above. Start the timer and follow the pours in real time.")}</p>
         </FadeUp>
 
         <ul className="mt-12 border-t border-sand">
@@ -155,14 +153,15 @@ export function BrewingLab() {
 }
 
 function RecipePanel({ method }: { method: BrewMethod }) {
+  const { tr } = useI18n();
   const safe = useMotionSafe();
   const { saved, toggle } = useSavedRecipes();
   const isSaved = saved.includes(method.id);
   const specs = [
-    { label: "Dose", value: method.dose },
-    { label: "Water", value: method.water },
-    { label: "Temperature", value: `${method.temperatureC}°C` },
-    { label: "Total time", value: formatClock(method.totalSeconds) },
+    { label: tr("Dose"), value: method.dose },
+    { label: tr("Water"), value: tr(method.water) },
+    { label: tr("Temperature"), value: `${method.temperatureC}°C` },
+    { label: tr("Total time"), value: formatClock(method.totalSeconds) },
   ];
 
   return (
@@ -180,7 +179,7 @@ function RecipePanel({ method }: { method: BrewMethod }) {
           transition={ease(0.45)}
           className="flex flex-1 flex-col"
         >
-          <Eyebrow tone="accent-inverse">Live recipe · {method.code}</Eyebrow>
+          <Eyebrow tone="accent-inverse">{tr("Live recipe ·")}{" "}{tr(method.code)}</Eyebrow>
           <h2 id="recipe-title" className="mt-1.5 font-display text-heading-xl leading-none">
             {method.coffee[0]}
             <br />
@@ -206,7 +205,7 @@ function RecipePanel({ method }: { method: BrewMethod }) {
         }}
         className="mt-10 lg:mt-16"
       >
-        {isSaved ? "Recipe saved" : "Save recipe"}
+        {isSaved ? tr("Recipe saved") : tr("Save recipe")}
       </Button>
     </section>
   );
@@ -225,6 +224,7 @@ function MethodRow({
   live: boolean;
   onToggle: () => void;
 }) {
+  const { tr } = useI18n();
   const safe = useMotionSafe();
   const panelId = `method-${method.id}`;
   return (
@@ -235,15 +235,15 @@ function MethodRow({
           aria-expanded={open}
           aria-controls={panelId}
           onClick={onToggle}
-          className="group/method grid w-full grid-cols-[40px_1fr_auto] items-center gap-4 py-6 text-left md:grid-cols-[72px_1fr_160px_120px_auto]"
+          className="group/method grid w-full grid-cols-[40px_1fr_auto] items-center gap-4 py-6 text-start md:grid-cols-[72px_1fr_160px_120px_auto]"
         >
           <span className="font-mono text-eyebrow text-caramel-ink">{String(index + 1).padStart(2, "0")}</span>
           <span className="font-display text-heading-sm leading-[1.2] text-strong transition-transform duration-500 ease-noir group-hover/method:translate-x-1">
-            {method.method}
+            {tr(method.method)}
           </span>
-          <span className="hidden font-mono text-eyebrow text-stone uppercase md:block">{method.code}</span>
+          <span className="hidden font-mono text-eyebrow text-stone uppercase md:block">{tr(method.code)}</span>
           <span className="hidden font-mono text-mono-sm text-stone md:block">
-            {live ? <span className="text-caramel-ink">Live recipe</span> : formatClock(method.totalSeconds)}
+            {live ? <span className="text-caramel-ink">{tr("Live recipe")}</span> : formatClock(method.totalSeconds)}
           </span>
           <span
             aria-hidden
@@ -258,7 +258,7 @@ function MethodRow({
           <m.div
             id={panelId}
             role="region"
-            aria-label={`${method.method} guide`}
+            aria-label={tr("{method} guide", { method: tr(method.method) })}
             initial={safe ? { height: 0, opacity: 0 } : false}
             animate={{ height: "auto", opacity: 1 }}
             exit={safe ? { height: 0, opacity: 0 } : undefined}
@@ -271,7 +271,7 @@ function MethodRow({
               <div className="flex flex-col gap-10">
                 <GrindIndicator microns={method.grindMicrons} />
                 <TemperatureIndicator celsius={method.temperatureC} />
-                <RoastRecommendation roast={method.roast} note={method.roastNote} />
+                <RoastRecommendation roast={method.roast} note={tr(method.roastNote)} />
               </div>
             </div>
           </m.div>

@@ -1,4 +1,7 @@
+"use client";
+
 import { cn } from "@/lib/cn";
+import { useI18n } from "@/i18n/client";
 
 export type RoastLevel = "Light" | "Medium" | "Dark";
 
@@ -21,10 +24,11 @@ export function RoastMeter({
   className?: string;
 }) {
   const level = LEVEL[roast];
+  const { tr } = useI18n();
   return (
     <span
       role="img"
-      aria-label={`${roast} roast, ${level} of 3`}
+      aria-label={tr("{roast} roast, {level} of 3", { roast: tr(roast), level })}
       className={cn("inline-flex items-center gap-1.5", className)}
     >
       <span className={cn("inline-flex items-center", size === "sm" ? "gap-[3px]" : "gap-1")}>
@@ -45,7 +49,7 @@ export function RoastMeter({
       </span>
       {label && (
         <span aria-hidden className="font-mono text-micro text-stone uppercase">
-          {roast}
+          {tr(roast)}
         </span>
       )}
     </span>

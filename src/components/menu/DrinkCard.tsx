@@ -1,9 +1,10 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
+import Link from "@/i18n/link";
 import { m } from "framer-motion";
 import { Price, RoastMeter } from "@/components/ui";
+import { useI18n } from "@/i18n/client";
 import type { Drink } from "@/data/types";
 import { hoverLift } from "@/lib/motion";
 import { useMotionSafe } from "@/hooks/useMotionSafe";
@@ -27,6 +28,7 @@ export function DrinkCard({
   className?: string;
 }) {
   const safe = useMotionSafe();
+  const { tr } = useI18n();
 
   return (
     <m.article
@@ -40,7 +42,7 @@ export function DrinkCard({
       <div data-cursor="view" className="relative aspect-[414/310] overflow-hidden bg-cream">
         <Image
           src={drink.image}
-          alt={drink.imageAlt}
+          alt={tr(drink.imageAlt)}
           fill
           priority={priority}
           sizes="(min-width: 1280px) 414px, (min-width: 768px) 50vw, 100vw"
@@ -61,17 +63,17 @@ export function DrinkCard({
           <Price value={drink.price} size="md" tone="accent" />
         </div>
 
-        <p className="mt-5 font-mono text-eyebrow text-stone uppercase">{drink.origin}</p>
+        <p className="mt-5 font-mono text-eyebrow text-stone uppercase">{tr(drink.origin)}</p>
 
         <hr className="mt-[18px] h-px border-0 bg-sand" />
 
         <dl className="flex justify-between gap-4 pt-4">
           {[
-            { label: "Roast", value: drink.roast, extra: <RoastMeter roast={drink.roast} /> },
-            { label: "Flavor", value: drink.flavor },
-            { label: "Brew", value: drink.brewTime },
+            { label: tr("Roast"), value: tr(drink.roast), extra: <RoastMeter roast={drink.roast} /> },
+            { label: tr("Flavor"), value: tr(drink.flavor) },
+            { label: tr("Brew"), value: drink.brewTime },
           ].map((spec, i) => (
-            <div key={spec.label} className={cn("flex flex-col gap-0.5", i === 2 && "items-end text-right")}>
+            <div key={spec.label} className={cn("flex flex-col gap-0.5", i === 2 && "items-end text-end")}>
               <dt className="flex items-center gap-1.5 font-mono text-micro text-stone uppercase">
                 {spec.label}
                 {spec.extra}

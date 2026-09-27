@@ -74,7 +74,7 @@ export function Text({
   return <Tag className={cn("font-sans", textSizes[size], textTones[tone], className)} {...props} />;
 }
 
-type MonoTone = "accent" | "accent-inverse" | "strong" | "muted" | "inverse" | "inverse-subtle";
+export type MonoTone = "accent" | "accent-inverse" | "strong" | "muted" | "inverse" | "inverse-subtle";
 
 const monoTones: Record<MonoTone, string> = {
   accent: "text-caramel-ink",
@@ -95,7 +95,7 @@ export function Eyebrow({
   return <Tag className={cn("type-eyebrow", monoTones[tone], className)} {...props} />;
 }
 
-type MonoSize = "md" | "sm" | "xs" | "micro";
+export type MonoSize = "md" | "sm" | "xs" | "micro";
 
 const monoSizes: Record<MonoSize, string> = {
   md: "text-mono-md",  // 13 · card price
@@ -119,24 +119,4 @@ export function Mono({
   return <Tag className={cn("font-mono", monoSizes[size], monoTones[tone], className)} {...props} />;
 }
 
-/** Price — Plex Mono, fixed two decimals ("$6.50"). Pass `whole` for shop prices ("$22"). */
-export function Price({
-  value,
-  whole,
-  size = "sm",
-  tone = "strong",
-  className,
-}: {
-  value: number;
-  whole?: boolean;
-  size?: MonoSize;
-  tone?: MonoTone;
-  className?: string;
-}) {
-  const formatted = whole ? `$${Math.round(value)}` : `$${value.toFixed(2)}`;
-  return (
-    <Mono size={size} tone={tone} className={cn("tabular-nums", className)}>
-      {formatted}
-    </Mono>
-  );
-}
+export { Price } from "./Price";

@@ -1,5 +1,6 @@
 // Accessibility interactions (focus management, reflow, text spacing, form errors, reduced motion)
 // — against a running production server: node scripts/a11y-interactions.mjs
+import puppeteer from "puppeteer-core";
 const BASE = process.env.BASE ?? "http://localhost:3100";
 const ROUTES = ["/", "/menu", "/story", "/brewing-lab", "/brewing-lab/studio", "/cup", "/reservation", "/locations", "/shop", "/concierge", "/order", "/offline"];
 const results = [];

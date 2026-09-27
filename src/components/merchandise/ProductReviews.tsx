@@ -3,12 +3,12 @@
 import { useEffect, useId, useState } from "react";
 import { Button, Field } from "@/components/ui";
 import { cn } from "@/lib/cn";
+import { useFormat, useI18n } from "@/i18n/client";
 
 type Review = { id: string; name: string; rating: number; body: string; createdAt: string };
 type Summary = { reviews: Review[]; count: number; average: number | null };
 
 const STAR = "M10 1.6l2.47 5.3 5.8.68-4.29 3.97 1.14 5.73L10 14.4l-5.12 2.88 1.14-5.73L1.73 7.58l5.8-.68z";
-const DATE = new Intl.DateTimeFormat("en-US", { month: "short", year: "numeric" });
 
 function Stars({ value, size = 14 }: { value: number; size?: number }) {
   return (
@@ -35,6 +35,8 @@ const ERRORS: Record<string, string> = {
  * held for a quick look from the café before they appear.
  */
 export function ProductReviews({ product, name }: { product: string; name: string }) {
+  const { tr } = useI18n();
+  const format = useFormat();
   const [data, setData] = useState<Summary | null>(null);
   const [writing, setWriting] = useState(false);
   const [rating, setRating] = useState(0);
@@ -75,23 +77,21 @@ export function ProductReviews({ product, name }: { product: string; name: strin
     <section aria-labelledby={ids.title}>
       <div className="flex items-end justify-between gap-4">
         <div>
-          <h4 id={ids.title} className="font-display text-[1.75rem] text-strong">
-            Reviews
-          </h4>
+          <h4 id={ids.title} className="font-display text-[1.75rem] text-strong">{tr("Reviews")}</h4>
           {data?.count ? (
             <p className="mt-1 flex items-center gap-2 font-sans text-body-xs text-stone">
               <Stars value={data.average ?? 0} />
               <span>
-                {data.average} out of 5 · {data.count} {data.count === 1 ? "review" : "reviews"}
+                {data.count === 1 ? tr("{average} out of 5 · 1 review", { average: data.average ?? 0 }) : tr("{average} out of 5 · {n} reviews", { average: data.average ?? 0, n: data.count })}
               </span>
             </p>
           ) : (
-            <p className="mt-1 font-sans text-body-xs text-stone">{data ? `No reviews of the ${name} yet.` : "Loading reviews…"}</p>
+            <p className="mt-1 font-sans text-body-xs text-stone">{data ? tr("No reviews of the {name} yet.", { name: tr(name) }) : tr("Loading reviews…")}</p>
           )}
         </div>
         {!writing && status !== "sent" && (
           <button type="button" onClick={() => setWriting(true)} className="inline-flex min-h-11 items-center font-mono text-micro text-caramel-ink uppercase underline decoration-caramel/40 underline-offset-4">
-            {data?.count ? "Write a review" : "Be the first"}
+            {data?.count ? tr("Write a review") : tr("Be the first")}
           </button>
         )}
       </div>
@@ -102,9 +102,9 @@ export function ProductReviews({ product, name }: { product: string; name: strin
             <li key={r.id} className="border-b border-sand py-4">
               <div className="flex items-center justify-between gap-4">
                 <span className="font-sans text-body-sm font-semibold text-strong">{r.name}</span>
-                <span className="font-mono text-micro text-stone uppercase">{DATE.format(new Date(r.createdAt))}</span>
+                <span className="font-mono text-micro text-stone uppercase">{format.date(new Date(r.createdAt), { month: "short", year: "numeric" })}</span>
               </div>
-              <span className="mt-1 block" role="img" aria-label={`${r.rating} out of 5`}>
+              <span className="mt-1 block" role="img" aria-label={tr("{n} out of 5", { n: r.rating })}>
                 <Stars value={r.rating} />
               </span>
               <p className="mt-2 font-sans text-body-sm text-warm">{r.body}</p>
@@ -114,17 +114,13 @@ export function ProductReviews({ product, name }: { product: string; name: strin
       ) : null}
 
       {status === "sent" ? (
-        <p role="status" className="mt-4 rounded-xl bg-cream p-4 font-sans text-body-sm text-warm">
-          Thank you — reviews appear after a quick look from the café.
-          {!stored && " (Demo mode: this review wasn't stored — reviews need Supabase.)"}
+        <p role="status" className="mt-4 rounded-xl bg-cream p-4 font-sans text-body-sm text-warm">{tr("Thank you — reviews appear after a quick look from the café.")}{!stored && " "}{!stored && tr("(Demo mode: this review wasn't stored — reviews need Supabase.)")}
         </p>
       ) : (
         writing && (
           <form onSubmit={(e) => void submit(e)} noValidate className="mt-4 flex flex-col gap-5 rounded-xl border border-sand p-5">
             <fieldset>
-              <legend id={ids.rating} className="font-mono text-micro text-stone uppercase">
-                Your rating
-              </legend>
+              <legend id={ids.rating} className="font-mono text-micro text-stone uppercase">{tr("Your rating")}</legend>
               <div
                 role="radiogroup"
                 aria-labelledby={ids.rating}
@@ -144,7 +140,7 @@ export function ProductReviews({ product, name }: { product: string; name: strin
                     type="button"
                     role="radio"
                     aria-checked={rating === i}
-                    aria-label={`${i} ${i === 1 ? "star" : "stars"}`}
+                    aria-label={i === 1 ? tr("1 star") : tr("{n} stars", { n: i })}
                     tabIndex={rating === i || (!rating && i === 1) ? 0 : -1}
                     data-star={i}
                     onClick={() => setRating(i)}
@@ -157,11 +153,9 @@ export function ProductReviews({ product, name }: { product: string; name: strin
                 ))}
               </div>
             </fieldset>
-            <Field label="Your name" autoComplete="given-name" value={author} onChange={(e) => setAuthor(e.target.value)} maxLength={60} />
+            <Field label={tr("Your name")} autoComplete="given-name" value={author} onChange={(e) => setAuthor(e.target.value)} maxLength={60} />
             <div className="flex flex-col gap-1.5">
-              <label htmlFor={ids.body} className="font-mono text-micro text-stone uppercase">
-                Your review
-              </label>
+              <label htmlFor={ids.body} className="font-mono text-micro text-stone uppercase">{tr("Your review")}</label>
               <textarea
                 id={ids.body}
                 value={body}
@@ -173,11 +167,11 @@ export function ProductReviews({ product, name }: { product: string; name: strin
             </div>
             {error && (
               <p role="alert" className="font-sans text-body-sm text-caramel-ink">
-                {error}
+                {tr(error)}
               </p>
             )}
             <Button type="submit" disabled={status === "sending"} className="self-start">
-              {status === "sending" ? "Sending…" : "Send review"}
+              {status === "sending" ? tr("Sending…") : tr("Send review")}
             </Button>
           </form>
         )

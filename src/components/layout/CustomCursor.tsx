@@ -111,7 +111,7 @@ export function CustomCursor() {
     <div aria-hidden className="pointer-events-none fixed inset-0 z-[150] mix-blend-normal">
       {/* Ring */}
       <m.div
-        className="absolute top-0 left-0"
+        className="absolute top-0 inset-s-0"
         style={{ x: rx, y: ry }}
       >
         <div
@@ -143,7 +143,7 @@ export function CustomCursor() {
       </m.div>
 
       {/* Bean */}
-      <m.div className="absolute top-0 left-0" style={{ x: sx, y: sy }}>
+      <m.div className="absolute top-0 inset-s-0" style={{ x: sx, y: sy }}>
         <svg
           viewBox="0 0 20 26"
           className={cn(

@@ -3,6 +3,7 @@
 import { useRef, useState } from "react";
 import Image from "next/image";
 import { cn } from "@/lib/cn";
+import { useI18n } from "@/i18n/client";
 
 const MAX = 3;
 
@@ -26,6 +27,7 @@ export function ZoomableImage({
   imageClassName?: string;
   priority?: boolean;
 }) {
+  const { tr } = useI18n();
   const [view, setView] = useState({ scale: 1, x: 0, y: 0 });
   const pointers = useRef(new Map<number, { x: number; y: number }>());
   const pinch = useRef<{ dist: number; scale: number } | null>(null);
@@ -91,7 +93,7 @@ export function ZoomableImage({
       >
         <Image src={src} alt={alt} fill sizes={sizes} priority={priority} draggable={false} className={cn("object-cover select-none", imageClassName)} />
       </div>
-      <span className="sr-only">Pinch or double-tap to zoom.</span>
+      <span className="sr-only">{tr("Pinch or double-tap to zoom.")}</span>
     </div>
   );
 }

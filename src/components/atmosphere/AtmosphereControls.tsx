@@ -6,8 +6,7 @@ import { setHapticsEnabled, useHaptics } from "@/lib/haptics";
 import { setSoundEnabled, useSoundEnabled } from "@/lib/sound";
 import { cn } from "@/lib/cn";
 import { PushSwitch } from "@/components/pwa/PushSwitch";
-
-const LABEL: Record<LightChoice, string> = { auto: "Auto", morning: "Morning", afternoon: "Afternoon", evening: "Evening" };
+import { useI18n } from "@/i18n/client";
 
 /**
  * Atmosphere controls for the phone menu sheet: the light (follows New York's
@@ -18,6 +17,9 @@ export function AtmosphereControls({ className }: { className?: string }) {
   const { light, rain, rainPref, weatherRain, daypart } = useAtmosphere();
   const sound = useSoundEnabled();
   const haptics = useHaptics();
+  const { t } = useI18n();
+  const a = t.atmosphere;
+  const LABEL: Record<LightChoice, string> = { auto: a.auto, morning: a.morning, afternoon: a.afternoon, evening: a.evening };
   const choices: LightChoice[] = ["auto", ...DAYPARTS];
 
   // Radio group keyboard model: one tab stop, arrows move and select.
@@ -32,9 +34,9 @@ export function AtmosphereControls({ className }: { className?: string }) {
 
   return (
     <div className={cn("flex flex-col gap-4", className)}>
-      <div role="radiogroup" aria-label="Light" onKeyDown={onKeyDown} className="flex flex-col gap-2">
+      <div role="radiogroup" aria-label={a.light} onKeyDown={onKeyDown} className="flex flex-col gap-2">
         <span className="font-mono text-eyebrow text-cream uppercase">
-          Light{light === "auto" ? ` · ${LABEL[daypart]} in New York` : ""}
+          {a.light}{light === "auto" ? ` · ${a.inNewYork.replace("{daypart}", LABEL[daypart])}` : ""}
         </span>
         <div className="flex flex-wrap gap-2">
           {choices.map((choice) => (
@@ -61,19 +63,19 @@ export function AtmosphereControls({ className }: { className?: string }) {
         <Switch
           checked={rain}
           onChange={setRain}
-          label="Rain mode"
-          description={rainPref === "auto" ? (weatherRain ? "Raining in New York now" : "Follows New York’s weather") : "Set by you"}
+          label={a.rain}
+          description={rainPref === "auto" ? (weatherRain ? a.rainingNow : a.followsWeather) : a.setByYou}
         />
         {rainPref !== "auto" && (
           <button type="button" onClick={setRainAuto} className="self-start font-mono text-micro text-caramel-glow uppercase underline underline-offset-4">
-            Follow the weather
+            {a.followWeather}
           </button>
         )}
       </div>
-      <Switch checked={sound} onChange={(on) => void setSoundEnabled(on)} label="Café sound" description="Room tone, felt piano, the bar at work" />
+      <Switch checked={sound} onChange={(on) => void setSoundEnabled(on)} label={a.sound} description={a.soundDescription} />
       <PushSwitch />
       {haptics.supported && (
-        <Switch checked={haptics.enabled} onChange={setHapticsEnabled} label="Haptics" description="A light tap on presses and swipes" />
+        <Switch checked={haptics.enabled} onChange={setHapticsEnabled} label={a.haptics} description={a.hapticsDescription} />
       )}
     </div>
   );

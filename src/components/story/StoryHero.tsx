@@ -6,6 +6,7 @@ import { m, useScroll, useTransform } from "framer-motion";
 import { Eyebrow } from "@/components/ui";
 import { FilmGrain } from "@/components/hero/HeroAtmosphere";
 import { STORY_HERO } from "@/data/story";
+import { useI18n } from "@/i18n/client";
 import { useMotionSafe } from "@/hooks/useMotionSafe";
 import { HERO_DELAYS } from "@/lib/motion";
 
@@ -20,6 +21,7 @@ export function StoryHero() {
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
   const y = useTransform(scrollYProgress, [0, 1], safe ? [0, 140] : [0, 0]);
   const scale = useTransform(scrollYProgress, [0, 1], safe ? [1.04, 1.1] : [1.04, 1.04]);
+  const { tr } = useI18n();
   const step = (i: number) => ({ className: "hero-in", style: { "--hero-delay": HERO_DELAYS[i] } as React.CSSProperties });
 
   return (
@@ -32,7 +34,7 @@ export function StoryHero() {
       <m.div className="absolute inset-0 -z-10" style={{ y, scale }}>
         <Image
           src={STORY_HERO.image}
-          alt={STORY_HERO.imageAlt}
+          alt={tr(STORY_HERO.imageAlt)}
           fill
           priority
           sizes="100vw"
@@ -51,7 +53,7 @@ export function StoryHero() {
           <div>
             <div {...step(0)}>
               <Eyebrow tone="inverse" className="text-cream">
-                {STORY_HERO.eyebrow}
+                {tr(STORY_HERO.eyebrow)}
               </Eyebrow>
             </div>
             <h1
@@ -60,18 +62,18 @@ export function StoryHero() {
             >
               <span className="-mb-[0.14em] block overflow-hidden pb-[0.14em]">
                 <span {...step(1)} className="hero-line block">
-                  {STORY_HERO.title[0]}
+                  {tr(STORY_HERO.title[0])}
                 </span>
               </span>
               <span className="-mb-[0.14em] block overflow-hidden pb-[0.14em]">
                 <span {...step(2)} className="hero-line block">
-                  {STORY_HERO.title[1]}
+                  {tr(STORY_HERO.title[1])}
                 </span>
               </span>
             </h1>
           </div>
           <p {...step(3)} className="hero-in font-mono text-eyebrow text-cream uppercase lg:mb-1">
-            {STORY_HERO.meta}
+            {tr(STORY_HERO.meta)}
           </p>
         </div>
       </div>

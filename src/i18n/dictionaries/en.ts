@@ -93,7 +93,6 @@ export const en = {
 
   site: {
     hours: "Mon–Sun · 07:00–20:00",
-    tagline: "Specialty coffee · New York",
   },
 
   footer: {
@@ -183,11 +182,6 @@ export const en = {
     },
   },
 
-  headers: {
-    studio: { eyebrow: "Brewing Lab · Studio", title: "Recipe studio" },
-    concierge: { eyebrow: "Concierge", title: "Ask the barista" },
-    order: { eyebrow: "Order ahead", title: "Ready when you are." },
-  },
 
   menu: {
     extras: "Oat +{oat} · Extra shot +{shot} · Decaf available",
@@ -203,4 +197,4 @@ export const en = {
 };
 
 type Widen<T> = T extends string ? string : { [K in keyof T]: Widen<T[K]> };
-export type Dictionary = Widen<typeof en>;
+export type CoreDictionary = Widen<typeof en>;

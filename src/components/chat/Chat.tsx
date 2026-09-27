@@ -1,10 +1,11 @@
 "use client";
 
 import { Fragment, useEffect, useId, useRef, useState } from "react";
-import Link from "next/link";
+import Link from "@/i18n/link";
 import { ArrowUp, Square } from "lucide-react";
 import { feedback } from "@/lib/feedback";
 import { cn } from "@/lib/cn";
+import { useI18n } from "@/i18n/client";
 
 export type ChatMessage = { id: string; role: "user" | "assistant"; content: string; error?: boolean };
 
@@ -38,7 +39,7 @@ function Rich({ text }: { text: string }) {
         const lines = block.split("\n");
         if (lines.every((l) => /^\s*[-•]\s+/.test(l)))
           return (
-            <ul key={b} className="mt-2 flex list-disc flex-col gap-1 pl-5 first:mt-0">
+            <ul key={b} className="mt-2 flex list-disc flex-col gap-1 ps-5 first:mt-0">
               {lines.map((l, i) => (
                 <li key={i}>
                   <Inline text={l.replace(/^\s*[-•]\s+/, "")} />
@@ -75,7 +76,8 @@ export function Chat({
   intro,
   offline,
   suggestions = [],
-  placeholder = "Type a message",
+  placeholder,
+  locale,
   renderExtras,
   className,
 }: {
@@ -88,10 +90,14 @@ export function Chat({
   offline: React.ReactNode;
   suggestions?: string[];
   placeholder?: string;
+  /** The visitor's language — the model replies in it. */
+  locale?: string;
   /** Extra UI under an assistant reply (e.g. cards for items it mentions). */
   renderExtras?: (message: ChatMessage) => React.ReactNode;
   className?: string;
 }) {
+  const { tr } = useI18n();
+  const hint = placeholder ?? tr("Type a message");
   const [status, setStatus] = useState<Status>("checking");
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [draft, setDraft] = useState("");
@@ -139,7 +145,7 @@ export function Chat({
       const res = await fetch(endpoint, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ messages: history.map(({ role, content }) => ({ role, content })) }),
+        body: JSON.stringify({ messages: history.map(({ role, content }) => ({ role, content })), locale }),
         signal: controller.signal,
       });
       if (res.status === 503) {
@@ -148,7 +154,7 @@ export function Chat({
         return;
       }
       if (!res.ok || !res.body) {
-        const why = res.status === 429 ? "So many questions at once — give me a minute and ask again." : "I couldn't reach the bar just now. Please try again in a moment.";
+        const why = res.status === 429 ? tr("So many questions at once — give me a minute and ask again.") : tr("I couldn't reach the bar just now. Please try again in a moment.");
         update(reply.id, (m) => ({ ...m, content: why, error: true }));
         return;
       }
@@ -164,9 +170,9 @@ export function Chat({
       setAnnouncement(full);
     } catch (error) {
       if ((error as Error).name === "AbortError") {
-        update(reply.id, (m) => (m.content ? m : { ...m, content: "Stopped.", error: true }));
+        update(reply.id, (m) => (m.content ? m : { ...m, content: tr("Stopped."), error: true }));
       } else {
-        update(reply.id, (m) => ({ ...m, content: "The connection dropped. Please try again.", error: true }));
+        update(reply.id, (m) => ({ ...m, content: tr("The connection dropped. Please try again."), error: true }));
       }
     } finally {
       setStreaming(false);
@@ -194,13 +200,13 @@ export function Chat({
         <div className="rounded-xl bg-cream p-5 font-sans text-body-sm leading-[24px] text-warm">{status === "offline" ? offline : intro}</div>
         {messages.map((m) =>
           m.role === "user" ? (
-            <div key={m.id} className="ml-auto max-w-[85%] rounded-2xl rounded-br-md bg-espresso px-4 py-3 font-sans text-body-sm leading-[22px] text-beige">
+            <div key={m.id} className="ms-auto max-w-[85%] rounded-2xl rounded-ee-md bg-espresso px-4 py-3 font-sans text-body-sm leading-[22px] text-beige">
               {m.content}
             </div>
           ) : (
             <div key={m.id} className="max-w-[92%]">
               <div className={cn("font-sans text-body-sm leading-[24px]", m.error ? "text-stone italic" : "text-warm")}>
-                {m.content ? <Rich text={m.content} /> : <span className="inline-flex gap-1" aria-label="Writing">{[0, 1, 2].map((i) => <span key={i} className="size-1.5 rounded-full bg-caramel motion-safe:animate-pulse" style={{ animationDelay: `${i * 160}ms` }} />)}</span>}
+                {m.content ? <Rich text={m.content} /> : <span className="inline-flex gap-1" aria-label={tr("Writing")}>{[0, 1, 2].map((i) => <span key={i} className="size-1.5 rounded-full bg-caramel motion-safe:animate-pulse" style={{ animationDelay: `${i * 160}ms` }} />)}</span>}
               </div>
               {!m.error && m.content && !(streaming && m.id === messages[messages.length - 1].id) && renderExtras?.(m)}
             </div>
@@ -210,7 +216,7 @@ export function Chat({
       <p className="sr-only" aria-live="polite">{announcement}</p>
 
       {empty && status === "ready" && suggestions.length > 0 && (
-        <ul aria-label="Suggestions" className="swipe-rail -mx-[var(--gutter)] gap-2 px-[var(--gutter)] pb-3 md:mx-0 md:flex-wrap md:px-0 [&>*]:snap-start">
+        <ul aria-label={tr("Suggestions")} className="swipe-rail -mx-[var(--gutter)] gap-2 px-[var(--gutter)] pb-3 md:mx-0 md:flex-wrap md:px-0 [&>*]:snap-start">
           {suggestions.map((s) => (
             <li key={s}>
               <button
@@ -233,7 +239,7 @@ export function Chat({
         className="flex items-end gap-2 rounded-[26px] border border-sand bg-surface p-2 focus-within:border-espresso"
       >
         <label htmlFor={inputId} className="sr-only">
-          {placeholder}
+          {hint}
         </label>
         <textarea
           id={inputId}
@@ -246,16 +252,16 @@ export function Chat({
             }
           }}
           rows={1}
-          placeholder={status === "offline" ? "The concierge is resting" : placeholder}
+          placeholder={status === "offline" ? tr("The concierge is resting") : hint}
           disabled={status !== "ready"}
           className="max-h-40 min-h-11 flex-1 resize-none bg-transparent px-3 py-2.5 font-sans text-body-sm text-strong outline-none [field-sizing:content] placeholder:text-stone disabled:opacity-60"
         />
         {streaming ? (
-          <button type="button" onClick={() => abort.current?.abort()} aria-label="Stop the reply" className="grid size-11 shrink-0 place-items-center rounded-full bg-espresso text-beige">
+          <button type="button" onClick={() => abort.current?.abort()} aria-label={tr("Stop the reply")} className="grid size-11 shrink-0 place-items-center rounded-full bg-espresso text-beige">
             <Square aria-hidden className="size-3.5 fill-current" />
           </button>
         ) : (
-          <button type="submit" aria-label="Send" disabled={!draft.trim() || status !== "ready"} className="grid size-11 shrink-0 place-items-center rounded-full bg-espresso text-beige transition-opacity disabled:opacity-30">
+          <button type="submit" aria-label={tr("Send")} disabled={!draft.trim() || status !== "ready"} className="grid size-11 shrink-0 place-items-center rounded-full bg-espresso text-beige transition-opacity disabled:opacity-30">
             <ArrowUp aria-hidden className="size-4" strokeWidth={2} />
           </button>
         )}

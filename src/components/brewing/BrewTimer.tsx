@@ -5,6 +5,7 @@ import { Pause, Play, RotateCcw } from "lucide-react";
 import type { BrewMethod } from "@/data/brewing";
 import { formatClock } from "@/data/brewing";
 import { cn } from "@/lib/cn";
+import { useI18n } from "@/i18n/client";
 
 /**
  * Brew timer with a vertical stage timeline. The caramel rule fills as the
@@ -12,6 +13,7 @@ import { cn } from "@/lib/cn";
  * filled dot. Announces each new stage politely to screen readers.
  */
 export function BrewTimer({ method }: { method: BrewMethod }) {
+  const { tr } = useI18n();
   const [elapsed, setElapsed] = useState(0);
   const [running, setRunning] = useState(false);
   const startedAt = useRef<number | null>(null);
@@ -52,12 +54,12 @@ export function BrewTimer({ method }: { method: BrewMethod }) {
     <div>
       <div className="flex items-end justify-between gap-6">
         <div>
-          <p className="font-mono text-micro text-stone uppercase">Brew timer</p>
+          <p className="font-mono text-micro text-stone uppercase">{tr("Brew timer")}</p>
           <p className="mt-2 font-mono text-[2rem] leading-none text-strong tabular-nums">
             <span aria-hidden>{formatClock(elapsed)}</span>
             <span aria-hidden className="text-stone"> / {formatClock(total)}</span>
             <span className="sr-only">
-              {formatClock(elapsed)} of {formatClock(total)}
+              {formatClock(elapsed)}{" "}{tr("of")}{" "}{formatClock(total)}
             </span>
           </p>
         </div>
@@ -65,7 +67,7 @@ export function BrewTimer({ method }: { method: BrewMethod }) {
           <button
             type="button"
             onClick={() => (done ? (reset(), setRunning(true)) : setRunning((r) => !r))}
-            aria-label={running ? "Pause timer" : done ? "Restart timer" : "Start timer"}
+            aria-label={running ? tr("Pause timer") : done ? tr("Restart timer") : tr("Start timer")}
             className="grid size-11 place-items-center rounded-full bg-espresso text-beige transition-[background-color,translate] duration-250 ease-noir hover:-translate-y-0.5 hover:bg-caramel"
           >
             {running ? <Pause aria-hidden className="size-4" strokeWidth={1.5} /> : <Play aria-hidden className="size-4" strokeWidth={1.5} />}
@@ -73,7 +75,7 @@ export function BrewTimer({ method }: { method: BrewMethod }) {
           <button
             type="button"
             onClick={reset}
-            aria-label="Reset timer"
+            aria-label={tr("Reset timer")}
             className="grid size-11 place-items-center rounded-full border border-sand text-strong transition-[border-color,translate] duration-250 ease-noir hover:-translate-y-0.5 hover:border-espresso"
           >
             <RotateCcw aria-hidden className="size-4" strokeWidth={1.5} />
@@ -82,14 +84,14 @@ export function BrewTimer({ method }: { method: BrewMethod }) {
       </div>
 
       <p aria-live="polite" className="sr-only">
-        {running || elapsed > 0 ? `${current.label}: ${current.detail}` : ""}
+        {running || elapsed > 0 ? `${tr(current.label)}: ${tr(current.detail)}` : ""}
       </p>
 
-      <ol className="relative mt-8 pl-7">
-        <span aria-hidden className="absolute top-1.5 bottom-1.5 left-[4px] w-px bg-sand" />
+      <ol className="relative mt-8 ps-7">
+        <span aria-hidden className="absolute top-1.5 bottom-1.5 inset-s-[4px] w-px bg-sand" />
         <span
           aria-hidden
-          className="absolute top-1.5 left-[4px] w-px origin-top bg-caramel transition-transform duration-200 ease-linear"
+          className="absolute top-1.5 inset-s-[4px] w-px origin-top bg-caramel transition-transform duration-200 ease-linear"
           style={{ height: "calc(100% - 12px)", transform: `scaleY(${progress})` }}
         />
         {method.stages.map((stage, i) => {
@@ -100,7 +102,7 @@ export function BrewTimer({ method }: { method: BrewMethod }) {
               <span
                 aria-hidden
                 className={cn(
-                  "absolute top-[13px] -left-7 size-[9px] rounded-full border transition-colors duration-300",
+                  "absolute top-[13px] -inset-s-7 size-[9px] rounded-full border transition-colors duration-300",
                   reached ? "border-caramel bg-caramel" : "border-sand bg-surface",
                 )}
               />
@@ -110,8 +112,8 @@ export function BrewTimer({ method }: { method: BrewMethod }) {
                   isCurrent ? "font-semibold text-strong" : reached ? "text-strong" : "text-stone",
                 )}
               >
-                {stage.label}
-                <span className="text-stone"> — {stage.detail}</span>
+                {tr(stage.label)}
+                <span className="text-stone"> — {tr(stage.detail)}</span>
               </span>
               <span className="font-mono text-mono-sm text-stone tabular-nums">{formatClock(stage.at)}</span>
             </li>

@@ -67,7 +67,7 @@ export function SpecList({
     return (
       <dl className={cn("flex justify-between gap-4", className)}>
         {items.map((item, i) => (
-          <div key={item.label} className={cn("flex flex-col gap-0.5", i === items.length - 1 && "text-right")}>
+          <div key={item.label} className={cn("flex flex-col gap-0.5", i === items.length - 1 && "text-end")}>
             <dt className={cn("font-mono text-micro uppercase", inverse ? "text-taupe" : "text-stone")}>
               {item.label}
             </dt>

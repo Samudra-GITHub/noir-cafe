@@ -1,8 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useId, useRef, useState } from "react";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
+import Link from "@/i18n/link";
 import { AnimatePresence, m, useScroll, useSpring } from "framer-motion";
 import { useLenis } from "@/lib/lenis";
 import { Button, Logo } from "@/components/ui";
@@ -13,6 +12,8 @@ import { useNavTheme, type NavTheme } from "@/hooks/useNavTheme";
 import { useMotionSafe } from "@/hooks/useMotionSafe";
 import { ease, duration, sheet, sheetItem } from "@/lib/motion";
 import { cn } from "@/lib/cn";
+import { useI18n, useLocalizedHref, usePagePath } from "@/i18n/client";
+import { LanguageCurrency } from "@/components/i18n/LanguageCurrency";
 
 /**
  * GlassNav — 1296 × 72 pill, 28px from the top, z-50.
@@ -42,9 +43,10 @@ function DesktopLink({
   theme: NavTheme;
 }) {
   const safe = useMotionSafe();
+  const localized = useLocalizedHref();
   return (
     <Link
-      href={href}
+      href={localized(href)}
       aria-current={active ? "page" : undefined}
       className={cn(
         "group/link relative inline-flex h-11 items-center font-sans text-nav transition-colors duration-250 ease-noir",
@@ -79,7 +81,9 @@ function DesktopLink({
 }
 
 export function SiteNav() {
-  const pathname = usePathname();
+  const pathname = usePagePath();
+  const { t } = useI18n();
+  const localized = useLocalizedHref();
   const sectionTheme = useNavTheme(
     NAV_TOP + NAV_HEIGHT / 2,
     pathname,
@@ -107,10 +111,10 @@ export function SiteNav() {
     >
       <div className="container-page relative z-10">
         <nav
-          aria-label="Primary"
+          aria-label={t.a11y.primaryNav}
           data-theme={theme}
           className={cn(
-            "pointer-events-auto relative flex h-14 items-center justify-between rounded-full pr-2 pl-5 nav:h-18 nav:pr-6 nav:pl-6",
+            "pointer-events-auto relative flex h-14 items-center justify-between rounded-full pe-2 ps-5 nav:h-18 nav:pe-6 nav:ps-6",
             "transition-[background-color,border-color,box-shadow,backdrop-filter] duration-700 ease-noir",
             theme === "dark" ? "glass shadow-none" : "glass-cream",
             open && "border-transparent bg-transparent shadow-none backdrop-blur-none",
@@ -120,7 +124,7 @@ export function SiteNav() {
           <m.span
             aria-hidden
             className={cn(
-              "pointer-events-none absolute right-8 bottom-0 left-8 h-px origin-left bg-caramel",
+              "pointer-events-none absolute inset-e-8 bottom-0 inset-s-8 h-px origin-left bg-caramel",
               open && "opacity-0",
             )}
             style={{ scaleX: progress }}
@@ -133,14 +137,14 @@ export function SiteNav() {
           <ul className="hidden items-center gap-[30px] nav:flex">
             {NAV_LINKS.map((link) => (
               <li key={link.href}>
-                <DesktopLink {...link} active={isActive(pathname, link.href)} theme={theme} />
+                <DesktopLink href={link.href} label={t.nav[link.href]} active={isActive(pathname, link.href)} theme={theme} />
               </li>
             ))}
           </ul>
 
           <div className="flex items-center gap-2">
             <Button
-              href={RESERVE_HREF}
+              href={localized(RESERVE_HREF)}
               variant={theme === "dark" ? "inverse" : "primary"}
               aria-current={reserveActive ? "page" : undefined}
               className={cn(
@@ -149,9 +153,9 @@ export function SiteNav() {
                 reserveActive && "bg-caramel text-beige hover:bg-caramel",
               )}
             >
-              Reserve
+              {t.nav[RESERVE_HREF]}
             </Button>
-            <SoundToggle inverse={theme === "dark"} className="nav:-mr-2 nav:order-first" />
+            <SoundToggle inverse={theme === "dark"} className="nav:-me-2 nav:order-first" />
             <MenuToggle ref={toggleRef} open={open} onToggle={() => setOpen((v) => !v)} theme={theme} />
           </div>
         </nav>
@@ -173,6 +177,7 @@ function MenuToggle({
   onToggle: () => void;
   theme: NavTheme;
 }) {
+  const { t } = useI18n();
   return (
     <button
       ref={ref}
@@ -180,7 +185,7 @@ function MenuToggle({
       onClick={onToggle}
       aria-expanded={open}
       aria-controls="site-menu"
-      aria-label={open ? "Close menu" : "Open menu"}
+      aria-label={open ? t.a11y.closeMenu : t.a11y.openMenu}
       className={cn(
         "grid size-11 place-items-center rounded-full transition-colors duration-500 ease-noir nav:hidden",
         theme === "dark" ? "text-beige" : "text-espresso",
@@ -189,13 +194,13 @@ function MenuToggle({
       <span className="relative block h-2.5 w-5">
         <span
           className={cn(
-            "absolute left-0 h-px w-5 bg-current transition-transform duration-300 ease-noir",
+            "absolute inset-s-0 h-px w-5 bg-current transition-transform duration-300 ease-noir",
             open ? "top-1/2 rotate-45" : "top-0",
           )}
         />
         <span
           className={cn(
-            "absolute left-0 h-px w-5 bg-current transition-transform duration-300 ease-noir",
+            "absolute inset-s-0 h-px w-5 bg-current transition-transform duration-300 ease-noir",
             open ? "top-1/2 -rotate-45" : "bottom-0",
           )}
         />
@@ -218,6 +223,8 @@ function MobileSheet({
   const lenis = useLenis();
   const safe = useMotionSafe();
   const titleId = useId();
+  const { t } = useI18n();
+  const localized = useLocalizedHref();
   const sheetRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -256,7 +263,7 @@ function MobileSheet({
     };
   }, [open, lenis, onClose, toggleRef]);
 
-  const links = [...NAV_LINKS, { label: "Reserve", href: RESERVE_HREF }];
+  const links = [...NAV_LINKS.map((l) => l.href), RESERVE_HREF] as const;
 
   return (
     <AnimatePresence>
@@ -276,22 +283,22 @@ function MobileSheet({
           style={{ top: -NAV_TOP }}
         >
           <h2 id={titleId} className="sr-only">
-            Site menu
+            {t.a11y.siteMenu}
           </h2>
-          <nav aria-label="Mobile" className="container-page flex flex-1 flex-col justify-center pt-24">
+          <nav aria-label={t.a11y.mobileNav} className="container-page flex flex-1 flex-col justify-center pt-24">
             <ul className="flex flex-col gap-2">
-              {links.map((link, i) => {
-                const active = isActive(pathname, link.href);
+              {links.map((href, i) => {
+                const active = isActive(pathname, href);
                 return (
                   <m.li
-                    key={link.href}
+                    key={href}
                     custom={i}
                     variants={safe ? sheetItem : undefined}
                     initial="hidden"
                     animate="visible"
                   >
                     <Link
-                      href={link.href}
+                      href={localized(href)}
                       onClick={onClose}
                       aria-current={active ? "page" : undefined}
                       className={cn(
@@ -301,31 +308,32 @@ function MobileSheet({
                       style={{ transitionDuration: `${duration.fast}s` }}
                     >
                       <span aria-hidden className="type-eyebrow w-6 text-caramel">{String(i + 1).padStart(2, "0")}</span>
-                      {link.label}
+                      {t.nav[href]}
                     </Link>
                   </m.li>
                 );
               })}
             </ul>
-            <ul aria-label="More" className="mt-6 flex flex-col border-t border-beige/15 pt-4">
+            <ul aria-label={t.a11y.moreNav} className="mt-6 flex flex-col border-t border-beige/15 pt-4">
               {MORE_LINKS.map((link) => (
                 <li key={link.href}>
                   <Link
-                    href={link.href}
+                    href={localized(link.href)}
                     onClick={onClose}
                     aria-current={isActive(pathname, link.href) ? "page" : undefined}
                     className="flex min-h-11 items-center font-mono text-eyebrow text-cream uppercase hover:text-beige"
                   >
-                    {link.label}
+                    {t.nav[link.href]}
                   </Link>
                 </li>
               ))}
             </ul>
           </nav>
+          <LanguageCurrency className="container-page border-t border-beige/15 pt-6 pb-2" />
           <AtmosphereControls className="container-page border-t border-beige/15 pt-6 pb-6 md:hidden" />
           <div className="container-page flex flex-col gap-1 pb-[calc(40px+var(--safe-bottom))] font-mono text-eyebrow text-cream uppercase">
             <span>{SITE.address}</span>
-            <span>{SITE.hours}</span>
+            <span>{t.site.hours}</span>
           </div>
         </m.div>
       )}

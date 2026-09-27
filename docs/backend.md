@@ -83,3 +83,5 @@ manifest carries shortcuts and install screenshots; iOS launch screens come from
 | `/api/reviews` | GET · POST | Approved product reviews · submit one for moderation |
 | `/api/push/subscribe` | POST · DELETE | Store / forget a push subscription |
 | `/api/push/send` | POST | Notify every subscriber (Bearer `PUSH_ADMIN_TOKEN`) |
+| `/api/currency` | GET | ECB reference rates from USD (Frankfurter, cached 6 h); `?amount&to` converts |
+| `/api/weather` | GET | New York weather (Open-Meteo, cached 15 min) for the atmosphere and locations |

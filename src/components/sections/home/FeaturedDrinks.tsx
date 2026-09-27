@@ -4,22 +4,22 @@ import { MobileDrinkRail } from "@/components/menu/MobileDrinkRail";
 import { SectionIntro } from "@/components/shared/SectionIntro";
 import { Button } from "@/components/ui";
 import { FEATURED_DRINKS } from "@/data/drinks";
+import { getTranslator } from "@/i18n/server";
 
 /** 02 · Seasonal edit — three featured drinks. */
-export function FeaturedDrinks() {
+export async function FeaturedDrinks() {
+  const tr = await getTranslator();
   return (
     <section aria-labelledby="featured-title" className="bg-cream py-20 md:pt-[98px] md:pb-24">
       <div className="container-page">
         <FadeUp className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
           <SectionIntro
             id="featured-title"
-            eyebrow="02 · Seasonal edit"
+            eyebrow={tr("02 · Seasonal edit")}
             gap="mt-[15px]"
-            title="Featured drinks"
+            title={tr("Featured drinks")}
           />
-          <Button href="/menu" variant="secondary" className="self-start md:self-auto">
-            View all drinks
-          </Button>
+          <Button href="/menu" variant="secondary" className="self-start md:self-auto">{tr("View all drinks")}</Button>
         </FadeUp>
 
         <MobileDrinkRail drinks={FEATURED_DRINKS} />

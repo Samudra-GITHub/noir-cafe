@@ -23,14 +23,14 @@ export const LOCALE_META: Record<Locale, { name: string; intl: string; og: strin
 };
 
 /** Prices are set and charged in US dollars; other currencies are an approximate display only. */
-export const BASE_CURRENCY = "USD";
 export const DISPLAY_CURRENCIES = ["USD", "EUR", "JPY", "GBP"] as const;
 export type DisplayCurrency = (typeof DISPLAY_CURRENCIES)[number];
+export const BASE_CURRENCY: DisplayCurrency = "USD";
 export const CURRENCY_STORAGE = "noir:currency";
 
-/** Public path for a locale: English unprefixed, others under /xx. */
+/** Public path for a locale: English unprefixed, others under /xx. Already-prefixed paths are left alone. */
 export function localePath(locale: Locale, path: string) {
-  if (locale === DEFAULT_LOCALE) return path;
+  if (locale === DEFAULT_LOCALE || isLocale(path.split("/")[1])) return path;
   return `/${locale}${path === "/" ? "" : path}`;
 }
 

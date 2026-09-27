@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { Switch } from "@/components/ui";
+import { useI18n } from "@/i18n/client";
 
 const KEY = process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY;
 
@@ -20,6 +21,7 @@ export function PushSwitch() {
   const [supported, setSupported] = useState(false);
   const [on, setOn] = useState(false);
   const [busy, setBusy] = useState(false);
+  const { t } = useI18n();
 
   useEffect(() => {
     if (!KEY || !("serviceWorker" in navigator) || !("PushManager" in window)) return;
@@ -64,8 +66,8 @@ export function PushSwitch() {
     <Switch
       checked={on}
       onChange={(next) => !busy && void toggle(next)}
-      label="Notifications"
-      description="New lots and news from the bar"
+      label={t.atmosphere.notifications}
+      description={t.atmosphere.notificationsDescription}
     />
   );
 }

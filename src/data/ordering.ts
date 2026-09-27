@@ -111,8 +111,8 @@ export function unitCents(item: OrderableItem, mods: Modifiers) {
   return cents;
 }
 
-/** "Oat · Extra shot · Iced, light ice · Lightly sweet" */
-export function describe(item: OrderableItem, mods: Modifiers) {
+/** "Oat · Extra shot · Iced, light ice · Lightly sweet" (pass `tr` to show it in the visitor's language). */
+export function describe(item: OrderableItem, mods: Modifiers, tr: (english: string) => string = (s) => s) {
   const parts: string[] = [];
   if (mods.temperature === "iced") parts.push(mods.ice === "light" ? "Iced, light ice" : "Iced");
   if (item.options.milk === "choice" && mods.milk === "oat") parts.push("Oat");
@@ -120,7 +120,7 @@ export function describe(item: OrderableItem, mods: Modifiers) {
   if (mods.decaf) parts.push("Decaf");
   if (mods.sweetness === "light") parts.push("Lightly sweet");
   if (mods.sweetness === "regular") parts.push("Sweet");
-  return parts.join(" · ");
+  return parts.map((p) => tr(p)).join(" · ");
 }
 
 export const money = (cents: number) => `$${(cents / 100).toFixed(2)}`;

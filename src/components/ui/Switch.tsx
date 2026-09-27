@@ -29,7 +29,7 @@ export function Switch({
       role="switch"
       aria-checked={checked}
       onClick={() => onChange(!checked)}
-      className={cn("flex min-h-11 w-full items-center justify-between gap-4 text-left", className)}
+      className={cn("flex min-h-11 w-full items-center justify-between gap-4 text-start", className)}
     >
       <span className="flex flex-col gap-0.5">
         <span className={cn("font-mono text-eyebrow uppercase", inverse ? "text-cream" : "text-strong")}>{label}</span>
@@ -48,7 +48,7 @@ export function Switch({
       >
         <span
           className={cn(
-            "absolute top-1/2 left-1 size-4 -translate-y-1/2 rounded-full transition-transform duration-300 ease-noir",
+            "absolute top-1/2 inset-s-1 size-4 -translate-y-1/2 rounded-full transition-transform duration-300 ease-noir",
             checked && "translate-x-4",
             inverse ? (checked ? "bg-espresso" : "bg-beige/70") : checked ? "bg-beige" : "bg-stone",
           )}

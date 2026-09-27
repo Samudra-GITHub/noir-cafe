@@ -2,6 +2,7 @@
 
 import { SEATING, type SeatingId } from "@/data/reservation";
 import { cn } from "@/lib/cn";
+import { useI18n } from "@/i18n/client";
 
 /**
  * Seat map — a schematic of the Mercer Street room: two-tops along the
@@ -23,6 +24,7 @@ export function SeatMap({
   covers: number;
   className?: string;
 }) {
+  const { tr } = useI18n();
   const zone = (id: SeatingId) => ({
     on: selected === id,
     full: (left(id) ?? Infinity) < covers,
@@ -34,7 +36,7 @@ export function SeatMap({
   const fill = (z: { on: boolean; full: boolean }) => (z.full ? "var(--noir-pebble)" : z.on ? "var(--noir-caramel)" : "var(--noir-sand)");
   const label = (id: SeatingId) => {
     const n = left(id);
-    return n == null ? SEATING.find((s) => s.id === id)!.label : n < covers ? "Full" : `${n} seats left`;
+    return n == null ? tr(SEATING.find((s) => s.id === id)!.label) : n < covers ? tr("Full") : n === 1 ? tr("1 seat left") : tr("{n} seats left", { n });
   };
 
   return (
@@ -43,10 +45,10 @@ export function SeatMap({
       <rect x="10" y="10" width="320" height="160" rx="10" fill="var(--noir-ivory)" stroke="var(--noir-sand)" />
       {/* Window wall */}
       <line x1="30" y1="10" x2="310" y2="10" stroke="var(--noir-stone)" strokeWidth="3" strokeDasharray="36 6" />
-      <text x="170" y="24" textAnchor="middle" className="fill-stone font-mono text-[7px] uppercase">Window · Mercer Street</text>
+      <text x="170" y="24" textAnchor="middle" className="fill-stone font-mono text-[7px] uppercase">{tr("Window · Mercer Street")}</text>
       {/* Bar */}
       <rect x="250" y="120" width="70" height="40" rx="4" fill="var(--noir-cream)" />
-      <text x="285" y="144" textAnchor="middle" className="fill-stone font-mono text-[7px] uppercase">Bar</text>
+      <text x="285" y="144" textAnchor="middle" className="fill-stone font-mono text-[7px] uppercase">{tr("Bar")}</text>
 
       {/* Window two-tops */}
       <g onClick={w.onClick} className={cn(!w.full && "cursor-pointer")}>
@@ -57,7 +59,7 @@ export function SeatMap({
             <circle cx={x + 16} cy={46} r={4} fill={fill(w)} opacity={0.6} />
           </g>
         ))}
-        <text x="140" y="74" textAnchor="middle" className={cn("font-mono text-[8px] uppercase", w.on ? "fill-caramel-ink" : "fill-stone")}>Window · {label("window")}</text>
+        <text x="140" y="74" textAnchor="middle" className={cn("font-mono text-[8px] uppercase", w.on ? "fill-caramel-ink" : "fill-stone")}>{tr("Window ·")}{" "}{label("window")}</text>
       </g>
 
       {/* Long oak table */}
@@ -69,7 +71,7 @@ export function SeatMap({
             <circle cx={x} cy={126} r={4} fill={fill(i)} opacity={0.6} />
           </g>
         ))}
-        <text x="135" y="150" textAnchor="middle" className={cn("font-mono text-[8px] uppercase", i.on ? "fill-caramel-ink" : "fill-stone")}>Indoor · {label("indoor")}</text>
+        <text x="135" y="150" textAnchor="middle" className={cn("font-mono text-[8px] uppercase", i.on ? "fill-caramel-ink" : "fill-stone")}>{tr("Indoor ·")}{" "}{label("indoor")}</text>
       </g>
 
       {/* Door and terrace */}
@@ -83,7 +85,7 @@ export function SeatMap({
             <circle cx={x + 18} cy={210} r={4} fill={fill(o)} opacity={0.6} />
           </g>
         ))}
-        <text x="170" y="236" textAnchor="middle" className={cn("font-mono text-[8px] uppercase", o.on ? "fill-caramel-ink" : "fill-stone")}>Outdoor · {label("outdoor")}</text>
+        <text x="170" y="236" textAnchor="middle" className={cn("font-mono text-[8px] uppercase", o.on ? "fill-caramel-ink" : "fill-stone")}>{tr("Outdoor ·")}{" "}{label("outdoor")}</text>
       </g>
     </svg>
   );

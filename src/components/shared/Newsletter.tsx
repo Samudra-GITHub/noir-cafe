@@ -9,6 +9,7 @@ import { subscribe, type NewsletterState } from "@/lib/actions/newsletter";
 import { useMotionSafe } from "@/hooks/useMotionSafe";
 import { checkDraw, shake, successReveal } from "@/lib/motion";
 import { cn } from "@/lib/cn";
+import { useI18n } from "@/i18n/client";
 
 /**
  * Notes from the bar — newsletter sign-up.
@@ -21,6 +22,8 @@ export function Newsletter() {
     status: "idle",
   });
   const safe = useMotionSafe();
+  const { t } = useI18n();
+  const n = t.newsletter;
   const rowRef = useRef<HTMLDivElement>(null);
   const inputId = useId();
   const messageId = `${inputId}-message`;
@@ -38,11 +41,11 @@ export function Newsletter() {
       <FadeUp className="container-page flex flex-col gap-12 lg:flex-row lg:items-end lg:justify-between">
         <SectionIntro
           id="newsletter-title"
-          eyebrow="Notes from the bar"
+          eyebrow={n.eyebrow}
           size="heading-xl"
           gap="mt-[7px]"
           titleClassName="max-w-[480px]"
-          title="New lots, quiet stories, and invitations."
+          title={n.title}
         />
 
         <form action={action} noValidate className="w-full lg:w-[500px]">
@@ -69,7 +72,7 @@ export function Newsletter() {
                     animate="visible"
                   />
                 </svg>
-                <p className="font-sans text-body-sm text-strong">{state.message}</p>
+                <p className="font-sans text-body-sm text-strong">{n.success}</p>
               </m.div>
             ) : (
               <m.div
@@ -98,13 +101,13 @@ export function Newsletter() {
                   <label
                     htmlFor={inputId}
                     className={cn(
-                      "pointer-events-none absolute top-1/2 left-0 origin-left -translate-y-1/2 font-sans text-body-sm text-stone",
+                      "pointer-events-none absolute top-1/2 inset-s-0 origin-left -translate-y-1/2 font-sans text-body-sm text-stone",
                       "transition-[transform,color] duration-300 ease-noir",
                       "peer-focus:-translate-y-[calc(50%+22px)] peer-focus:scale-[0.72] peer-focus:text-caramel-ink",
                       "peer-[:not(:placeholder-shown)]:-translate-y-[calc(50%+22px)] peer-[:not(:placeholder-shown)]:scale-[0.72]",
                     )}
                   >
-                    Your email address
+                    {n.label}
                   </label>
                 </div>
                 <button
@@ -112,7 +115,7 @@ export function Newsletter() {
                   disabled={pending}
                   className="group/submit inline-flex min-h-11 items-center gap-1.5 font-mono text-eyebrow text-strong uppercase transition-colors duration-250 ease-noir hover:text-caramel-ink disabled:opacity-40 md:min-h-0"
                 >
-                  {pending ? "Sending" : "Subscribe"}
+                  {pending ? n.sending : n.submit}
                   <ArrowUpRight
                     aria-hidden
                     className="size-2.5 transition-transform duration-250 ease-noir group-hover/submit:translate-x-0.5 group-hover/submit:-translate-y-0.5"
@@ -128,7 +131,7 @@ export function Newsletter() {
             role="status"
             className={cn("mt-3 font-mono text-micro uppercase", isError ? "text-caramel-ink" : "text-stone")}
           >
-            {isError ? state.message : "Monthly at most · Unsubscribe anytime"}
+            {isError ? n.invalid : n.fine}
           </p>
         </form>
       </FadeUp>

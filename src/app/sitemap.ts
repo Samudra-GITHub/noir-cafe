@@ -1,8 +1,9 @@
 import type { MetadataRoute } from "next";
 import { SITE_URL } from "@/lib/seo";
+import { LOCALES, LOCALE_META, localePath } from "@/i18n/config";
 
 const ROUTES = [
-  { path: "", priority: 1 },
+  { path: "/", priority: 1 },
   { path: "/menu", priority: 0.9 },
   { path: "/reservation", priority: 0.9 },
   { path: "/locations", priority: 0.8 },
@@ -15,10 +16,17 @@ const ROUTES = [
   { path: "/order", priority: 0.7 },
 ];
 
+const url = (path: string) => `${SITE_URL}${path === "/" ? "" : path}`;
+
+/** Every route in every language, each entry listing its hreflang alternates. */
 export default function sitemap(): MetadataRoute.Sitemap {
-  return ROUTES.map(({ path, priority }) => ({
-    url: `${SITE_URL}${path}`,
-    changeFrequency: "weekly",
-    priority,
-  }));
+  return ROUTES.flatMap(({ path, priority }) => {
+    const languages = Object.fromEntries(LOCALES.map((l) => [LOCALE_META[l].intl, url(localePath(l, path))]));
+    return LOCALES.map((locale) => ({
+      url: url(localePath(locale, path)),
+      changeFrequency: "weekly" as const,
+      priority,
+      alternates: { languages },
+    }));
+  });
 }

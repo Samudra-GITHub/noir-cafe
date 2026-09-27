@@ -1,8 +1,9 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { usePathname } from "next/navigation";
 import { useAtmosphere } from "@/lib/atmosphere";
+import { usePagePath } from "@/i18n/client";
+import { whenIdle, whenLoaded } from "@/lib/page-ready";
 
 type Puff = { x: number; y: number; vx: number; vy: number; r: number; life: number; max: number };
 type Drop = { x: number; y: number; len: number; speed: number };
@@ -35,11 +36,14 @@ function makeSprite() {
  * scrolling leans them like wind.
  *
  * The canvas sits at 8% opacity, so no mark it draws can exceed that. The loop
- * only runs while something is visible and the tab is shown.
+ * only runs while something is visible and the tab is shown, starts once the
+ * page has loaded and gone idle, and never reads layout inside a frame (the
+ * scroll position comes from scroll events), so it cannot force a style or
+ * layout pass per frame.
  */
 export function AtmosphereCanvas() {
   const ref = useRef<HTMLCanvasElement>(null);
-  const pathname = usePathname();
+  const pathname = usePagePath();
   const { rain } = useAtmosphere();
   const live = useRef({ steam: pathname === "/", rain });
   useEffect(() => {
@@ -57,7 +61,11 @@ export function AtmosphereCanvas() {
     let w = 0;
     let h = 0;
     let frame = 0;
-    let lastY = window.scrollY;
+    // Scroll position arrives with scroll events; reading it inside a frame could force layout.
+    let scrollY = window.scrollY;
+    let lastY = scrollY;
+    let reported = -1;
+    let started = false;
     let velocity = 0;
     let emit = 0;
     let frames = 0;
@@ -76,7 +84,7 @@ export function AtmosphereCanvas() {
 
     const tick = () => {
       frame = 0;
-      const y = window.scrollY;
+      const y = scrollY;
       velocity = velocity * 0.85 + (y - lastY) * 0.15;
       lastY = y;
       const speed = Math.min(Math.abs(velocity), 40);
@@ -139,8 +147,11 @@ export function AtmosphereCanvas() {
         ctx.stroke();
       }
 
-      // Live particle count, for QA and devtools (cheap: every 15th frame).
-      if (++frames % 15 === 0) canvas.dataset.particles = String(puffs.length);
+      // Live particle count, for QA and devtools — written only when it changes, every 15th frame.
+      if (++frames % 15 === 0 && puffs.length !== reported) {
+        reported = puffs.length;
+        canvas.dataset.particles = String(reported);
+      }
 
       const busy = rain || heroShown || puffs.length > 0;
       if (busy && !document.hidden) frame = requestAnimationFrame(tick);
@@ -148,17 +159,31 @@ export function AtmosphereCanvas() {
     };
 
     const wake = () => {
-      if (!frame && !document.hidden) frame = requestAnimationFrame(tick);
+      if (started && !frame && !document.hidden) frame = requestAnimationFrame(tick);
     };
-    wake();
-    window.addEventListener("scroll", wake, { passive: true });
+    const onScroll = () => {
+      scrollY = window.scrollY;
+      wake();
+    };
+    // Stay out of the way of the first load: begin once the page is loaded and idle.
+    let cancelled = false;
+    void whenLoaded()
+      .then(() => whenIdle())
+      .then(() => {
+        if (cancelled) return;
+        started = true;
+        scrollY = lastY = window.scrollY;
+        wake();
+      });
+    window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("resize", resize);
     document.addEventListener("visibilitychange", wake);
     const poke = window.setInterval(wake, 1000); // pick up rain / route changes while idle
     return () => {
+      cancelled = true;
       cancelAnimationFrame(frame);
       window.clearInterval(poke);
-      window.removeEventListener("scroll", wake);
+      window.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", resize);
       document.removeEventListener("visibilitychange", wake);
     };

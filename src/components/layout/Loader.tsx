@@ -1,4 +1,5 @@
 import { LoaderController } from "./LoaderController";
+import { getTranslator } from "@/i18n/server";
 
 /**
  * First-visit loader — "Preparing your coffee…": a cup fills, steam rises and
@@ -9,15 +10,16 @@ import { LoaderController } from "./LoaderController";
  * CSS retires it after 3.2s even if JavaScript never runs. Hidden entirely
  * under prefers-reduced-motion.
  */
-export function Loader() {
+export async function Loader() {
+  const tr = await getTranslator();
   return (
     <div id="noir-loader" className="noir-loader" aria-hidden="true">
       <div className="flex flex-col items-center">
         <div className="relative h-[120px] w-[132px]">
           {/* Steam */}
-          <span className="loader-steam left-[38px] [animation-delay:0s]" />
-          <span className="loader-steam left-[58px] [animation-delay:0.5s]" />
-          <span className="loader-steam left-[78px] [animation-delay:1s]" />
+          <span className="loader-steam inset-s-[38px] [animation-delay:0s]" />
+          <span className="loader-steam inset-s-[58px] [animation-delay:0.5s]" />
+          <span className="loader-steam inset-s-[78px] [animation-delay:1s]" />
 
           <svg viewBox="0 0 132 120" className="absolute inset-0 size-full" fill="none">
             <defs>
@@ -47,7 +49,7 @@ export function Loader() {
           </svg>
         </div>
 
-        <p className="mt-8 font-display text-[1.75rem] leading-none text-beige italic">Preparing your coffee…</p>
+        <p className="mt-8 font-display text-[1.75rem] leading-none text-beige italic">{tr("Preparing your coffee…")}</p>
         <div className="mt-6 h-px w-[160px] overflow-hidden bg-char">
           <span id="noir-loader-bar" className="block h-full w-full origin-left scale-x-0 bg-caramel" />
         </div>

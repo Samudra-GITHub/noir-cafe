@@ -6,10 +6,11 @@ import { m } from "framer-motion";
 import { useMotionSafe } from "@/hooks/useMotionSafe";
 import { ease } from "@/lib/motion";
 import { cn } from "@/lib/cn";
+import { useFormat, useI18n } from "@/i18n/client";
+import { LONG_DATE } from "@/i18n/format";
 
-const WEEKDAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
-const MONTH = new Intl.DateTimeFormat("en-US", { month: "long", year: "numeric" });
-const LONG = new Intl.DateTimeFormat("en-US", { weekday: "long", month: "long", day: "numeric" });
+/** Monday-first weekday headers; English keeps its original three-letter labels. */
+const WEEKDAYS_EN = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
 const sameDay = (a: Date, b: Date) =>
   a.getFullYear() === b.getFullYear() && a.getMonth() === b.getMonth() && a.getDate() === b.getDate();
@@ -43,6 +44,10 @@ export function Calendar({
   today: Date;
   labelledBy: string;
 }) {
+  const { tr, locale } = useI18n();
+  const format = useFormat();
+  const weekdays = locale === "en" ? WEEKDAYS_EN : WEEKDAYS_EN.map((_, i) => format.date(new Date(2026, 0, 5 + i), { weekday: "short" }));
+  const monthLabel = (d: Date) => format.date(d, { month: "long", year: "numeric" });
   const safe = useMotionSafe();
   const [month, setMonth] = useState(() => new Date(value.getFullYear(), value.getMonth(), 1));
   const [focusDate, setFocusDate] = useState(value);
@@ -84,25 +89,25 @@ export function Calendar({
     <div>
       <div className="flex items-center justify-between">
         <span className="sr-only" aria-live="polite">
-          {MONTH.format(month)}
+          {monthLabel(month)}
         </span>
-        <div className="ml-auto flex items-center gap-1">
+        <div className="ms-auto flex items-center gap-1">
           <button
             type="button"
             onClick={() => setMonth((m) => new Date(m.getFullYear(), m.getMonth() - 1, 1))}
             disabled={!canGoBack}
-            aria-label="Previous month"
+            aria-label={tr("Previous month")}
             className="grid size-8 place-items-center rounded-full text-strong transition-colors hover:bg-cream disabled:opacity-30"
           >
             <ChevronLeft aria-hidden className="size-3" strokeWidth={1.5} />
           </button>
           <span aria-hidden className="w-[108px] text-center font-mono text-eyebrow text-strong uppercase">
-            {MONTH.format(month)}
+            {monthLabel(month)}
           </span>
           <button
             type="button"
             onClick={() => setMonth((m) => new Date(m.getFullYear(), m.getMonth() + 1, 1))}
-            aria-label="Next month"
+            aria-label={tr("Next month")}
             className="grid size-8 place-items-center rounded-full text-strong transition-colors hover:bg-cream"
           >
             <ChevronRight aria-hidden className="size-3" strokeWidth={1.5} />
@@ -112,7 +117,7 @@ export function Calendar({
 
       <div ref={gridRef} role="grid" aria-labelledby={labelledBy} onKeyDown={onKeyDown} className="mt-2">
         <div role="row" className="grid grid-cols-7">
-          {WEEKDAYS.map((d) => (
+          {weekdays.map((d) => (
             <span
               key={d}
               role="columnheader"
@@ -137,7 +142,7 @@ export function Calendar({
                     data-date={day.toDateString()}
                     tabIndex={focusable ? 0 : -1}
                     disabled={past || outside}
-                    aria-label={LONG.format(day)}
+                    aria-label={format.date(day, LONG_DATE)}
                     aria-pressed={selected}
                     onClick={() => {
                       setFocusDate(day);
@@ -170,4 +175,3 @@ export function Calendar({
   );
 }
 
-export { LONG as LONG_DATE };

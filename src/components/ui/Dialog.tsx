@@ -8,6 +8,7 @@ import { getLenis } from "@/lib/lenis";
 import { useMotionSafe } from "@/hooks/useMotionSafe";
 import { ease } from "@/lib/motion";
 import { cn } from "@/lib/cn";
+import { useI18n } from "@/i18n/client";
 
 /** Focusable and actually rendered (skips content hidden at the current breakpoint). */
 const focusables = (root: HTMLElement) =>
@@ -35,6 +36,7 @@ export function Dialog({
   children: React.ReactNode;
   className?: string;
 }) {
+  const { tr } = useI18n();
   const safe = useMotionSafe();
   const titleId = useId();
   const panelRef = useRef<HTMLDivElement>(null);
@@ -130,8 +132,8 @@ export function Dialog({
             <button
               type="button"
               onClick={onClose}
-              aria-label="Close"
-              className="glass-cream absolute top-4 right-4 z-10 grid size-11 place-items-center rounded-full text-espresso transition-transform duration-300 ease-noir hover:rotate-90"
+              aria-label={tr("Close")}
+              className="glass-cream absolute top-4 inset-e-4 z-10 grid size-11 place-items-center rounded-full text-espresso transition-transform duration-300 ease-noir hover:rotate-90"
             >
               <X aria-hidden className="size-4" strokeWidth={1.5} />
             </button>

@@ -8,6 +8,7 @@ import { RESERVE_HREF } from "@/constants/site";
 import { useMotionSafe } from "@/hooks/useMotionSafe";
 import { HERO_DELAYS, HERO_SCRUB_SCALE, PARALLAX_RANGE } from "@/lib/motion";
 import { FilmGrain, HeroSteam } from "./HeroAtmosphere";
+import { useI18n } from "@/i18n/client";
 
 /**
  * Homepage hero — exactly one small-viewport tall, pinned beneath the page.
@@ -17,6 +18,7 @@ import { FilmGrain, HeroSteam } from "./HeroAtmosphere";
  * rest of the page, so the pin lasts until it is fully covered.
  */
 export function HomeHero() {
+  const { tr } = useI18n();
   const ref = useRef<HTMLElement>(null);
   const safe = useMotionSafe();
   const [covered, setCovered] = useState(false);
@@ -97,38 +99,26 @@ export function HomeHero() {
         style={{ y: copyY, opacity: copyOpacity }}
       >
         <div {...enter(0)}>
-          <Eyebrow tone="inverse" className="text-cream">
-            Specialty coffee · New York
-          </Eyebrow>
+          <Eyebrow tone="inverse" className="text-cream">{tr("Specialty coffee · New York")}</Eyebrow>
         </div>
 
         <h1 id="home-hero-title" className="type-display-2xl mt-[26px] max-w-[790px] font-normal text-beige">
           {/* Masked line reveal: the words rise into view without ever being
               transparent, so the headline paints (and counts as LCP) at once. */}
           <span className="-mb-[0.14em] block overflow-hidden pb-[0.14em]">
-            <span {...enter(1)} className="hero-line block">
-              Where Every Cup
-            </span>
+            <span {...enter(1)} className="hero-line block">{tr("Where Every Cup")}</span>
           </span>
           <span className="-mb-[0.14em] block overflow-hidden pb-[0.14em]">
-            <span {...enter(2)} className="hero-line block">
-              Tells A Story
-            </span>
+            <span {...enter(2)} className="hero-line block">{tr("Tells A Story")}</span>
           </span>
         </h1>
 
-        <p {...enter(3)} className="hero-in mt-5 max-w-[480px] font-sans text-body leading-[26px] text-cream md:mt-[26px]">
-          Sourced with patience, roasted with restraint, and poured as a small act of attention.
-        </p>
+        <p {...enter(3)} className="hero-in mt-5 max-w-[480px] font-sans text-body leading-[26px] text-cream md:mt-[26px]">{tr("Sourced with patience, roasted with restraint, and poured as a small act of attention.")}</p>
 
         {/* Phones: full-width stacked pills; desktop: side by side. */}
         <div {...enter(4)} className="hero-in mt-8 flex flex-col gap-3 md:flex-row md:flex-wrap">
-          <Button href={RESERVE_HREF} variant="inverse" className="max-md:w-full max-md:justify-between max-md:pr-6">
-            Reserve table
-          </Button>
-          <Button href="/menu" variant="outline-inverse" className="max-md:w-full max-md:justify-between max-md:pr-6">
-            Explore menu
-          </Button>
+          <Button href={RESERVE_HREF} variant="inverse" className="max-md:w-full max-md:justify-between max-md:pe-6">{tr("Reserve table")}</Button>
+          <Button href="/menu" variant="outline-inverse" className="max-md:w-full max-md:justify-between max-md:pe-6">{tr("Explore menu")}</Button>
         </div>
       </m.div>
     </section>

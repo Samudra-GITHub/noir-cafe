@@ -14,6 +14,7 @@ import { feedback } from "@/lib/feedback";
 import { BrewGuide } from "./BrewGuide";
 import { ProductReviews } from "./ProductReviews";
 import { MobileProductPage } from "./MobileProductPage";
+import { useFormat, useI18n } from "@/i18n/client";
 
 type FilterId = (typeof SHOP_FILTERS)[number]["id"];
 
@@ -23,6 +24,7 @@ type FilterId = (typeof SHOP_FILTERS)[number]["id"];
  * selectors, and a sticky information column. Checkout is not built yet.
  */
 export function ShopExperience() {
+  const { tr } = useI18n();
   const [filter, setFilter] = useState<FilterId>("all");
   const [quickView, setQuickView] = useState<ShopProduct | null>(null);
   const safe = useMotionSafe();
@@ -33,12 +35,10 @@ export function ShopExperience() {
       <FeaturedSet onView={() => setQuickView(HOME_RITUAL_SET)} />
 
       <section aria-labelledby="products-title" className="container-page mt-16 lg:mt-14">
-        <h2 id="products-title" className="sr-only">
-          Products
-        </h2>
+        <h2 id="products-title" className="sr-only">{tr("Products")}</h2>
         <div className="flex flex-wrap items-center justify-between gap-4">
           <LayoutGroup id="shop-filters">
-            <div role="toolbar" aria-label="Filter products" className="-ml-2 flex flex-wrap">
+            <div role="toolbar" aria-label={tr("Filter products")} className="-ms-2 flex flex-wrap">
               {SHOP_FILTERS.map((f) => {
                 const active = filter === f.id;
                 return (
@@ -52,13 +52,13 @@ export function ShopExperience() {
                       active ? "text-caramel-ink" : "text-stone hover:text-strong",
                     )}
                   >
-                    {f.label}
+                    {tr(f.label)}
                     {active && (
                       <m.span
                         layoutId="shop-filter-rule"
                         aria-hidden
                         transition={safe ? ease(0.45) : { duration: 0 }}
-                        className="absolute right-2 bottom-2 left-2 h-px bg-caramel"
+                        className="absolute inset-e-2 bottom-2 inset-s-2 h-px bg-caramel"
                       />
                     )}
                   </button>
@@ -67,8 +67,7 @@ export function ShopExperience() {
             </div>
           </LayoutGroup>
           <p aria-live="polite" className="font-mono text-eyebrow text-stone uppercase">
-            {String(visible.length).padStart(2, "0")} products
-          </p>
+            {String(visible.length).padStart(2, "0")}{" "}{tr("products")}</p>
         </div>
 
         <m.ul layout={safe} className="mt-3 grid gap-x-6 gap-y-14 sm:grid-cols-2 lg:grid-cols-3 lg:gap-y-[81px]">
@@ -92,7 +91,7 @@ export function ShopExperience() {
       <Dialog
         open={quickView !== null}
         onClose={() => setQuickView(null)}
-        title={quickView ? `${quickView.name} — quick view` : "Quick view"}
+        title={quickView ? tr("{name} — quick view", { name: tr(quickView.name) }) : tr("Quick view")}
         className="max-md:h-dvh max-md:max-h-none max-md:rounded-none"
       >
         {quickView && (
@@ -112,13 +111,15 @@ export function ShopExperience() {
 }
 
 function FeaturedSet({ onView }: { onView: () => void }) {
+  const { tr } = useI18n();
+  const format = useFormat();
   const set = HOME_RITUAL_SET;
   return (
     <FadeUp className="container-page mt-12 grid gap-6 lg:mt-[62px] lg:grid-cols-[1fr_422px]">
       <div className="group/media relative aspect-[850/480] overflow-hidden rounded-xl bg-cream max-lg:aspect-[4/3]">
         <Image
           src={set.image}
-          alt={set.imageAlt}
+          alt={tr(set.imageAlt)}
           fill
           priority
           sizes="(min-width: 1280px) 850px, (min-width: 1024px) 60vw, 100vw"
@@ -126,21 +127,21 @@ function FeaturedSet({ onView }: { onView: () => void }) {
         />
       </div>
       <section aria-labelledby="set-title" className="flex flex-col rounded-xl bg-cream p-8 md:p-[42px]">
-        <Eyebrow>{set.spec}</Eyebrow>
+        <Eyebrow>{tr(set.spec)}</Eyebrow>
         <h2 id="set-title" className="mt-[15px] font-display text-[2.25rem] leading-[1.1] text-strong md:text-heading-lg">
-          {set.name}
+          {tr(set.name)}
         </h2>
-        <p className="mt-3 font-sans text-body-xs text-stone">{set.description}</p>
-        <p className="mt-16 font-mono text-[1.25rem] text-strong lg:mt-auto">${set.price.toFixed(2)}</p>
-        <Button onClick={onView} className="mt-5 self-start" aria-haspopup="dialog">
-          View the set
-        </Button>
+        <p className="mt-3 font-sans text-body-xs text-stone">{tr(set.description)}</p>
+        <p className="mt-16 font-mono text-[1.25rem] text-strong lg:mt-auto">{format.price(set.price)}</p>
+        <Button onClick={onView} className="mt-5 self-start" aria-haspopup="dialog">{tr("View the set")}</Button>
       </section>
     </FadeUp>
   );
 }
 
 function ProductCard({ product, onQuickView }: { product: ShopProduct; onQuickView: () => void }) {
+  const { tr } = useI18n();
+  const format = useFormat();
   const safe = useMotionSafe();
   return (
     <m.article
@@ -151,7 +152,7 @@ function ProductCard({ product, onQuickView }: { product: ShopProduct; onQuickVi
       <div data-cursor="view" className="relative aspect-[416/340] overflow-hidden rounded-md bg-cream">
         <Image
           src={product.image}
-          alt={product.imageAlt}
+          alt={tr(product.imageAlt)}
           fill
           sizes="(min-width: 1280px) 416px, (min-width: 640px) 50vw, 100vw"
           className="object-cover transition-transform duration-700 ease-noir group-hover/card:scale-[1.06]"
@@ -159,9 +160,7 @@ function ProductCard({ product, onQuickView }: { product: ShopProduct; onQuickVi
         <span
           aria-hidden
           className="glass-cream absolute bottom-4 left-1/2 inline-flex h-9 -translate-x-1/2 translate-y-2 items-center rounded-full px-4 font-mono text-eyebrow text-strong uppercase opacity-0 transition-[opacity,translate] duration-500 ease-noir group-focus-within/card:translate-y-0 group-focus-within/card:opacity-100 group-hover/card:translate-y-0 group-hover/card:opacity-100"
-        >
-          Quick view
-        </span>
+        >{tr("Quick view")}</span>
       </div>
       <div className="mt-[11px] flex items-start justify-between gap-4">
         <div>
@@ -170,20 +169,22 @@ function ProductCard({ product, onQuickView }: { product: ShopProduct; onQuickVi
               type="button"
               onClick={onQuickView}
               aria-haspopup="dialog"
-              className="text-left outline-none after:absolute after:inset-0 after:content-[''] focus-visible:underline focus-visible:decoration-caramel focus-visible:underline-offset-4"
+              className="text-start outline-none after:absolute after:inset-0 after:content-[''] focus-visible:underline focus-visible:decoration-caramel focus-visible:underline-offset-4"
             >
-              {product.name}
+              {tr(product.name)}
             </button>
           </h3>
-          <p className="mt-2 font-mono text-micro text-stone">{product.spec}</p>
+          <p className="mt-2 font-mono text-micro text-stone">{tr(product.spec)}</p>
         </div>
-        <p className="pt-0.5 font-sans text-body-xs text-strong">${product.price}</p>
+        <p className="pt-0.5 font-sans text-body-xs text-strong">{format.price(product.price, true)}</p>
       </div>
     </m.article>
   );
 }
 
 function QuickView({ product }: { product: ShopProduct }) {
+  const { tr } = useI18n();
+  const format = useFormat();
   const safe = useMotionSafe();
   const { add, count } = useBag();
   const [roast, setRoast] = useState<RoastLevel | undefined>(product.roasts?.[Math.min(1, product.roasts.length - 1)]);
@@ -198,20 +199,20 @@ function QuickView({ product }: { product: ShopProduct }) {
   return (
     <div className="grid md:grid-cols-[1.1fr_1fr]">
       <div className="relative aspect-[4/5] bg-cream md:aspect-auto md:min-h-[640px]">
-        <Image src={product.image} alt={product.imageAlt} fill sizes="(min-width: 768px) 560px, 100vw" className="object-cover" />
+        <Image src={product.image} alt={tr(product.imageAlt)} fill sizes="(min-width: 768px) 560px, 100vw" className="object-cover" />
       </div>
 
       {/* Product information stays in view while the image column scrolls on tall content. */}
       <div className="p-6 md:p-10">
         <div className="md:sticky md:top-10">
-          <Eyebrow>{product.spec}</Eyebrow>
-          <h3 className="mt-3 font-display text-heading-xl leading-[1.05] text-strong">{product.name}</h3>
-          <p className="mt-4 font-mono text-[1.25rem] text-strong">${(product.price * quantity).toFixed(2)}</p>
-          <p className="mt-5 font-sans text-body-sm leading-[26px] text-stone">{product.description}</p>
+          <Eyebrow>{tr(product.spec)}</Eyebrow>
+          <h3 className="mt-3 font-display text-heading-xl leading-[1.05] text-strong">{tr(product.name)}</h3>
+          <p className="mt-4 font-mono text-[1.25rem] text-strong">{format.price(product.price * quantity)}</p>
+          <p className="mt-5 font-sans text-body-sm leading-[26px] text-stone">{tr(product.description)}</p>
 
           {product.roasts && (
             <fieldset className="mt-8">
-              <legend className="font-mono text-micro text-stone uppercase">Roast</legend>
+              <legend className="font-mono text-micro text-stone uppercase">{tr("Roast")}</legend>
               <div className="mt-3 flex flex-wrap gap-2">
                 {product.roasts.map((r) => (
                   <Chip key={r} selected={roast === r} onClick={() => setRoast(r)} icon={<RoastMeter roast={r} />}>
@@ -224,7 +225,7 @@ function QuickView({ product }: { product: ShopProduct }) {
 
           {product.variants.map((group) => (
             <fieldset key={group.name} className="mt-6">
-              <legend className="font-mono text-micro text-stone uppercase">{group.name}</legend>
+              <legend className="font-mono text-micro text-stone uppercase">{tr(group.name)}</legend>
               <div className="mt-3 flex flex-wrap gap-2">
                 {group.options.map((option) => (
                   <Chip
@@ -232,7 +233,7 @@ function QuickView({ product }: { product: ShopProduct }) {
                     selected={variants[group.name] === option}
                     onClick={() => setVariants((v) => ({ ...v, [group.name]: option }))}
                   >
-                    {option}
+                    {tr(option)}
                   </Chip>
                 ))}
               </div>
@@ -247,9 +248,7 @@ function QuickView({ product }: { product: ShopProduct }) {
                 setAdded(true);
                 feedback("add");
               }}
-            >
-              Add to bag
-            </Button>
+            >{tr("Add to bag")}</Button>
           </div>
 
           <div aria-live="polite" className="mt-4 min-h-5">
@@ -260,9 +259,7 @@ function QuickView({ product }: { product: ShopProduct }) {
                   initial="hidden"
                   animate="visible"
                   className="font-mono text-micro text-caramel-ink uppercase"
-                >
-                  Added · {count} {count === 1 ? "item" : "items"} set aside in your bag
-                </m.p>
+                >{count === 1 ? tr("Added · 1 item set aside in your bag") : tr("Added · {n} items set aside in your bag", { n: count })}</m.p>
               )}
             </AnimatePresence>
           </div>
@@ -272,10 +269,10 @@ function QuickView({ product }: { product: ShopProduct }) {
             <ProductReviews product={product.slug} name={product.name} />
           </div>
 
-          <ul aria-label="Details" className="mt-6 flex flex-wrap gap-2">
+          <ul aria-label={tr("Details")} className="mt-6 flex flex-wrap gap-2">
             {product.details.map((d) => (
               <li key={d}>
-                <NoteChip>{d}</NoteChip>
+                <NoteChip>{tr(d)}</NoteChip>
               </li>
             ))}
           </ul>

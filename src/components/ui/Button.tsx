@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import Link from "next/link";
+import Link from "@/i18n/link";
 import { ArrowUpRight } from "lucide-react";
 import { useMotionSafe } from "@/hooks/useMotionSafe";
 import { haptic } from "@/lib/haptics";
@@ -25,7 +25,7 @@ import { cn } from "@/lib/cn";
 export type ButtonVariant = "primary" | "accent" | "secondary" | "inverse" | "outline-inverse";
 
 const base =
-  "group/button relative isolate inline-flex h-13 min-w-11 shrink-0 items-center justify-center gap-2.5 overflow-hidden rounded-full pr-[18px] pl-6 " +
+  "group/button relative isolate inline-flex h-13 min-w-11 shrink-0 items-center justify-center gap-2.5 overflow-hidden rounded-full pe-[18px] ps-6 " +
   "font-sans text-button font-semibold uppercase tracking-[0.01em] whitespace-nowrap " +
   "[transform:translate3d(var(--mx,0px),var(--my,0px),0)] " +
   "transition-[background-color,color,border-color,translate,transform,box-shadow] duration-250 ease-noir " +

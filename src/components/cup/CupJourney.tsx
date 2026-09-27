@@ -11,6 +11,7 @@ import { useMotionSafe } from "@/hooks/useMotionSafe";
 import { feedback } from "@/lib/feedback";
 import { cn } from "@/lib/cn";
 import { PageTitle } from "@/components/layout/PageTitle";
+import { useI18n } from "@/i18n/client";
 
 const loadJourney = () => import("@/components/three/JourneyScene");
 const ART_NAME: Record<LatteArt, string> = { rosetta: "Rosetta", heart: "Heart", tulip: "Tulip" };
@@ -38,6 +39,7 @@ function useCompact() {
  * real DOM text over the canvas, so it reads without WebGL too.
  */
 export function CupJourney() {
+  const { tr } = useI18n();
   const safe = useMotionSafe();
   const compact = useCompact();
   const section = useRef<HTMLElement>(null);
@@ -93,7 +95,7 @@ export function CupJourney() {
           <LazyScene
             load={loadJourney}
             props={{ progress: safe ? progress : STILL_VIEW, art, onTap: nextArt, still: !safe, compact }}
-            label={`A coffee cup in 3D — ${ART_NAME[art]} latte art, with steam rising`}
+            label={tr("A coffee cup in 3D — {art} latte art, with steam rising", { art: tr(ART_NAME[art]) })}
             className="absolute inset-0"
             fallback={
               <Image src="/videos/latte-art-poster.webp" alt="" fill priority sizes="100vw" className="object-cover opacity-70" />
@@ -103,26 +105,24 @@ export function CupJourney() {
 
           <div className="container-page pointer-events-none relative flex h-full flex-col justify-between pt-[calc(var(--safe-top)+112px)] pb-[calc(var(--dock-height)+44px+var(--safe-bottom))] md:pt-40 md:pb-16">
             <div>
-              <Eyebrow tone="accent-inverse">From seed to cup · 3D</Eyebrow>
+              <Eyebrow tone="accent-inverse">{tr("From seed to cup · 3D")}</Eyebrow>
               <PageTitle>
-                <h1 id="cup-title" className="type-display-lg mt-4 max-w-[560px] text-beige">
-                  Five transformations. One expressive cup.
-                </h1>
+                <h1 id="cup-title" className="type-display-lg mt-4 max-w-[560px] text-beige">{tr("Five transformations. One expressive cup.")}</h1>
               </PageTitle>
             </div>
 
             <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
               <div key={c.id} aria-live="polite" className="max-w-[440px] motion-safe:animate-[float-up_0.7s_var(--ease-noir)_both]">
                 <p className="font-mono text-eyebrow text-caramel-glow uppercase">
-                  {pad(chapter + 1)} / {pad(JOURNEY.length)} · {c.step}
+                  {pad(chapter + 1)} / {pad(JOURNEY.length)} · {tr(c.step)}
                 </p>
-                <h2 className="mt-3 font-display text-[2.5rem] leading-[1] text-beige md:text-[3.25rem]">{c.title}</h2>
-                <p className="mt-3 font-sans text-body-sm leading-[24px] text-cream">{c.text}</p>
+                <h2 className="mt-3 font-display text-[2.5rem] leading-[1] text-beige md:text-[3.25rem]">{tr(c.title)}</h2>
+                <p className="mt-3 font-sans text-body-sm leading-[24px] text-cream">{tr(c.text)}</p>
               </div>
 
               <div className="pointer-events-auto flex flex-wrap items-center gap-3">
-                <Button variant="outline-inverse" onClick={nextArt} aria-label={`Change the pour (now ${ART_NAME[art]})`}>
-                  {ART_NAME[art]}
+                <Button variant="outline-inverse" onClick={nextArt} aria-label={tr("Change the pour (now {art})", { art: tr(ART_NAME[art]) })}>
+                  {tr(ART_NAME[art])}
                 </Button>
                 {needsMotion && (
                   <Button
@@ -131,19 +131,17 @@ export function CupJourney() {
                     onClick={async () => {
                       if (await requestMotionPermission()) setMotionGranted(true);
                     }}
-                  >
-                    Tilt to look
-                  </Button>
+                  >{tr("Tilt to look")}</Button>
                 )}
               </div>
             </div>
 
             {/* Chapter rail */}
-            <ol aria-label="Chapters" className="absolute top-1/2 right-[var(--gutter)] hidden -translate-y-1/2 flex-col gap-3 md:flex">
+            <ol aria-label={tr("Chapters")} className="absolute top-1/2 inset-e-[var(--gutter)] hidden -translate-y-1/2 flex-col gap-3 md:flex">
               {JOURNEY.map((j, i) => (
                 <li key={j.id} aria-current={i === chapter ? "step" : undefined} className="flex items-center justify-end gap-3">
                   <span className={cn("font-mono text-micro uppercase transition-opacity duration-500", i === chapter ? "text-beige opacity-100" : "text-taupe opacity-0")}>
-                    {j.step}
+                    {tr(j.step)}
                   </span>
                   <span className={cn("block h-px transition-all duration-500 ease-noir", i === chapter ? "w-10 bg-caramel" : "w-5 bg-beige/30")} />
                 </li>
@@ -156,18 +154,14 @@ export function CupJourney() {
       <section aria-labelledby="cup-next" className="bg-espresso pb-[calc(var(--dock-height)+56px+var(--safe-bottom))] text-beige md:pb-32">
         <div className="container-page flex flex-col gap-8 border-t border-char pt-16 md:flex-row md:items-end md:justify-between md:pt-24">
           <div>
-            <Eyebrow tone="accent-inverse">Brewing Lab</Eyebrow>
+            <Eyebrow tone="accent-inverse">{tr("Brewing Lab")}</Eyebrow>
             <h2 id="cup-next" className="type-display-md mt-4 max-w-[520px] text-beige">
-              {JOURNEY[JOURNEY.length - 1].text}
+              {tr(JOURNEY[JOURNEY.length - 1].text)}
             </h2>
           </div>
           <div className="flex flex-col gap-3 sm:flex-row">
-            <Button href="/brewing-lab/studio" variant="inverse">
-              Build a recipe
-            </Button>
-            <Button href="/menu" variant="outline-inverse">
-              Explore menu
-            </Button>
+            <Button href="/brewing-lab/studio" variant="inverse">{tr("Build a recipe")}</Button>
+            <Button href="/menu" variant="outline-inverse">{tr("Explore menu")}</Button>
           </div>
         </div>
       </section>

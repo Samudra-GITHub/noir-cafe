@@ -7,7 +7,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "i18n:check": "node scripts/i18n-check.mjs",
+    "rtl:check": "node scripts/rtl-logical.mjs src --check"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.128.0",
