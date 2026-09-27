@@ -7,47 +7,20 @@ import { VIDEOS, type VideoAsset } from "@/constants/media";
 import { useMotionSafe } from "@/hooks/useMotionSafe";
 import { ease } from "@/lib/motion";
 import { cn } from "@/lib/cn";
+import { JOURNEY, type JourneyChapter } from "@/data/journey";
 import { FilmGrain } from "./HeroAtmosphere";
 
-type Chapter = { id: string; step: string; title: string; text: string; video: VideoAsset };
+type Chapter = JourneyChapter & { video: VideoAsset };
 
-const CHAPTERS: Chapter[] = [
-  {
-    id: "origin",
-    step: "Origin",
-    title: "It begins as a seed.",
-    text: "Smallholder lots, picked ripe and dried slowly at altitude.",
-    video: VIDEOS.coffeeBeans,
-  },
-  {
-    id: "brew",
-    step: "Brew",
-    title: "Water, measured.",
-    text: "Ninety-three degrees, three pours, and patience between them.",
-    video: VIDEOS.pourOver,
-  },
-  {
-    id: "extract",
-    step: "Extract",
-    title: "Pressure, then honey.",
-    text: "Eighteen grams in, thirty-six out, in twenty-eight seconds.",
-    video: VIDEOS.heroEspresso,
-  },
-  {
-    id: "pour",
-    step: "Pour",
-    title: "A steady hand.",
-    text: "Microfoam folded into crema until the rosetta settles.",
-    video: VIDEOS.latteArt,
-  },
-  {
-    id: "cup",
-    step: "The cup",
-    title: "Served simply.",
-    text: "Everything before it, held quietly in a single cup.",
-    video: VIDEOS.perfectCup,
-  },
-];
+const FILMS: Record<JourneyChapter["id"], VideoAsset> = {
+  origin: VIDEOS.coffeeBeans,
+  brew: VIDEOS.pourOver,
+  extract: VIDEOS.heroEspresso,
+  pour: VIDEOS.latteArt,
+  cup: VIDEOS.perfectCup,
+};
+
+const CHAPTERS: Chapter[] = JOURNEY.map((c) => ({ ...c, video: FILMS[c.id] }));
 
 /**
  * Preparation story — the homepage hero continues as a pinned, scroll-driven

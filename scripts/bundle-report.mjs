@@ -18,7 +18,7 @@ import zlib from "node:zlib";
 
 const ROOT = process.cwd();
 const APP = path.join(ROOT, ".next/server/app");
-const ROUTES = ["index", "menu", "story", "brewing-lab", "reservation", "locations", "shop"];
+const ROUTES = ["index", "menu", "story", "brewing-lab", "reservation", "locations", "shop", "cup", "brewing-lab/studio"];
 
 const gz = (file) => zlib.gzipSync(fs.readFileSync(file)).length;
 const kb = (n) => (n / 1024).toFixed(1);

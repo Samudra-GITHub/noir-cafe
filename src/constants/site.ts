@@ -24,6 +24,12 @@ export const NAV_LINKS = [
 
 export const RESERVE_HREF = "/reservation";
 
+/** Secondary destinations, listed in the phone and tablet menu sheet. */
+export const MORE_LINKS = [
+  { label: "Recipe studio", href: "/brewing-lab/studio" },
+  { label: "From seed to cup · 3D", href: "/cup" },
+] as const;
+
 /**
  * First-visit loader ("Preparing your coffee…"). Shown once per session.
  * It costs roughly 10–20 points of Lighthouse mobile performance on a cold
@@ -32,7 +38,7 @@ export const RESERVE_HREF = "/reservation";
 export const SHOW_LOADER = true;
 
 /** Routes that open on a full-bleed dark hero — the nav starts in its dark glass there. */
-export const DARK_HERO_ROUTES: readonly string[] = ["/", "/story"];
+export const DARK_HERO_ROUTES: readonly string[] = ["/", "/story", "/cup"];
 
 export const FOOTER_LINKS = [
   { label: "Instagram", href: "#" },

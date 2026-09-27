@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Pause, Play, RotateCcw } from "lucide-react";
 import { BREW_METHODS, GRIND_RANGE, TEMP_RANGE, formatClock, type BrewMethod } from "@/data/brewing";
-import { RoastMeter } from "@/components/ui";
+import { RoastMeter, Button } from "@/components/ui";
 import { useMotionSafe } from "@/hooks/useMotionSafe";
 import { feedback, useFeedbackOnChange } from "@/lib/feedback";
 import { cn } from "@/lib/cn";
@@ -59,6 +59,14 @@ export function MobileBrewStory() {
             />
           </span>
         ))}
+      </div>
+
+      {/* Into the studio, to change the recipes yourself. */}
+      <div className="container-page flex items-center justify-between gap-4 border-t border-char py-8">
+        <p className="font-sans text-body-sm text-cream">Change dose, grind, heat and roast — and watch the cup change.</p>
+        <Button href="/brewing-lab/studio" variant="inverse" className="shrink-0">
+          Studio
+        </Button>
       </div>
     </section>
   );

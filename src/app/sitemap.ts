@@ -9,6 +9,8 @@ const ROUTES = [
   { path: "/shop", priority: 0.8 },
   { path: "/story", priority: 0.6 },
   { path: "/brewing-lab", priority: 0.6 },
+  { path: "/brewing-lab/studio", priority: 0.5 },
+  { path: "/cup", priority: 0.5 },
 ];
 
 export default function sitemap(): MetadataRoute.Sitemap {

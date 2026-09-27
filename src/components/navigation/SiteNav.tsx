@@ -8,7 +8,7 @@ import { useLenis } from "@/lib/lenis";
 import { Button, Logo } from "@/components/ui";
 import { SoundToggle } from "./SoundToggle";
 import { AtmosphereControls } from "@/components/atmosphere/AtmosphereControls";
-import { DARK_HERO_ROUTES, NAV_LINKS, RESERVE_HREF, SITE } from "@/constants/site";
+import { DARK_HERO_ROUTES, MORE_LINKS, NAV_LINKS, RESERVE_HREF, SITE } from "@/constants/site";
 import { useNavTheme, type NavTheme } from "@/hooks/useNavTheme";
 import { useMotionSafe } from "@/hooks/useMotionSafe";
 import { ease, duration, sheet, sheetItem } from "@/lib/motion";
@@ -224,6 +224,8 @@ function MobileSheet({
     if (!open) return;
     lenis?.stop();
     document.documentElement.style.overflow = "hidden";
+    // The sheet is modal: the phone dock steps aside while it is open.
+    document.documentElement.dataset.menuOpen = "";
     const first = sheetRef.current?.querySelector<HTMLElement>("a[href]");
     first?.focus();
 
@@ -249,6 +251,7 @@ function MobileSheet({
     return () => {
       lenis?.start();
       document.documentElement.style.overflow = "";
+      delete document.documentElement.dataset.menuOpen;
       window.removeEventListener("keydown", onKey);
     };
   }, [open, lenis, onClose, toggleRef]);
@@ -269,7 +272,7 @@ function MobileSheet({
           animate="visible"
           exit="exit"
           transition={safe ? undefined : { duration: 0 }}
-          className="pointer-events-auto fixed inset-0 flex flex-col bg-espresso/85 text-beige nav:hidden"
+          className="pointer-events-auto fixed inset-0 flex flex-col overflow-y-auto overscroll-contain bg-espresso/85 text-beige nav:hidden"
           style={{ top: -NAV_TOP }}
         >
           <h2 id={titleId} className="sr-only">
@@ -304,9 +307,23 @@ function MobileSheet({
                 );
               })}
             </ul>
+            <ul aria-label="More" className="mt-6 flex flex-col border-t border-beige/15 pt-4">
+              {MORE_LINKS.map((link) => (
+                <li key={link.href}>
+                  <Link
+                    href={link.href}
+                    onClick={onClose}
+                    aria-current={isActive(pathname, link.href) ? "page" : undefined}
+                    className="flex min-h-11 items-center font-mono text-eyebrow text-cream uppercase hover:text-beige"
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
           </nav>
           <AtmosphereControls className="container-page border-t border-beige/15 pt-6 pb-6 md:hidden" />
-          <div className="container-page flex flex-col gap-1 pb-10 font-mono text-eyebrow text-cream uppercase">
+          <div className="container-page flex flex-col gap-1 pb-[calc(40px+var(--safe-bottom))] font-mono text-eyebrow text-cream uppercase">
             <span>{SITE.address}</span>
             <span>{SITE.hours}</span>
           </div>

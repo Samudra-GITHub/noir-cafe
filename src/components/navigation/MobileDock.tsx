@@ -64,7 +64,7 @@ export function MobileDock() {
       aria-label="Mobile"
       onFocusCapture={() => setHidden(false)}
       className={cn(
-        "fixed inset-x-4 z-50 md:hidden",
+        "mobile-dock fixed inset-x-4 z-50 md:hidden",
         "transition-transform duration-500 ease-noir motion-reduce:transition-none",
         hidden && "translate-y-[calc(100%+40px)]",
       )}
