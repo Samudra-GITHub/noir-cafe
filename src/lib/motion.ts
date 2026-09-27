@@ -122,7 +122,14 @@ export const sheetItem: Variants = {
 
 /** Invalid input — short horizontal shake. */
 export const SHAKE_KEYFRAMES = [0, -8, 8, -6, 6, -3, 3, 0];
-export const shakeTransition: Transition = { duration: 0.5, ease: "easeInOut" };
+
+/** Play the shake on an element with the Web Animations API (no motion runtime needed). */
+export function shake(el: Element) {
+  el.animate(
+    SHAKE_KEYFRAMES.map((x) => ({ translate: `${x}px 0` })),
+    { duration: 500, easing: "ease-in-out" },
+  );
+}
 
 /** Success confirmation — message rises, check mark draws. */
 export const successReveal: Variants = {

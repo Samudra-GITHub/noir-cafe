@@ -1,13 +1,13 @@
 "use client";
 
-import { useActionState, useEffect, useId } from "react";
-import { AnimatePresence, motion, useAnimate } from "framer-motion";
+import { useActionState, useEffect, useId, useRef } from "react";
+import { AnimatePresence, m } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
 import { FadeUp } from "@/components/motion/FadeUp";
 import { SectionIntro } from "@/components/shared/SectionIntro";
 import { subscribe, type NewsletterState } from "@/lib/actions/newsletter";
 import { useMotionSafe } from "@/hooks/useMotionSafe";
-import { SHAKE_KEYFRAMES, checkDraw, shakeTransition, successReveal } from "@/lib/motion";
+import { checkDraw, shake, successReveal } from "@/lib/motion";
 import { cn } from "@/lib/cn";
 
 /**
@@ -21,7 +21,7 @@ export function Newsletter() {
     status: "idle",
   });
   const safe = useMotionSafe();
-  const [rowRef, animate] = useAnimate<HTMLDivElement>();
+  const rowRef = useRef<HTMLDivElement>(null);
   const inputId = useId();
   const messageId = `${inputId}-message`;
   const isError = state.status === "error";
@@ -29,9 +29,9 @@ export function Newsletter() {
 
   useEffect(() => {
     if (errorAt && safe && rowRef.current) {
-      void animate(rowRef.current, { x: SHAKE_KEYFRAMES }, shakeTransition);
+      shake(rowRef.current);
     }
-  }, [errorAt, safe, animate, rowRef]);
+  }, [errorAt, safe]);
 
   return (
     <section aria-labelledby="newsletter-title" className="relative z-10 bg-canvas py-20 md:pt-24 md:pb-[99px]">
@@ -48,7 +48,7 @@ export function Newsletter() {
         <form action={action} noValidate className="w-full lg:w-[500px]">
           <AnimatePresence mode="wait" initial={false}>
             {state.status === "success" ? (
-              <motion.div
+              <m.div
                 key="done"
                 variants={safe ? successReveal : undefined}
                 initial="hidden"
@@ -57,7 +57,7 @@ export function Newsletter() {
               >
                 <svg aria-hidden viewBox="0 0 20 20" className="size-5 text-caramel">
                   <circle cx="10" cy="10" r="9" fill="none" stroke="currentColor" strokeWidth="1" opacity="0.4" />
-                  <motion.path
+                  <m.path
                     d="M6 10.4 8.7 13 14 7.5"
                     fill="none"
                     stroke="currentColor"
@@ -70,9 +70,9 @@ export function Newsletter() {
                   />
                 </svg>
                 <p className="font-sans text-body-sm text-strong">{state.message}</p>
-              </motion.div>
+              </m.div>
             ) : (
-              <motion.div
+              <m.div
                 key="field"
                 ref={rowRef}
                 exit={safe ? { opacity: 0, y: -8, transition: { duration: 0.25 } } : undefined}
@@ -119,7 +119,7 @@ export function Newsletter() {
                     strokeWidth={1.75}
                   />
                 </button>
-              </motion.div>
+              </m.div>
             )}
           </AnimatePresence>
 

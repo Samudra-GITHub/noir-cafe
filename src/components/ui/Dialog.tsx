@@ -2,9 +2,9 @@
 
 import { useEffect, useId, useRef, useSyncExternalStore } from "react";
 import { createPortal } from "react-dom";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, m } from "framer-motion";
 import { X } from "lucide-react";
-import { useLenis } from "lenis/react";
+import { useLenis } from "@/lib/lenis";
 import { useMotionSafe } from "@/hooks/useMotionSafe";
 import { ease } from "@/lib/motion";
 import { cn } from "@/lib/cn";
@@ -86,14 +86,14 @@ export function Dialog({
   return createPortal(
     <AnimatePresence>
       {open && (
-        <motion.div
+        <m.div
           className="fixed inset-0 z-[70] flex items-end justify-center p-0 md:items-center md:p-8"
           initial={safe ? { opacity: 0 } : false}
           animate={{ opacity: 1 }}
           exit={safe ? { opacity: 0 } : undefined}
           transition={ease(0.35)}
         >
-          <motion.div
+          <m.div
             aria-hidden
             onClick={onClose}
             className="absolute inset-0 bg-espresso/55"
@@ -102,7 +102,7 @@ export function Dialog({
             exit={safe ? { backdropFilter: "blur(0px)" } : undefined}
             transition={ease(0.45)}
           />
-          <motion.div
+          <m.div
             ref={panelRef}
             role="dialog"
             aria-modal="true"
@@ -129,8 +129,8 @@ export function Dialog({
               <X aria-hidden className="size-4" strokeWidth={1.5} />
             </button>
             {children}
-          </motion.div>
-        </motion.div>
+          </m.div>
+        </m.div>
       )}
     </AnimatePresence>,
     document.body,

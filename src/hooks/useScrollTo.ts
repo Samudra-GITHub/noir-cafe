@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback } from "react";
-import { useLenis } from "lenis/react";
+import { useLenis } from "@/lib/lenis";
 
 /** Offset that clears the fixed glass nav (28px inset + 72px bar + breathing room). */
 export const NAV_CLEARANCE = 140;

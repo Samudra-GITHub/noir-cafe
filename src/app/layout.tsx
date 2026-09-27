@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Cormorant_Garamond, IBM_Plex_Mono, Inter } from "next/font/google";
+import localFont from "next/font/local";
 import "lenis/dist/lenis.css";
 import "./globals.css";
 import { Atmosphere } from "@/components/layout/Atmosphere";
@@ -10,39 +11,50 @@ import { SHOW_LOADER } from "@/constants/site";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { Newsletter } from "@/components/shared/Newsletter";
 import { SmoothScroll } from "@/components/layout/SmoothScroll";
+import { MotionProvider } from "@/components/motion/MotionProvider";
 import { SiteNav } from "@/components/navigation/SiteNav";
 import { MobileDock } from "@/components/navigation/MobileDock";
 import { AmbientAudioProvider } from "@/hooks/useAmbientAudio";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { DEFAULT_DESCRIPTION, SITE_URL, pageMetadata } from "@/lib/seo";
 import { organizationSchema } from "@/lib/schema";
+import { EARLY_REVEAL } from "@/lib/early-reveal";
 
-// Upright cuts are preloaded — they paint the first screen. Italics and the
-// mono only appear in small or below-the-fold type, so they load on demand
-// (still swapped in) and stay off the mobile critical path.
-const cormorant = Cormorant_Garamond({
-  subsets: ["latin"],
+// Upright cuts are preloaded — they paint the first screen — and self-hosted
+// with the weight axis trimmed to what the site renders (see src/fonts).
+// Italics and the mono only appear in small or below-the-fold type, so they
+// load on demand (still swapped in) and stay off the mobile critical path.
+const cormorant = localFont({
+  src: "../fonts/cormorant-garamond-latin-wght400-500.woff2",
+  weight: "400 500",
+  style: "normal",
   variable: "--font-cormorant",
   display: "swap",
+  adjustFontFallback: "Times New Roman",
 });
 
 const cormorantItalic = Cormorant_Garamond({
   subsets: ["latin"],
   style: "italic",
+  weight: "400",
   variable: "--font-cormorant-italic",
   display: "swap",
   preload: false,
 });
 
-const inter = Inter({
-  subsets: ["latin"],
+const inter = localFont({
+  src: "../fonts/inter-latin-wght400-600.woff2",
+  weight: "400 600",
+  style: "normal",
   variable: "--font-inter",
   display: "swap",
+  adjustFontFallback: "Arial",
 });
 
 const interItalic = Inter({
   subsets: ["latin"],
   style: "italic",
+  weight: "400",
   variable: "--font-inter-italic",
   display: "swap",
   preload: false,
@@ -50,7 +62,7 @@ const interItalic = Inter({
 
 const plexMono = IBM_Plex_Mono({
   subsets: ["latin"],
-  weight: ["400", "500"],
+  weight: "400",
   variable: "--font-plex-mono",
   display: "swap",
   preload: false,
@@ -87,6 +99,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body>
         {SHOW_LOADER && <Loader />}
+        <MotionProvider>
         <AmbientAudioProvider>
         <SmoothScroll>
           <a
@@ -107,6 +120,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <ClientEnhancements />
         </SmoothScroll>
         </AmbientAudioProvider>
+        </MotionProvider>
+        <script dangerouslySetInnerHTML={{ __html: EARLY_REVEAL }} />
       </body>
     </html>
   );

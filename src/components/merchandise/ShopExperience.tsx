@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { AnimatePresence, LayoutGroup, motion } from "framer-motion";
+import { AnimatePresence, LayoutGroup, m } from "framer-motion";
 import { FadeUp } from "@/components/motion/FadeUp";
 import { Button, Chip, Dialog, Eyebrow, NoteChip, QuantitySelector, RoastMeter, type RoastLevel } from "@/components/ui";
 import { HOME_RITUAL_SET, PRODUCTS, SHOP_FILTERS, type ShopProduct } from "@/data/shop";
@@ -51,7 +51,7 @@ export function ShopExperience() {
                   >
                     {f.label}
                     {active && (
-                      <motion.span
+                      <m.span
                         layoutId="shop-filter-rule"
                         aria-hidden
                         transition={safe ? ease(0.45) : { duration: 0 }}
@@ -68,10 +68,10 @@ export function ShopExperience() {
           </p>
         </div>
 
-        <motion.ul layout={safe} className="mt-3 grid gap-x-6 gap-y-14 sm:grid-cols-2 lg:grid-cols-3 lg:gap-y-[81px]">
+        <m.ul layout={safe} className="mt-3 grid gap-x-6 gap-y-14 sm:grid-cols-2 lg:grid-cols-3 lg:gap-y-[81px]">
           <AnimatePresence mode="popLayout" initial={false}>
             {visible.map((product) => (
-              <motion.li
+              <m.li
                 key={product.slug}
                 layout={safe}
                 initial={safe ? { opacity: 0, y: 16 } : false}
@@ -80,10 +80,10 @@ export function ShopExperience() {
                 transition={ease(0.5)}
               >
                 <ProductCard product={product} onQuickView={() => setQuickView(product)} />
-              </motion.li>
+              </m.li>
             ))}
           </AnimatePresence>
-        </motion.ul>
+        </m.ul>
       </section>
 
       <Dialog
@@ -140,7 +140,7 @@ function FeaturedSet({ onView }: { onView: () => void }) {
 function ProductCard({ product, onQuickView }: { product: ShopProduct; onQuickView: () => void }) {
   const safe = useMotionSafe();
   return (
-    <motion.article
+    <m.article
       className="group/card relative"
       whileHover={safe ? productHover.card : undefined}
       transition={productHover.transition}
@@ -176,7 +176,7 @@ function ProductCard({ product, onQuickView }: { product: ShopProduct; onQuickVi
         </div>
         <p className="pt-0.5 font-sans text-body-xs text-strong">${product.price}</p>
       </div>
-    </motion.article>
+    </m.article>
   );
 }
 
@@ -251,14 +251,14 @@ function QuickView({ product }: { product: ShopProduct }) {
           <div aria-live="polite" className="mt-4 min-h-5">
             <AnimatePresence>
               {added && (
-                <motion.p
+                <m.p
                   variants={safe ? successReveal : undefined}
                   initial="hidden"
                   animate="visible"
                   className="font-mono text-micro text-caramel-ink uppercase"
                 >
                   Added · {count} {count === 1 ? "item" : "items"} set aside in your bag
-                </motion.p>
+                </m.p>
               )}
             </AnimatePresence>
           </div>

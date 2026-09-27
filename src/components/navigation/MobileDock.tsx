@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { CalendarCheck, Coffee, House, MapPin, ShoppingBag, type LucideIcon } from "lucide-react";
 import { useMotionSafe } from "@/hooks/useMotionSafe";
 import { ease } from "@/lib/motion";
@@ -81,7 +81,7 @@ export function MobileDock() {
                 className="relative flex flex-1 flex-col items-center justify-center gap-1 rounded-full"
               >
                 {active && (
-                  <motion.span
+                  <m.span
                     layoutId="dock-active"
                     aria-hidden
                     transition={safe ? ease(0.45) : { duration: 0 }}

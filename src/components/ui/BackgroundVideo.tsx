@@ -1,7 +1,9 @@
 "use client";
 
 import { useEffect, useRef, useState, useSyncExternalStore } from "react";
+import Image from "next/image";
 import { cn } from "@/lib/cn";
+import { whenIdle, whenLoaded, whenPainted } from "@/lib/page-ready";
 import { useMotionSafe } from "@/hooks/useMotionSafe";
 import type { VideoAsset } from "@/constants/media";
 
@@ -15,7 +17,8 @@ import type { VideoAsset } from "@/constants/media";
  *   and playback pauses whenever it scrolls out of view.
  * - `defer` holds the download back (e.g. a later chapter in a stacked
  *   sequence); once released it stays loaded.
- * - Serves a 720p encode below 768px wide.
+ * - Serves a 720p encode below 768px wide. The poster frame is a next/image
+ *   (AVIF/WebP, responsive) under the film, so it is the optimised LCP image.
  * - Under prefers-reduced-motion, or when the visitor has Save-Data on, only
  *   the poster frame is shown and nothing downloads or plays.
  */
@@ -33,27 +36,35 @@ function useSaveData() {
     () => false,
   );
 }
-/** True once the window load event has fired and the main thread is idle. */
+/**
+ * True once the page has painted, finished loading and gone idle (plus a short
+ * grace period). Films are the heaviest thing on the page; they must never
+ * compete with first paint, however slowly that paint arrives.
+ */
 let settled = false;
+let settling = false;
 const settleListeners = new Set<() => void>();
+
 function subscribeSettled(onChange: () => void) {
   settleListeners.add(onChange);
-  if (settleListeners.size === 1 && !settled) {
-    const settle = () => {
-      const idle = window.requestIdleCallback ?? ((cb: () => void) => window.setTimeout(cb, 200));
-      idle(() => {
+  if (!settled && !settling) {
+    settling = true;
+    void Promise.all([whenPainted(), whenLoaded()])
+      .then(() => new Promise((r) => window.setTimeout(r, 600)))
+      .then(() => whenIdle())
+      .then(() => {
         settled = true;
         settleListeners.forEach((l) => l());
-      }, { timeout: 2000 });
-    };
-    if (document.readyState === "complete") settle();
-    else window.addEventListener("load", settle, { once: true });
+      });
   }
   return () => settleListeners.delete(onChange);
 }
 function usePageSettled() {
   return useSyncExternalStore(subscribeSettled, () => settled, () => false);
 }
+
+/** A 16:9 frame covering the viewport is as wide as 178vh on portrait screens. */
+const COVER_SIZES = "(max-aspect-ratio: 16/9) 178vh, 100vw";
 
 export function BackgroundVideo({
   video,
@@ -62,6 +73,7 @@ export function BackgroundVideo({
   defer = false,
   className,
   videoClassName,
+  sizes = COVER_SIZES,
   children,
 }: {
   video: VideoAsset;
@@ -72,6 +84,8 @@ export function BackgroundVideo({
   defer?: boolean;
   className?: string;
   videoClassName?: string;
+  /** Rendered width of the poster; defaults to a full-bleed cover frame. */
+  sizes?: string;
   /** Overlays (scrims, vignettes) rendered above the video. */
   children?: React.ReactNode;
 }) {
@@ -124,17 +138,27 @@ export function BackgroundVideo({
 
   return (
     <div ref={frameRef} aria-hidden className={cn("absolute inset-0 overflow-hidden", className)}>
+      {/* Deferred films (e.g. later chapters) hold their poster back too,
+          keeping hidden frames off the first-paint budget. */}
+      {released && (
+        <Image
+          src={video.poster}
+          alt=""
+          fill
+          sizes={sizes}
+          preload={priority}
+          fetchPriority={priority ? "high" : undefined}
+          className={cn("object-cover", videoClassName)}
+        />
+      )}
       <video
         ref={videoRef}
-        className={cn("size-full object-cover", videoClassName)}
-        // Deferred films (e.g. later chapters) hold their poster back too,
-        // keeping hidden frames off the first-paint budget.
-        poster={released ? video.poster : undefined}
+        className={cn("relative size-full object-cover", videoClassName)}
         muted
         loop
         playsInline
         autoPlay={shouldLoad}
-        preload={priority ? "auto" : "none"}
+        preload={priority ? "metadata" : "none"}
         disablePictureInPicture
         disableRemotePlayback
       >

@@ -1,0 +1,58 @@
+{
+  "/": {
+    "js": 206304,
+    "jsFiles": 12,
+    "css": 18146,
+    "fonts": 70984,
+    "fontFiles": 2,
+    "html": 20236
+  },
+  "/menu": {
+    "js": 203988,
+    "jsFiles": 12,
+    "css": 18146,
+    "fonts": 70984,
+    "fontFiles": 2,
+    "html": 17579
+  },
+  "/story": {
+    "js": 202200,
+    "jsFiles": 12,
+    "css": 18146,
+    "fonts": 70984,
+    "fontFiles": 2,
+    "html": 15270
+  },
+  "/brewing-lab": {
+    "js": 207017,
+    "jsFiles": 12,
+    "css": 18146,
+    "fonts": 70984,
+    "fontFiles": 2,
+    "html": 16272
+  },
+  "/reservation": {
+    "js": 205819,
+    "jsFiles": 12,
+    "css": 18146,
+    "fonts": 70984,
+    "fontFiles": 2,
+    "html": 15713
+  },
+  "/locations": {
+    "js": 202933,
+    "jsFiles": 12,
+    "css": 18146,
+    "fonts": 70984,
+    "fontFiles": 2,
+    "html": 14748
+  },
+  "/shop": {
+    "js": 206052,
+    "jsFiles": 12,
+    "css": 18146,
+    "fonts": 70984,
+    "fontFiles": 2,
+    "html": 15014
+  }
+}

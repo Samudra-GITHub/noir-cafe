@@ -3,8 +3,8 @@
 import { useCallback, useEffect, useId, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { AnimatePresence, motion, useScroll, useSpring } from "framer-motion";
-import { useLenis } from "lenis/react";
+import { AnimatePresence, m, useScroll, useSpring } from "framer-motion";
+import { useLenis } from "@/lib/lenis";
 import { Button, Logo } from "@/components/ui";
 import { SoundToggle } from "./SoundToggle";
 import { DARK_HERO_ROUTES, NAV_LINKS, RESERVE_HREF, SITE } from "@/constants/site";
@@ -61,7 +61,7 @@ function DesktopLink({
       </span>
 
       {active ? (
-        <motion.span
+        <m.span
           layoutId="nav-active-rule"
           transition={safe ? ease(0.5) : { duration: 0 }}
           aria-hidden
@@ -116,7 +116,7 @@ export function SiteNav() {
           )}
         >
           {/* Reading progress — a caramel hairline along the foot of the pill. */}
-          <motion.span
+          <m.span
             aria-hidden
             className={cn(
               "pointer-events-none absolute right-8 bottom-0 left-8 h-px origin-left bg-caramel",
@@ -254,7 +254,7 @@ function MobileSheet({
   return (
     <AnimatePresence>
       {open && (
-        <motion.div
+        <m.div
           ref={sheetRef}
           id="site-menu"
           role="dialog"
@@ -276,7 +276,7 @@ function MobileSheet({
               {links.map((link, i) => {
                 const active = isActive(pathname, link.href);
                 return (
-                  <motion.li
+                  <m.li
                     key={link.href}
                     custom={i}
                     variants={safe ? sheetItem : undefined}
@@ -296,7 +296,7 @@ function MobileSheet({
                       <span aria-hidden className="type-eyebrow w-6 text-caramel">{String(i + 1).padStart(2, "0")}</span>
                       {link.label}
                     </Link>
-                  </motion.li>
+                  </m.li>
                 );
               })}
             </ul>
@@ -305,7 +305,7 @@ function MobileSheet({
             <span>{SITE.address}</span>
             <span>{SITE.hours}</span>
           </div>
-        </motion.div>
+        </m.div>
       )}
     </AnimatePresence>
   );

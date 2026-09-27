@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { motion, useMotionValueEvent, useScroll, useTransform } from "framer-motion";
+import { m, useMotionValueEvent, useScroll, useTransform } from "framer-motion";
 import { BackgroundVideo, Button, Eyebrow } from "@/components/ui";
 import { VIDEOS } from "@/constants/media";
 import { RESERVE_HREF } from "@/constants/site";
@@ -62,7 +62,7 @@ export function HomeHero() {
       className="sticky top-0 isolate h-dvh overflow-hidden bg-espresso text-beige md:h-svh"
       style={{ visibility: covered ? "hidden" : "visible" }}
     >
-      <motion.div className="absolute inset-x-0 top-0 -bottom-20" style={{ y: filmY, scale: filmScale }}>
+      <m.div className="absolute inset-x-0 top-0 -bottom-20" style={{ y: filmY, scale: filmScale }}>
         {/* On portrait phones the landscape film is framed on the espresso stream. */}
         <BackgroundVideo
           video={VIDEOS.heroEspresso}
@@ -70,7 +70,7 @@ export function HomeHero() {
           paused={covered}
           videoClassName="object-[48%_50%] md:object-center"
         />
-      </motion.div>
+      </m.div>
 
       {/* Warm scrim: heavier at the foot for the copy, lighter mid-frame. */}
       <div
@@ -85,14 +85,14 @@ export function HomeHero() {
       {/* Warm cast to sit the film in the espresso palette */}
       <div aria-hidden className="absolute inset-0 bg-walnut/15 mix-blend-multiply" />
 
-      <motion.div aria-hidden className="absolute inset-0" style={{ y: steamY, opacity: steamOpacity }}>
+      <m.div aria-hidden className="absolute inset-0" style={{ y: steamY, opacity: steamOpacity }}>
         <HeroSteam />
-      </motion.div>
+      </m.div>
       <FilmGrain />
 
-      <motion.div aria-hidden className="pointer-events-none absolute inset-0 bg-espresso" style={{ opacity: dim }} />
+      <m.div aria-hidden className="pointer-events-none absolute inset-0 bg-espresso" style={{ opacity: dim }} />
 
-      <motion.div
+      <m.div
         className="container-page relative flex h-full flex-col justify-end pb-[calc(var(--dock-height)+40px+var(--safe-bottom))] md:pb-16"
         style={{ y: copyY, opacity: copyOpacity }}
       >
@@ -130,7 +130,7 @@ export function HomeHero() {
             Explore menu
           </Button>
         </div>
-      </motion.div>
+      </m.div>
     </section>
   );
 }

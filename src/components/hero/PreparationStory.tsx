@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, useState } from "react";
-import { AnimatePresence, motion, useMotionValueEvent, useScroll, useSpring } from "framer-motion";
+import { AnimatePresence, m, useMotionValueEvent, useScroll, useSpring } from "framer-motion";
 import { BackgroundVideo, Eyebrow } from "@/components/ui";
 import { VIDEOS, type VideoAsset } from "@/constants/media";
 import { useMotionSafe } from "@/hooks/useMotionSafe";
@@ -103,7 +103,7 @@ export function PreparationStory() {
             {/* Timeline */}
             <ol aria-label="Preparation" className="relative hidden flex-col gap-6 pl-6 lg:flex">
               <span aria-hidden className="absolute top-1 bottom-1 left-[3px] w-px bg-beige/15" />
-              <motion.span
+              <m.span
                 aria-hidden
                 className="absolute top-1 bottom-1 left-[3px] w-px origin-top bg-caramel"
                 style={{ scaleY: progress }}
@@ -134,7 +134,7 @@ export function PreparationStory() {
                 From seed to cup · {String(index + 1).padStart(2, "0")} / {String(CHAPTERS.length).padStart(2, "0")}
               </Eyebrow>
               <AnimatePresence mode="wait" initial={false}>
-                <motion.div
+                <m.div
                   key={chapter.id}
                   initial={safe ? { opacity: 0, y: 28, filter: "blur(6px)" } : false}
                   animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
@@ -144,14 +144,14 @@ export function PreparationStory() {
                 >
                   <h2 className="type-display-xl mt-5 text-beige">{chapter.title}</h2>
                   <p className="mt-6 max-w-[420px] font-sans text-body leading-[26px] text-cream">{chapter.text}</p>
-                </motion.div>
+                </m.div>
               </AnimatePresence>
             </div>
           </div>
         </div>
 
         {/* Mobile progress rule */}
-        <motion.span
+        <m.span
           aria-hidden
           className="absolute right-0 bottom-0 left-0 h-px origin-left bg-caramel lg:hidden"
           style={{ scaleX: progress }}

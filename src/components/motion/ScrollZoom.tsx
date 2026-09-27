@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { cn } from "@/lib/cn";
 import { IMAGE_ZOOM, IMAGE_ZOOM_SUBTLE } from "@/lib/motion";
 import { useScrollZoom } from "@/hooks/useScrollZoom";
@@ -21,9 +21,9 @@ export function ScrollZoom({
   const { ref, scale } = useScrollZoom<HTMLDivElement>(subtle ? IMAGE_ZOOM_SUBTLE : IMAGE_ZOOM);
   return (
     <div ref={ref} className={cn("relative overflow-hidden", className)}>
-      <motion.div style={{ scale }} className="relative size-full will-change-transform">
+      <m.div style={{ scale }} className="relative size-full will-change-transform">
         {children}
-      </motion.div>
+      </m.div>
     </div>
   );
 }

@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useRef } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { m, useScroll, useTransform } from "framer-motion";
 import { Eyebrow } from "@/components/ui";
 import { FilmGrain } from "@/components/hero/HeroAtmosphere";
 import { STORY_HERO } from "@/data/story";
@@ -29,7 +29,7 @@ export function StoryHero() {
       aria-labelledby="story-hero-title"
       className="relative isolate h-svh min-h-[600px] overflow-hidden bg-espresso text-beige lg:h-[860px]"
     >
-      <motion.div className="absolute inset-0 -z-10" style={{ y, scale }}>
+      <m.div className="absolute inset-0 -z-10" style={{ y, scale }}>
         <Image
           src={STORY_HERO.image}
           alt={STORY_HERO.imageAlt}
@@ -38,7 +38,7 @@ export function StoryHero() {
           sizes="100vw"
           className="object-cover object-[50%_40%]"
         />
-      </motion.div>
+      </m.div>
       <div
         aria-hidden
         className="absolute inset-0 -z-10 bg-[linear-gradient(180deg,rgb(23_18_14/0.55)_0%,rgb(23_18_14/0.3)_35%,rgb(23_18_14/0.55)_70%,rgb(23_18_14/0.88)_100%)]"

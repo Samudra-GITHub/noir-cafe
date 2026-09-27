@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { m, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 import { useMotionSafe } from "@/hooks/useMotionSafe";
 import { cn } from "@/lib/cn";
@@ -37,14 +37,14 @@ export function RevealImage({
 
   return (
     <div ref={ref} className={cn("relative overflow-hidden bg-cream", className)}>
-      <motion.div
+      <m.div
         className="absolute inset-0"
         initial={safe ? { clipPath: "inset(100% 0 0 0)" } : false}
         whileInView={{ clipPath: "inset(0% 0 0 0)" }}
         viewport={inViewOnce}
         transition={ease(duration.slow)}
       >
-        <motion.div
+        <m.div
           className="absolute inset-x-0"
           style={{ y, top: -parallax, bottom: -parallax }}
           initial={safe ? { scale: 1.12 } : false}
@@ -53,8 +53,8 @@ export function RevealImage({
           transition={ease(1.6)}
         >
           <Image src={src} alt={alt} fill sizes={sizes} priority={priority} className={cn("object-cover", imageClassName)} />
-        </motion.div>
-      </motion.div>
+        </m.div>
+      </m.div>
     </div>
   );
 }

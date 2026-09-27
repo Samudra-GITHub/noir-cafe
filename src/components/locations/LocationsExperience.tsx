@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, m } from "framer-motion";
 import { FadeUp, Stagger, StaggerItem } from "@/components/motion/FadeUp";
 import { BackgroundVideo, Button, Eyebrow, StatusDot } from "@/components/ui";
 import { VIDEOS } from "@/constants/media";
@@ -127,26 +127,26 @@ function CafePanel({ cafe }: { cafe: Cafe }) {
       aria-labelledby="cafe-panel-title"
       className="relative isolate flex flex-col overflow-hidden rounded-xl bg-espresso px-8 pt-[43px] pb-8 text-beige md:px-11 md:pb-11"
     >
-      {/* Ambient film behind the flagship only. */}
-      <AnimatePresence>
+      {/* Ambient film behind the flagship only. It fades in with CSS (so it
+          paints before the motion runtime loads — it is this page's LCP on
+          phones) and fades out with Motion. */}
+      <AnimatePresence initial={false}>
         {isFlagship && (
-          <motion.div
+          <m.div
             key="film"
-            className="absolute inset-0 -z-10"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
+            className="absolute inset-0 -z-10 motion-safe:animate-[fade-in_0.8s_var(--ease-noir)_both]"
             exit={{ opacity: 0 }}
             transition={ease(0.8)}
           >
-            <BackgroundVideo video={VIDEOS.ambienceCafe} className="opacity-25">
+            <BackgroundVideo video={VIDEOS.ambienceCafe} priority className="opacity-25">
               <div className="absolute inset-0 bg-[linear-gradient(180deg,rgb(23_18_14/0.6),rgb(23_18_14/0.85))]" />
             </BackgroundVideo>
-          </motion.div>
+          </m.div>
         )}
       </AnimatePresence>
 
       <AnimatePresence mode="wait" initial={false}>
-        <motion.div
+        <m.div
           key={cafe.id}
           initial={safe ? { opacity: 0, y: 12 } : false}
           animate={{ opacity: 1, y: 0 }}
@@ -176,7 +176,7 @@ function CafePanel({ cafe }: { cafe: Cafe }) {
               {cafe.opens} — {cafe.closes}
             </p>
           </div>
-        </motion.div>
+        </m.div>
       </AnimatePresence>
 
       <Button
@@ -198,7 +198,7 @@ function LocationCard({ cafe, active, onSelect }: { cafe: Cafe; active: boolean;
   const safe = useMotionSafe();
   const open = useOpenNow(cafe.opens, cafe.closes);
   return (
-    <motion.article
+    <m.article
       {...(safe ? hoverLift : {})}
       className={cn(
         "group/card relative overflow-hidden rounded-md border bg-surface transition-[border-color,box-shadow] duration-500 ease-noir",
@@ -243,6 +243,6 @@ function LocationCard({ cafe, active, onSelect }: { cafe: Cafe; active: boolean;
           </p>
         </div>
       </div>
-    </motion.article>
+    </m.article>
   );
 }

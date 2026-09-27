@@ -1,8 +1,8 @@
 "use client";
 
-import { useId, useState, useSyncExternalStore } from "react";
+import { useId, useRef, useState, useSyncExternalStore } from "react";
 import Image from "next/image";
-import { AnimatePresence, motion, useAnimate } from "framer-motion";
+import { AnimatePresence, m } from "framer-motion";
 import { FadeUp } from "@/components/motion/FadeUp";
 import { Button, Chip, Eyebrow, Field } from "@/components/ui";
 import {
@@ -14,7 +14,7 @@ import {
   type SeatingId,
 } from "@/data/reservation";
 import { useMotionSafe } from "@/hooks/useMotionSafe";
-import { SHAKE_KEYFRAMES, checkDraw, ease, shakeTransition, successReveal } from "@/lib/motion";
+import { checkDraw, ease, shake, successReveal } from "@/lib/motion";
 import { cn } from "@/lib/cn";
 import { Calendar, LONG_DATE } from "./Calendar";
 
@@ -71,7 +71,7 @@ export function ReservationExperience() {
   const [email, setEmail] = useState("");
   const [errors, setErrors] = useState<Errors>({});
   const [requested, setRequested] = useState(false);
-  const [formRef, animate] = useAnimate<HTMLFormElement>();
+  const formRef = useRef<HTMLFormElement>(null);
 
   const validate = (): Errors => {
     const next: Errors = {};
@@ -88,7 +88,7 @@ export function ReservationExperience() {
     if (Object.keys(next).length) {
       if (safe && formRef.current) {
         const target = formRef.current.querySelector<HTMLElement>("[aria-invalid='true']");
-        if (target) void animate(target, { x: SHAKE_KEYFRAMES }, shakeTransition);
+        if (target) shake(target);
         target?.focus();
       }
       return;
@@ -276,7 +276,7 @@ export function ReservationExperience() {
             <div key={row.label} className="flex h-[39px] items-center justify-between border-t border-char">
               <dt className="font-mono text-micro text-taupe">{row.label}</dt>
               <AnimatePresence mode="popLayout" initial={false}>
-                <motion.dd
+                <m.dd
                   key={row.value}
                   initial={safe ? { opacity: 0, y: 6 } : false}
                   animate={{ opacity: 1, y: 0 }}
@@ -285,7 +285,7 @@ export function ReservationExperience() {
                   className="font-sans text-[0.75rem] text-beige"
                 >
                   {row.value}
-                </motion.dd>
+                </m.dd>
               </AnimatePresence>
             </div>
           ))}
@@ -293,7 +293,7 @@ export function ReservationExperience() {
 
         <AnimatePresence mode="wait" initial={false}>
           {requested ? (
-            <motion.div
+            <m.div
               key="requested"
               role="status"
               variants={safe ? successReveal : undefined}
@@ -303,7 +303,7 @@ export function ReservationExperience() {
             >
               <svg aria-hidden viewBox="0 0 20 20" className="mt-0.5 size-5 shrink-0 text-caramel-glow">
                 <circle cx="10" cy="10" r="9" fill="none" stroke="currentColor" strokeWidth="1" opacity="0.5" />
-                <motion.path
+                <m.path
                   d="M6 10.4 8.7 13 14 7.5"
                   fill="none"
                   stroke="currentColor"
@@ -319,9 +319,9 @@ export function ReservationExperience() {
                 Thank you, {name.trim().split(" ")[0]}. Your table for {LONG_DATE.format(date)} at {to12h(time)} is
                 requested. We look forward to seeing you.
               </p>
-            </motion.div>
+            </m.div>
           ) : (
-            <motion.div key="confirm" exit={safe ? { opacity: 0 } : undefined}>
+            <m.div key="confirm" exit={safe ? { opacity: 0 } : undefined}>
               <Button
                 type="button"
                 variant="accent"
@@ -331,7 +331,7 @@ export function ReservationExperience() {
               >
                 Confirm reservation
               </Button>
-            </motion.div>
+            </m.div>
           )}
         </AnimatePresence>
         <p className="mt-9 text-center font-mono text-micro text-taupe uppercase">{RESERVATION_VENUE.note}</p>

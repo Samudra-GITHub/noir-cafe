@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { motion, useMotionValue, useSpring } from "framer-motion";
+import { m, useMotionValue, useSpring } from "framer-motion";
 import { cn } from "@/lib/cn";
 
 type CursorState = "default" | "link" | "view" | "progress" | "text" | "hidden";
@@ -110,7 +110,7 @@ export function CustomCursor() {
   return (
     <div aria-hidden className="pointer-events-none fixed inset-0 z-[150] mix-blend-normal">
       {/* Ring */}
-      <motion.div
+      <m.div
         className="absolute top-0 left-0"
         style={{ x: rx, y: ry }}
       >
@@ -140,10 +140,10 @@ export function CustomCursor() {
             <span className="absolute font-mono text-[0.5rem] tracking-wide text-caramel-glow uppercase">View</span>
           )}
         </div>
-      </motion.div>
+      </m.div>
 
       {/* Bean */}
-      <motion.div className="absolute top-0 left-0" style={{ x: sx, y: sy }}>
+      <m.div className="absolute top-0 left-0" style={{ x: sx, y: sy }}>
         <svg
           viewBox="0 0 20 26"
           className={cn(
@@ -155,7 +155,7 @@ export function CustomCursor() {
           <ellipse cx="10" cy="13" rx="9" ry="12" fill="var(--noir-caramel)" stroke="var(--noir-beige)" strokeWidth="0.8" />
           <path d="M10 2c-3 3.5-3 7.5 0 11s3 7.5 0 11" fill="none" stroke="var(--noir-walnut)" strokeWidth="1.3" strokeLinecap="round" />
         </svg>
-      </motion.div>
+      </m.div>
     </div>
   );
 }

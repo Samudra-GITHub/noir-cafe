@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, m } from "framer-motion";
 import { Button, Chip, QuantitySelector, RoastMeter, ZoomableImage, type RoastLevel } from "@/components/ui";
 import { HOME_RITUAL_SET, type ShopProduct } from "@/data/shop";
 import { useBag } from "@/hooks/useBag";
@@ -150,9 +150,9 @@ export function MobileProductPage({ product }: { product: ShopProduct }) {
         <div aria-live="polite" className="min-h-5">
           <AnimatePresence>
             {added && (
-              <motion.p variants={safe ? successReveal : undefined} initial="hidden" animate="visible" className="mb-3 font-mono text-micro text-caramel-ink uppercase">
+              <m.p variants={safe ? successReveal : undefined} initial="hidden" animate="visible" className="mb-3 font-mono text-micro text-caramel-ink uppercase">
                 Added · {count} {count === 1 ? "item" : "items"} set aside
-              </motion.p>
+              </m.p>
             )}
           </AnimatePresence>
         </div>

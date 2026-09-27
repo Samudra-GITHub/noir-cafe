@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, type HTMLMotionProps } from "framer-motion";
+import { m, type HTMLMotionProps } from "framer-motion";
 import { cn } from "@/lib/cn";
 import { hoverLift } from "@/lib/motion";
 import { useMotionSafe } from "@/hooks/useMotionSafe";
@@ -35,7 +35,7 @@ export function Card({
 } & HTMLMotionProps<"div">) {
   const safe = useMotionSafe();
   return (
-    <motion.div
+    <m.div
       data-state={selected ? "active" : undefined}
       className={cn(
         "group/card relative overflow-hidden rounded-md border focus-within:ring-2 focus-within:ring-espresso",

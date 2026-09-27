@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useSyncExternalStore } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, m } from "framer-motion";
 import { Minus, Plus } from "lucide-react";
 import { FadeUp, Stagger, StaggerItem } from "@/components/motion/FadeUp";
 import { ScrollZoom } from "@/components/motion/ScrollZoom";
@@ -74,7 +74,7 @@ export function BrewingLab() {
       <div className="container-page mt-12 grid gap-6 lg:mt-[68px] lg:grid-cols-[1fr_422px]">
         <FadeUp>
           <ScrollZoom subtle className="aspect-[850/560] rounded-xl bg-espresso max-lg:aspect-[4/3]">
-            <BackgroundVideo video={VIDEOS.pourOver} className="rounded-xl" />
+            <BackgroundVideo video={VIDEOS.pourOver} priority className="rounded-xl" />
             <div aria-hidden className="absolute inset-0 bg-walnut/15 mix-blend-multiply" />
             <HeroSteam />
           </ScrollZoom>
@@ -171,7 +171,7 @@ function RecipePanel({ method }: { method: BrewMethod }) {
       className="flex flex-col rounded-xl bg-espresso px-8 pt-[47px] pb-8 text-beige md:px-12 md:pb-12"
     >
       <AnimatePresence mode="wait" initial={false}>
-        <motion.div
+        <m.div
           key={method.id}
           initial={safe ? { opacity: 0, y: 12 } : false}
           animate={{ opacity: 1, y: 0 }}
@@ -193,7 +193,7 @@ function RecipePanel({ method }: { method: BrewMethod }) {
               </div>
             ))}
           </dl>
-        </motion.div>
+        </m.div>
       </AnimatePresence>
       <Button
         variant="inverse"
@@ -251,7 +251,7 @@ function MethodRow({
       </h3>
       <AnimatePresence initial={false}>
         {open && (
-          <motion.div
+          <m.div
             id={panelId}
             role="region"
             aria-label={`${method.method} guide`}
@@ -270,7 +270,7 @@ function MethodRow({
                 <RoastRecommendation roast={method.roast} note={method.roastNote} />
               </div>
             </div>
-          </motion.div>
+          </m.div>
         )}
       </AnimatePresence>
     </li>

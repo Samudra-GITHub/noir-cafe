@@ -2,7 +2,7 @@
 
 import { useCallback, useState } from "react";
 import Image from "next/image";
-import { AnimatePresence, motion, useMotionValue, useSpring, type PanInfo } from "framer-motion";
+import { AnimatePresence, m, useMotionValue, useSpring, type PanInfo } from "framer-motion";
 import { FadeUp } from "@/components/motion/FadeUp";
 import { SectionIntro } from "@/components/shared/SectionIntro";
 import { Button } from "@/components/ui";
@@ -78,7 +78,7 @@ export function MostLoved() {
         onPointerMove={onTilt}
         onPointerLeave={resetTilt}
       >
-        <motion.div
+        <m.div
           className="absolute inset-0 touch-pan-y [transform-style:preserve-3d] cursor-grab active:cursor-grabbing"
           style={{ rotateX, rotateY, scale: 1.04 }}
           drag={safe ? "x" : false}
@@ -88,7 +88,7 @@ export function MostLoved() {
           onDragEnd={onDragEnd}
         >
           <AnimatePresence initial={false} custom={direction} mode="popLayout">
-            <motion.div
+            <m.div
               key={slide.image}
               custom={direction}
               variants={safe ? carouselSlide : undefined}
@@ -107,9 +107,9 @@ export function MostLoved() {
                 sizes="(min-width: 1024px) 50vw, 100vw"
                 className="pointer-events-none object-cover select-none"
               />
-            </motion.div>
+            </m.div>
           </AnimatePresence>
-        </motion.div>
+        </m.div>
       </div>
 
       <div className="flex flex-col justify-between gap-16 px-[var(--gutter)] pt-14 pb-16 lg:pt-[72px] lg:pr-[var(--gutter)] lg:pb-[135px] lg:pl-[72px]">

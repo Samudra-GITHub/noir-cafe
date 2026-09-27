@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { ChevronDown } from "lucide-react";
 import { MenuItemRow } from "./MenuItemRow";
 import { MobileMenu } from "./MobileMenu";
@@ -51,7 +51,7 @@ export function MenuBrowser() {
                   )}
                 >
                   {isActive && (
-                    <motion.span
+                    <m.span
                       layoutId="menu-index-rule"
                       aria-hidden
                       transition={safe ? ease(0.5) : { duration: 0 }}

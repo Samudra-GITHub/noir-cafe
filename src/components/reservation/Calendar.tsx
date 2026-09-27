@@ -2,7 +2,7 @@
 
 import { useMemo, useRef, useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { useMotionSafe } from "@/hooks/useMotionSafe";
 import { ease } from "@/lib/motion";
 import { cn } from "@/lib/cn";
@@ -151,7 +151,7 @@ export function Calendar({
                     )}
                   >
                     {selected && (
-                      <motion.span
+                      <m.span
                         layoutId="calendar-selected"
                         aria-hidden
                         transition={safe ? ease(0.45) : { duration: 0 }}

@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { m, useScroll, useTransform } from "framer-motion";
 import { Stagger, StaggerItem } from "@/components/motion/FadeUp";
 import { SectionIntro } from "@/components/shared/SectionIntro";
 import { BackgroundVideo } from "@/components/ui";
@@ -43,13 +43,13 @@ export function StoryTimeline() {
         <div className="relative mt-16 lg:mt-20">
           {/* Rule: horizontal from lg, vertical below. */}
           <div aria-hidden className="absolute top-[5px] left-0 hidden h-px w-full bg-char lg:block" />
-          <motion.div
+          <m.div
             aria-hidden
             className="absolute top-[5px] left-0 hidden h-px w-full origin-left bg-caramel lg:block"
             style={{ scaleX: draw }}
           />
           <div aria-hidden className="absolute top-0 bottom-0 left-[5px] w-px bg-char lg:hidden" />
-          <motion.div
+          <m.div
             aria-hidden
             className="absolute top-0 bottom-0 left-[5px] w-px origin-top bg-caramel lg:hidden"
             style={{ scaleY: draw }}

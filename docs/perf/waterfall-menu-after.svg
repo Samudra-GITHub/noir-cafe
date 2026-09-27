@@ -1,0 +1,133 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="838" viewBox="0 0 1200 838" font-family="ui-monospace, Menlo, monospace">
+<style>.t{font-size:11px;fill:#3c2415}.r{text-anchor:end}.h{font:600 15px Georgia,serif;fill:#17120e}</style>
+<rect width="100%" height="100%" fill="#f8f4ec"/>
+<text x="12" y="26" class="h">Menu · mobile · after M9</text>
+<text x="12" y="46" class="t">Performance 90 · FCP 1.4 s · LCP 3.6 s · TBT 50 ms (simulated, Moto G Power / slow 4G) · 39 requests shown</text>
+<line x1="728.2093663911846" x2="728.2093663911846" y1="88" y2="808" stroke="#2f6f4f" stroke-dasharray="4 3"/><text x="732.2093663911846" y="84" class="t" fill="#2f6f4f">FCP 163ms</text>
+<line x1="728.2093663911846" x2="728.2093663911846" y1="88" y2="808" stroke="#a8322d" stroke-dasharray="4 3"/><text x="732.2093663911846" y="70" class="t" fill="#a8322d">LCP 163ms</text>
+<text x="12" y="108" class="t">/menu</text>
+<text x="352" y="108" class="t r">17.7 KB</text>
+<rect x="361.7" y="99" width="9.9" height="12" rx="2" fill="#17120e"/>
+<text x="12" y="126" class="t">ramond_latin_wght400_500-s.p.0n2ofvl0l8761.woff2</text>
+<text x="352" y="126" class="t r">35.1 KB</text>
+<rect x="391.7" y="117" width="27.6" height="12" rx="2" fill="#3c2415"/>
+<text x="12" y="144" class="t">/inter_latin_wght400_600-s.p.0ka8pw-yga2n6.woff2</text>
+<text x="352" y="144" class="t r">34.8 KB</text>
+<rect x="392.0" y="135" width="14.4" height="12" rx="2" fill="#3c2415"/>
+<text x="12" y="162" class="t">/_next/static/chunks/2m58cv0wpy8p7.css</text>
+<text x="352" y="162" class="t r">18.1 KB</text>
+<rect x="398.1" y="153" width="20.6" height="12" rx="2" fill="#6d645b"/>
+<text x="12" y="180" class="t">/_next/image</text>
+<text x="352" y="180" class="t r">34.1 KB</text>
+<rect x="402.3" y="171" width="26.7" height="12" rx="2" fill="#b67a4b"/>
+<text x="12" y="198" class="t">/manifest.webmanifest</text>
+<text x="352" y="198" class="t r">1.0 KB</text>
+<rect x="402.6" y="189" width="11.6" height="12" rx="2" fill="#c9bfb3"/>
+<text x="12" y="216" class="t">/_next/static/chunks/3s6nzrbk-8mnv.js</text>
+<text x="352" y="216" class="t r">2.4 KB</text>
+<rect x="430.0" y="207" width="10.9" height="12" rx="2" fill="#a86a3c"/>
+<text x="12" y="234" class="t">/_next/static/chunks/19mx3mg6lkumu.js</text>
+<text x="352" y="234" class="t r">7.8 KB</text>
+<rect x="430.2" y="225" width="17.6" height="12" rx="2" fill="#a86a3c"/>
+<text x="12" y="252" class="t">/_next/static/chunks/196x_tfexoucg.js</text>
+<text x="352" y="252" class="t r">70.3 KB</text>
+<rect x="430.3" y="243" width="30.8" height="12" rx="2" fill="#a86a3c"/>
+<text x="12" y="270" class="t">/_next/static/chunks/2-rtuqsgzmno4.js</text>
+<text x="352" y="270" class="t r">44.5 KB</text>
+<rect x="430.5" y="261" width="28.9" height="12" rx="2" fill="#a86a3c"/>
+<text x="12" y="288" class="t">/_next/static/chunks/turbopack-2pbp3o93q4orj.js</text>
+<text x="352" y="288" class="t r">4.6 KB</text>
+<rect x="430.6" y="279" width="17.7" height="12" rx="2" fill="#a86a3c"/>
+<text x="12" y="306" class="t">/_next/static/chunks/2lcymkwogeiac.js</text>
+<text x="352" y="306" class="t r">8.9 KB</text>
+<rect x="430.7" y="297" width="18.8" height="12" rx="2" fill="#a86a3c"/>
+<text x="12" y="324" class="t">/_next/static/chunks/421liit_y_3nw.js</text>
+<text x="352" y="324" class="t r">11.2 KB</text>
+<rect x="441.3" y="315" width="19.1" height="12" rx="2" fill="#a86a3c"/>
+<text x="12" y="342" class="t">/_next/static/chunks/343g3vbgeqn28.js</text>
+<text x="352" y="342" class="t r">12.9 KB</text>
+<rect x="450.1" y="333" width="21.4" height="12" rx="2" fill="#a86a3c"/>
+<text x="12" y="360" class="t">/_next/static/chunks/2-8v7olrmiu_6.js</text>
+<text x="352" y="360" class="t r">19.3 KB</text>
+<rect x="450.3" y="351" width="22.2" height="12" rx="2" fill="#a86a3c"/>
+<text x="12" y="378" class="t">/_next/static/chunks/086i5sgqa-4c2.js</text>
+<text x="352" y="378" class="t r">13.2 KB</text>
+<rect x="450.5" y="369" width="22.7" height="12" rx="2" fill="#a86a3c"/>
+<text x="12" y="396" class="t">/_next/static/chunks/0h2qsuyze9ds1.js</text>
+<text x="352" y="396" class="t r">4.0 KB</text>
+<rect x="460.0" y="387" width="20.5" height="12" rx="2" fill="#a86a3c"/>
+<text x="12" y="414" class="t">/_next/static/chunks/0cg9859r3ilx0.js</text>
+<text x="352" y="414" class="t r">4.9 KB</text>
+<rect x="461.0" y="405" width="22.5" height="12" rx="2" fill="#a86a3c"/>
+<text x="12" y="432" class="t">tic/media/99e609270109b47d-s.40sczeszzbjw1.woff2</text>
+<text x="352" y="432" class="t r">10.1 KB</text>
+<rect x="639.0" y="423" width="11.4" height="12" rx="2" fill="#3c2415"/>
+<text x="12" y="450" class="t">tic/media/5cf38e322d097133-s.0sd_1903rg_f9.woff2</text>
+<text x="352" y="450" class="t r">24.9 KB</text>
+<rect x="639.4" y="441" width="8.3" height="12" rx="2" fill="#3c2415"/>
+<text x="12" y="468" class="t">/icon.svg</text>
+<text x="352" y="468" class="t r">0.5 KB</text>
+<rect x="828.2" y="459" width="6.7" height="12" rx="2" fill="#c9bfb3"/>
+<text x="12" y="486" class="t">/icons/icon-192.png</text>
+<text x="352" y="486" class="t r">1.5 KB</text>
+<rect x="842.1" y="477" width="6.0" height="12" rx="2" fill="#c9bfb3"/>
+<text x="12" y="504" class="t">/_next/static/chunks/1c8c7conjst34.js</text>
+<text x="352" y="504" class="t r">2.1 KB</text>
+<rect x="898.8" y="495" width="9.3" height="12" rx="2" fill="#a86a3c"/>
+<text x="12" y="522" class="t">/_next/static/chunks/3p61k9-wssa64.js</text>
+<text x="352" y="522" class="t r">22.7 KB</text>
+<rect x="904.9" y="513" width="11.6" height="12" rx="2" fill="#a86a3c"/>
+<text x="12" y="540" class="t">/</text>
+<text x="352" y="540" class="t r">0.7 KB</text>
+<rect x="924.6" y="531" width="14.2" height="12" rx="2" fill="#8f867e"/>
+<text x="12" y="558" class="t">/menu</text>
+<text x="352" y="558" class="t r">0.7 KB</text>
+<rect x="924.9" y="549" width="14.4" height="12" rx="2" fill="#8f867e"/>
+<text x="12" y="576" class="t">/locations</text>
+<text x="352" y="576" class="t r">0.7 KB</text>
+<rect x="925.1" y="567" width="14.6" height="12" rx="2" fill="#8f867e"/>
+<text x="12" y="594" class="t">/reservation</text>
+<text x="352" y="594" class="t r">0.7 KB</text>
+<rect x="925.4" y="585" width="14.1" height="12" rx="2" fill="#8f867e"/>
+<text x="12" y="612" class="t">/shop</text>
+<text x="352" y="612" class="t r">0.7 KB</text>
+<rect x="965.3" y="603" width="14.1" height="12" rx="2" fill="#8f867e"/>
+<text x="12" y="630" class="t">/</text>
+<text x="352" y="630" class="t r">4.7 KB</text>
+<rect x="969.1" y="621" width="17.1" height="12" rx="2" fill="#8f867e"/>
+<text x="12" y="648" class="t">/</text>
+<text x="352" y="648" class="t r">4.6 KB</text>
+<rect x="973.2" y="639" width="15.7" height="12" rx="2" fill="#8f867e"/>
+<text x="12" y="666" class="t">/menu</text>
+<text x="352" y="666" class="t r">3.4 KB</text>
+<rect x="977.2" y="657" width="11.3" height="12" rx="2" fill="#8f867e"/>
+<text x="12" y="684" class="t">/locations</text>
+<text x="352" y="684" class="t r">2.6 KB</text>
+<rect x="999.3" y="675" width="10.0" height="12" rx="2" fill="#8f867e"/>
+<text x="12" y="702" class="t">/_next/static/chunks/3h2lxaeh9o7qa.js</text>
+<text x="352" y="702" class="t r">7.2 KB</text>
+<rect x="1001.9" y="693" width="14.1" height="12" rx="2" fill="#a86a3c"/>
+<text x="12" y="720" class="t">/reservation</text>
+<text x="352" y="720" class="t r">2.1 KB</text>
+<rect x="1005.6" y="711" width="7.8" height="12" rx="2" fill="#8f867e"/>
+<text x="12" y="738" class="t">/shop</text>
+<text x="352" y="738" class="t r">2.9 KB</text>
+<rect x="1009.9" y="729" width="13.5" height="12" rx="2" fill="#8f867e"/>
+<text x="12" y="756" class="t">/_next/static/chunks/098gd2rnic9qx.js</text>
+<text x="352" y="756" class="t r">3.9 KB</text>
+<rect x="1015.4" y="747" width="11.7" height="12" rx="2" fill="#a86a3c"/>
+<text x="12" y="774" class="t">/_next/static/chunks/3do3uf9gyzbci.js</text>
+<text x="352" y="774" class="t r">6.7 KB</text>
+<rect x="1021.2" y="765" width="10.2" height="12" rx="2" fill="#a86a3c"/>
+<text x="12" y="792" class="t">/_next/static/chunks/1w8x_6lxh3g7g.js</text>
+<text x="352" y="792" class="t r">6.9 KB</text>
+<rect x="1028.7" y="783" width="7.1" height="12" rx="2" fill="#a86a3c"/>
+<rect x="12" y="818" width="10" height="10" fill="#17120e"/><text x="26" y="827" class="t">Document</text>
+<rect x="130" y="818" width="10" height="10" fill="#6d645b"/><text x="144" y="827" class="t">Stylesheet</text>
+<rect x="248" y="818" width="10" height="10" fill="#a86a3c"/><text x="262" y="827" class="t">Script</text>
+<rect x="366" y="818" width="10" height="10" fill="#3c2415"/><text x="380" y="827" class="t">Font</text>
+<rect x="484" y="818" width="10" height="10" fill="#b67a4b"/><text x="498" y="827" class="t">Image</text>
+<rect x="602" y="818" width="10" height="10" fill="#905b33"/><text x="616" y="827" class="t">Media</text>
+<rect x="720" y="818" width="10" height="10" fill="#8f867e"/><text x="734" y="827" class="t">Fetch</text>
+<rect x="838" y="818" width="10" height="10" fill="#c9bfb3"/><text x="852" y="827" class="t">Other</text>
+</svg>

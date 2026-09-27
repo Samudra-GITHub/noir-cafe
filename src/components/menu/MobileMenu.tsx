@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, m } from "framer-motion";
 import { ChevronDown } from "lucide-react";
 import { Badge, Button, Dialog, NoteChip, Price, RoastMeter } from "@/components/ui";
 import { MENU, MENU_EXTRAS, TODAY_AT_THE_BAR } from "@/data/menu";
@@ -161,7 +161,7 @@ function DrinkRow({
       </h3>
       <AnimatePresence initial={false}>
         {expanded && (
-          <motion.div
+          <m.div
             id={panelId}
             initial={safe ? { height: 0, opacity: 0 } : false}
             animate={{ height: "auto", opacity: 1 }}
@@ -189,7 +189,7 @@ function DrinkRow({
                 </button>
               </div>
             </div>
-          </motion.div>
+          </m.div>
         )}
       </AnimatePresence>
     </article>

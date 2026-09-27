@@ -2,7 +2,7 @@
 
 import { useId, useRef, useState } from "react";
 import Image from "next/image";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, m } from "framer-motion";
 import { Button, Chip, Field } from "@/components/ui";
 import {
   RESERVATION_DEFAULTS,
@@ -92,7 +92,7 @@ export function MobileReservation() {
 
           <div className="relative mt-6 overflow-hidden">
             {/* Enter-only step transition (no exit phase to wait on). */}
-              <motion.div
+              <m.div
                 key={step}
                 initial={safe ? { opacity: 0, x: dir * 48 } : false}
                 animate={{ opacity: 1, x: 0 }}
@@ -207,7 +207,7 @@ export function MobileReservation() {
                     />
                   </div>
                 )}
-              </motion.div>
+              </m.div>
           </div>
 
           <div className="mt-8 flex gap-3">
@@ -257,7 +257,7 @@ function Pass({
     { label: "Seat", value: SEAT_SUMMARY[seating].replace(" table", "") },
   ];
   return (
-    <motion.section
+    <m.section
       aria-label="Your reservation pass"
       aria-live="polite"
       layout={safe}
@@ -285,7 +285,7 @@ function Pass({
           <div key={r.label}>
             <dt className="font-mono text-micro text-taupe uppercase">{r.label}</dt>
             <AnimatePresence mode="popLayout" initial={false}>
-              <motion.dd
+              <m.dd
                 key={r.value}
                 initial={safe ? { opacity: 0, y: 8 } : false}
                 animate={{ opacity: 1, y: 0 }}
@@ -294,7 +294,7 @@ function Pass({
                 className="mt-1 font-sans text-[0.8125rem] font-medium"
               >
                 {r.value}
-              </motion.dd>
+              </m.dd>
             </AnimatePresence>
           </div>
         ))}
@@ -325,7 +325,7 @@ function Pass({
       </div>
 
       {done && (
-        <motion.p
+        <m.p
           role="status"
           initial={safe ? { opacity: 0, y: 12 } : false}
           animate={{ opacity: 1, y: 0 }}
@@ -333,8 +333,8 @@ function Pass({
           className="border-t border-char px-6 py-5 font-sans text-body-xs text-cream"
         >
           Thank you, {name.trim().split(" ")[0]}. Your table for {LONG_DATE.format(date)} at {to12h(time)} is requested. We look forward to seeing you.
-        </motion.p>
+        </m.p>
       )}
-    </motion.section>
+    </m.section>
   );
 }

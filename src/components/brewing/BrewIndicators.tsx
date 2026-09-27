@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { RoastMeter, type RoastLevel } from "@/components/ui";
 import { GRIND_RANGE, TEMP_RANGE } from "@/data/brewing";
 import { useMotionSafe } from "@/hooks/useMotionSafe";
@@ -40,14 +40,14 @@ function Scale({
       </div>
       <div className="relative mt-3 h-px bg-sand">
         {fill && (
-          <motion.span
+          <m.span
             className="absolute inset-y-0 left-0 bg-caramel"
             initial={{ width: safe ? "0%" : `${percent}%` }}
             animate={{ width: `${percent}%` }}
             transition={ease(duration.slow)}
           />
         )}
-        <motion.span
+        <m.span
           aria-hidden
           className="absolute top-1/2 size-2.5 -translate-x-1/2 -translate-y-1/2 rounded-full border border-caramel bg-surface"
           initial={{ left: safe ? "0%" : `${percent}%` }}

@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { Price, RoastMeter } from "@/components/ui";
 import type { Drink } from "@/data/types";
 import { hoverLift } from "@/lib/motion";
@@ -29,7 +29,7 @@ export function DrinkCard({
   const safe = useMotionSafe();
 
   return (
-    <motion.article
+    <m.article
       {...(safe ? hoverLift : {})}
       className={cn(
         "group/card relative flex flex-col overflow-hidden rounded-md border border-sand bg-surface shadow-card",
@@ -87,7 +87,7 @@ export function DrinkCard({
           ))}
         </dl>
       </div>
-    </motion.article>
+    </m.article>
   );
 }
 
