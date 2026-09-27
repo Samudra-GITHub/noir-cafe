@@ -28,11 +28,11 @@ export function SiteFooter() {
             <br />
             {SITE.hours}
             <br />
-            <a href={`mailto:${SITE.email}`} className="normal-case transition-colors duration-250 hover:text-caramel-glow">
+            <a href={`mailto:${SITE.email}`} className="normal-case transition-colors duration-250 hover:text-caramel-glow max-md:relative max-md:after:absolute max-md:after:-inset-y-3.5 max-md:after:-inset-x-1 max-md:after:content-['']">
               {SITE.email}
             </a>
             {" · "}
-            <a href={`tel:${SITE.phone.replace(/[^+\d]/g, "")}`} className="transition-colors duration-250 hover:text-caramel-glow">
+            <a href={`tel:${SITE.phone.replace(/[^+\d]/g, "")}`} className="transition-colors duration-250 hover:text-caramel-glow max-md:relative max-md:after:absolute max-md:after:-inset-y-3.5 max-md:after:-inset-x-1 max-md:after:content-['']">
               {SITE.phone}
             </a>
           </address>

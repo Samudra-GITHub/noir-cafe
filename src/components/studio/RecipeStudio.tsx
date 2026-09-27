@@ -167,7 +167,7 @@ export function RecipeStudio() {
         ))}
       </div>
 
-      <div className="mt-8 grid gap-6 lg:grid-cols-[minmax(0,5fr)_minmax(0,6fr)] lg:items-start">
+      <div className="mt-8 grid grid-cols-[minmax(0,1fr)] gap-6 lg:grid-cols-[minmax(0,5fr)_minmax(0,6fr)] lg:items-start">
         {/* The cup and what's in it */}
         <div className="flex flex-col gap-6 lg:sticky lg:top-28">
           <div className="relative overflow-hidden rounded-xl bg-cream">
@@ -254,7 +254,7 @@ export function RecipeStudio() {
         </div>
       </div>
 
-      <div className="mt-6 grid gap-6">
+      <div className="mt-6 grid grid-cols-[minmax(0,1fr)] gap-6">
         <Card eyebrow="Roast" title="Roast simulator">
           <RoastSimulator roast={recipe.roast} onChange={(roast) => set({ roast })} onCommit={() => haptic("toggle")} />
         </Card>

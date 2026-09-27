@@ -77,7 +77,7 @@ export function MobileDrinkRail({ drinks }: { drinks: Drink[] }) {
                       <li
                         key={note}
                         className={cn(
-                          "rounded-full border border-beige/25 bg-beige/10 px-3 py-1.5 font-mono text-[0.6875rem] tracking-[0.06em] uppercase backdrop-blur-md",
+                          "rounded-full border border-beige/25 bg-espresso/45 px-3 py-1.5 font-mono text-[0.6875rem] tracking-[0.06em] uppercase backdrop-blur-md",
                           on ? "motion-safe:animate-[float-up_0.7s_var(--ease-noir)_both]" : "opacity-0 motion-reduce:opacity-100",
                         )}
                         style={{ animationDelay: `${120 + n * 110}ms` }}

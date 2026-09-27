@@ -15,7 +15,7 @@ const WISPS = [
 export function HeroSteam() {
   return (
     // Peak wisp opacity × layer opacity stays under 8%.
-    <div aria-hidden className="pointer-events-none absolute inset-x-0 bottom-[36%] h-[62%] opacity-[0.08]">
+    <div aria-hidden className="pointer-events-none absolute inset-x-0 bottom-[36%] h-[62%] overflow-x-clip opacity-[0.08]">
       {WISPS.map((w, i) => (
         <span
           key={i}

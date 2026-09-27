@@ -135,6 +135,14 @@
     font-family: var(--family-body);
   }
 
+  /* WCAG 1.4.12 — with user text spacing a display word may outgrow a 320px
+     line; let it break rather than scroll the page. No effect otherwise. */
+  h1,
+  h2,
+  h3 {
+    overflow-wrap: break-word;
+  }
+
   ::selection {
     background: var(--noir-caramel);
     color: var(--noir-beige);

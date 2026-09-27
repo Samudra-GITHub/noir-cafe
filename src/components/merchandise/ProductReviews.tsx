@@ -167,7 +167,7 @@ export function ProductReviews({ product, name }: { product: string; name: strin
                 value={body}
                 onChange={(e) => setBody(e.target.value.slice(0, 800))}
                 rows={4}
-                className="rounded-lg border border-sand bg-surface p-3 font-sans text-body-sm text-strong focus:border-espresso focus:outline-none"
+                className="rounded-lg border border-sand bg-surface p-3 font-sans text-body-sm text-strong focus:border-espresso"
               />
               <span className="self-end font-mono text-micro text-stone tabular-nums">{body.length}/800</span>
             </div>

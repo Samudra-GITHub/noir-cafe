@@ -1,10 +1,10 @@
 "use client";
 
-import { useEffect, useId, useRef, useSyncExternalStore } from "react";
+import { useEffect, useId, useLayoutEffect, useRef, useSyncExternalStore } from "react";
 import { createPortal } from "react-dom";
 import { AnimatePresence, m } from "framer-motion";
 import { X } from "lucide-react";
-import { useLenis } from "@/lib/lenis";
+import { getLenis } from "@/lib/lenis";
 import { useMotionSafe } from "@/hooks/useMotionSafe";
 import { ease } from "@/lib/motion";
 import { cn } from "@/lib/cn";
@@ -36,14 +36,21 @@ export function Dialog({
   className?: string;
 }) {
   const safe = useMotionSafe();
-  const lenis = useLenis();
   const titleId = useId();
   const panelRef = useRef<HTMLDivElement>(null);
   const returnTo = useRef<HTMLElement | null>(null);
+  // Callers pass inline handlers; keep the latest without re-running the
+  // open/close effect (a re-run would move the focus-return target into the
+  // dialog itself).
+  const onCloseRef = useRef(onClose);
+  useLayoutEffect(() => {
+    onCloseRef.current = onClose;
+  });
 
   useEffect(() => {
     if (!open) return;
     returnTo.current = document.activeElement as HTMLElement;
+    const lenis = getLenis();
     lenis?.stop();
     document.documentElement.style.overflow = "hidden";
     requestAnimationFrame(() => (panelRef.current && focusables(panelRef.current)[0])?.focus());
@@ -51,7 +58,7 @@ export function Dialog({
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
         e.preventDefault();
-        onClose();
+        onCloseRef.current();
         return;
       }
       if (e.key !== "Tab" || !panelRef.current) return;
@@ -74,7 +81,7 @@ export function Dialog({
       document.documentElement.style.overflow = "";
       returnTo.current?.focus();
     };
-  }, [open, lenis, onClose]);
+  }, [open]);
 
   const mounted = useSyncExternalStore(
     () => () => {},

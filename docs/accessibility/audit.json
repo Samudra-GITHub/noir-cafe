@@ -1,0 +1,1082 @@
+{
+  "phone /": {
+    "route": "/",
+    "view": "phone",
+    "motion": {
+      "running": [],
+      "films": 0
+    },
+    "axe": {
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "n": 46,
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "sample": ".max-nav\\:\\[\\&\\>span\\:last-child\\]\\:text-\\[1\\.375rem\\] > .text-logo.font-medium.tracking-\\[0\\.01em\\] | .gap-1[aria-current=\"page\"][href=\"/\"] > .tracking-\\[0\\.06em\\].duration-300.text-\\[0\\.6875rem\\] | .gap-1.flex-1[href$=\"menu\"] > .text-beig"
+        }
+      ]
+    },
+    "structure": {
+      "lang": "en",
+      "title": "Noir Café — Specialty coffee, New York",
+      "h1": 1,
+      "mains": 1,
+      "jumps": [],
+      "imgsNoAlt": 0
+    },
+    "skip": {
+      "text": "Skip to content",
+      "href": "#main",
+      "visible": true,
+      "lands": true
+    },
+    "keyboard": {
+      "tabbables": 35,
+      "noVisibleFocus": []
+    },
+    "pixelContrast": {
+      "checked": 12,
+      "fails": []
+    },
+    "targets": [
+      "A \"hello@noircafe.com\" 130×15",
+      "A \"+1 (212) 555-0142\" 122×15"
+    ]
+  },
+  "desktop /": {
+    "route": "/",
+    "view": "desktop",
+    "motion": {
+      "running": [],
+      "films": 0
+    },
+    "axe": {
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "n": 31,
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "sample": ".max-nav\\:\\[\\&\\>span\\:last-child\\]\\:text-\\[1\\.375rem\\] > .text-logo.font-medium.tracking-\\[0\\.01em\\] | .-translate-y-1 | .group\\/link.h-11[href$=\"menu\"] > .duration-500.transition-transform.ease-noir"
+        }
+      ]
+    },
+    "structure": {
+      "lang": "en",
+      "title": "Noir Café — Specialty coffee, New York",
+      "h1": 1,
+      "mains": 1,
+      "jumps": [],
+      "imgsNoAlt": 0
+    },
+    "skip": {
+      "text": "Skip to content",
+      "href": "#main",
+      "visible": true,
+      "lands": true
+    },
+    "keyboard": {
+      "tabbables": 33,
+      "noVisibleFocus": []
+    },
+    "pixelContrast": {
+      "checked": 7,
+      "fails": []
+    }
+  },
+  "phone /menu": {
+    "route": "/menu",
+    "view": "phone",
+    "motion": {
+      "running": [],
+      "films": 0
+    },
+    "axe": {
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "n": 10,
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "sample": ".max-nav\\:\\[\\&\\>span\\:last-child\\]\\:text-\\[1\\.375rem\\] > .text-logo.font-medium.tracking-\\[0\\.01em\\] | .gap-1.justify-center[href=\"/\"] > .text-beige\\/70.tracking-\\[0\\.06em\\].text-\\[0\\.6875rem\\] | .tracking-\\[0\\.06em\\].text-beige.text-\\[0\\.6"
+        }
+      ]
+    },
+    "structure": {
+      "lang": "en",
+      "title": "Menu · Noir Café",
+      "h1": 1,
+      "mains": 1,
+      "jumps": [],
+      "imgsNoAlt": 0
+    },
+    "skip": {
+      "text": "Skip to content",
+      "href": "#main",
+      "visible": true,
+      "lands": true
+    },
+    "keyboard": {
+      "tabbables": 40,
+      "noVisibleFocus": []
+    },
+    "pixelContrast": {
+      "checked": 11,
+      "fails": []
+    },
+    "targets": [
+      "A \"hello@noircafe.com\" 130×15",
+      "A \"+1 (212) 555-0142\" 122×15"
+    ]
+  },
+  "desktop /menu": {
+    "route": "/menu",
+    "view": "desktop",
+    "motion": {
+      "running": [],
+      "films": 0
+    },
+    "axe": {
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "n": 9,
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "sample": ".max-nav\\:\\[\\&\\>span\\:last-child\\]\\:text-\\[1\\.375rem\\] > .text-logo.font-medium.tracking-\\[0\\.01em\\] | .text-strong\\/80.group\\/link[href=\"/\"] > .transition-transform.duration-500.ease-noir | .-translate-y-1"
+        }
+      ]
+    },
+    "structure": {
+      "lang": "en",
+      "title": "Menu · Noir Café",
+      "h1": 1,
+      "mains": 1,
+      "jumps": [],
+      "imgsNoAlt": 0
+    },
+    "skip": {
+      "text": "Skip to content",
+      "href": "#main",
+      "visible": true,
+      "lands": true
+    },
+    "keyboard": {
+      "tabbables": 29,
+      "noVisibleFocus": []
+    },
+    "pixelContrast": {
+      "checked": 7,
+      "fails": []
+    }
+  },
+  "phone /story": {
+    "route": "/story",
+    "view": "phone",
+    "motion": {
+      "running": [],
+      "films": 0
+    },
+    "axe": {
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "n": 12,
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "sample": ".max-nav\\:\\[\\&\\>span\\:last-child\\]\\:text-\\[1\\.375rem\\] > .text-logo.font-medium.tracking-\\[0\\.01em\\] | .justify-center.gap-1[href=\"/\"] > .text-\\[0\\.6875rem\\].tracking-\\[0\\.06em\\].text-beige\\/70 | .justify-center.gap-1[href$=\"menu\"] > .text-"
+        }
+      ]
+    },
+    "structure": {
+      "lang": "en",
+      "title": "Our Story · Noir Café",
+      "h1": 1,
+      "mains": 1,
+      "jumps": [],
+      "imgsNoAlt": 0
+    },
+    "skip": {
+      "text": "Skip to content",
+      "href": "#main",
+      "visible": true,
+      "lands": true
+    },
+    "keyboard": {
+      "tabbables": 22,
+      "noVisibleFocus": []
+    },
+    "pixelContrast": {
+      "checked": 6,
+      "fails": []
+    },
+    "targets": [
+      "A \"hello@noircafe.com\" 130×15",
+      "A \"+1 (212) 555-0142\" 122×15"
+    ]
+  },
+  "desktop /story": {
+    "route": "/story",
+    "view": "desktop",
+    "motion": {
+      "running": [],
+      "films": 0
+    },
+    "axe": {
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "n": 14,
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "sample": ".max-nav\\:\\[\\&\\>span\\:last-child\\]\\:text-\\[1\\.375rem\\] > .text-logo.font-medium.tracking-\\[0\\.01em\\] | .group\\/link.h-11[href=\"/\"] > .duration-500.transition-transform.ease-noir | .group\\/link.h-11[href$=\"menu\"] > .duration-500.transition-t"
+        }
+      ]
+    },
+    "structure": {
+      "lang": "en",
+      "title": "Our Story · Noir Café",
+      "h1": 1,
+      "mains": 1,
+      "jumps": [],
+      "imgsNoAlt": 0
+    },
+    "skip": {
+      "text": "Skip to content",
+      "href": "#main",
+      "visible": true,
+      "lands": true
+    },
+    "keyboard": {
+      "tabbables": 22,
+      "noVisibleFocus": []
+    },
+    "pixelContrast": {
+      "checked": 7,
+      "fails": []
+    }
+  },
+  "phone /brewing-lab": {
+    "route": "/brewing-lab",
+    "view": "phone",
+    "motion": {
+      "running": [],
+      "films": 0
+    },
+    "axe": {
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "n": 69,
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "sample": ".max-nav\\:\\[\\&\\>span\\:last-child\\]\\:text-\\[1\\.375rem\\] > .text-logo.font-medium.tracking-\\[0\\.01em\\] | .gap-1.justify-center[href=\"/\"] > .text-\\[0\\.6875rem\\].tracking-\\[0\\.06em\\].text-beige\\/70 | .gap-1.justify-center[href$=\"menu\"] > .text-"
+        }
+      ]
+    },
+    "structure": {
+      "lang": "en",
+      "title": "Brewing Lab · Noir Café",
+      "h1": 1,
+      "mains": 1,
+      "jumps": [],
+      "imgsNoAlt": 0
+    },
+    "skip": {
+      "text": "Skip to content",
+      "href": "#main",
+      "visible": true,
+      "lands": true
+    },
+    "keyboard": {
+      "tabbables": 33,
+      "noVisibleFocus": []
+    },
+    "pixelContrast": {
+      "checked": 6,
+      "fails": []
+    },
+    "targets": [
+      "A \"hello@noircafe.com\" 130×15",
+      "A \"+1 (212) 555-0142\" 122×15"
+    ]
+  },
+  "desktop /brewing-lab": {
+    "route": "/brewing-lab",
+    "view": "desktop",
+    "motion": {
+      "running": [],
+      "films": 0
+    },
+    "axe": {
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "n": 9,
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "sample": ".max-nav\\:\\[\\&\\>span\\:last-child\\]\\:text-\\[1\\.375rem\\] > .text-logo.font-medium.tracking-\\[0\\.01em\\] | .text-strong\\/80.group\\/link[href=\"/\"] > .duration-500.transition-transform.ease-noir | .text-strong\\/80.group\\/link[href$=\"menu\"] > .dur"
+        }
+      ]
+    },
+    "structure": {
+      "lang": "en",
+      "title": "Brewing Lab · Noir Café",
+      "h1": 1,
+      "mains": 1,
+      "jumps": [],
+      "imgsNoAlt": 0
+    },
+    "skip": {
+      "text": "Skip to content",
+      "href": "#main",
+      "visible": true,
+      "lands": true
+    },
+    "keyboard": {
+      "tabbables": 35,
+      "noVisibleFocus": []
+    },
+    "pixelContrast": {
+      "checked": 7,
+      "fails": []
+    }
+  },
+  "phone /brewing-lab/studio": {
+    "route": "/brewing-lab/studio",
+    "view": "phone",
+    "motion": {
+      "running": [],
+      "films": 0
+    },
+    "axe": {
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "n": 42,
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "sample": ".max-nav\\:\\[\\&\\>span\\:last-child\\]\\:text-\\[1\\.375rem\\] > .text-logo.font-medium.tracking-\\[0\\.01em\\] | .gap-1.justify-center[href=\"/\"] > .text-\\[0\\.6875rem\\].tracking-\\[0\\.06em\\].text-beige\\/70 | .gap-1.justify-center[href$=\"menu\"] > .text-"
+        }
+      ]
+    },
+    "structure": {
+      "lang": "en",
+      "title": "Recipe Studio · Noir Café",
+      "h1": 1,
+      "mains": 1,
+      "jumps": [],
+      "imgsNoAlt": 0
+    },
+    "skip": {
+      "text": "Skip to content",
+      "href": "#main",
+      "visible": true,
+      "lands": true
+    },
+    "keyboard": {
+      "tabbables": 44,
+      "noVisibleFocus": [
+        "INPUT \"INPUT\"",
+        "INPUT \"INPUT\"",
+        "INPUT \"INPUT\"",
+        "INPUT \"INPUT\"",
+        "INPUT \"INPUT\""
+      ]
+    },
+    "pixelContrast": {
+      "checked": 6,
+      "fails": []
+    },
+    "targets": [
+      "A \"hello@noircafe.com\" 130×15",
+      "A \"+1 (212) 555-0142\" 122×15"
+    ]
+  },
+  "desktop /brewing-lab/studio": {
+    "route": "/brewing-lab/studio",
+    "view": "desktop",
+    "motion": {
+      "running": [],
+      "films": 0
+    },
+    "axe": {
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "n": 33,
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "sample": ".max-nav\\:\\[\\&\\>span\\:last-child\\]\\:text-\\[1\\.375rem\\] > .text-logo.font-medium.tracking-\\[0\\.01em\\] | .text-strong\\/80.group\\/link[href=\"/\"] > .transition-transform.duration-500.ease-noir | .text-strong\\/80.group\\/link[href$=\"menu\"] > .tra"
+        }
+      ]
+    },
+    "structure": {
+      "lang": "en",
+      "title": "Recipe Studio · Noir Café",
+      "h1": 1,
+      "mains": 1,
+      "jumps": [],
+      "imgsNoAlt": 0
+    },
+    "skip": {
+      "text": "Skip to content",
+      "href": "#main",
+      "visible": true,
+      "lands": true
+    },
+    "keyboard": {
+      "tabbables": 45,
+      "noVisibleFocus": [
+        "INPUT \"INPUT\"",
+        "INPUT \"INPUT\"",
+        "INPUT \"INPUT\"",
+        "INPUT \"INPUT\"",
+        "INPUT \"INPUT\""
+      ]
+    },
+    "pixelContrast": {
+      "checked": 7,
+      "fails": []
+    }
+  },
+  "phone /cup": {
+    "route": "/cup",
+    "view": "phone",
+    "motion": {
+      "running": [],
+      "films": 0
+    },
+    "axe": {
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "n": 16,
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "sample": ".max-nav\\:\\[\\&\\>span\\:last-child\\]\\:text-\\[1\\.375rem\\] > .text-logo.font-medium.font-display | .gap-1.justify-center[href=\"/\"] > .text-\\[0\\.6875rem\\].tracking-\\[0\\.06em\\].text-beige\\/70 | .gap-1.justify-center[href$=\"menu\"] > .text-\\[0\\.687"
+        }
+      ]
+    },
+    "structure": {
+      "lang": "en",
+      "title": "From seed to cup, in 3D · Noir Café",
+      "h1": 1,
+      "mains": 1,
+      "jumps": [],
+      "imgsNoAlt": 0
+    },
+    "skip": {
+      "text": "Skip to content",
+      "href": "#main",
+      "visible": true,
+      "lands": true
+    },
+    "keyboard": {
+      "tabbables": 25,
+      "noVisibleFocus": []
+    },
+    "pixelContrast": {
+      "checked": 6,
+      "fails": [
+        "\"Noir Café\" 1.45 < 4.5"
+      ]
+    },
+    "targets": [
+      "A \"hello@noircafe.com\" 130×15",
+      "A \"+1 (212) 555-0142\" 122×15"
+    ]
+  },
+  "desktop /cup": {
+    "route": "/cup",
+    "view": "desktop",
+    "motion": {
+      "running": [],
+      "films": 0
+    },
+    "axe": {
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "n": 17,
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "sample": ".max-nav\\:\\[\\&\\>span\\:last-child\\]\\:text-\\[1\\.375rem\\] > .text-logo.font-medium.font-display | .group\\/link.h-11[href=\"/\"] > .transition-transform.duration-500.ease-noir | .group\\/link.h-11[href$=\"menu\"] > .transition-transform.duration-500"
+        }
+      ]
+    },
+    "structure": {
+      "lang": "en",
+      "title": "From seed to cup, in 3D · Noir Café",
+      "h1": 1,
+      "mains": 1,
+      "jumps": [],
+      "imgsNoAlt": 0
+    },
+    "skip": {
+      "text": "Skip to content",
+      "href": "#main",
+      "visible": true,
+      "lands": true
+    },
+    "keyboard": {
+      "tabbables": 25,
+      "noVisibleFocus": []
+    },
+    "pixelContrast": {
+      "checked": 7,
+      "fails": [
+        "\"Noir Café\" 1.30 < 3",
+        "\"Home\" 2.48 < 4.5",
+        "\"Menu\" 2.95 < 4.5",
+        "\"Story\" 3.35 < 4.5",
+        "\"Lab\" 3.42 < 4.5",
+        "\"Locations\" 2.79 < 4.5",
+        "\"Shop\" 2.21 < 4.5"
+      ]
+    }
+  },
+  "phone /reservation": {
+    "route": "/reservation",
+    "view": "phone",
+    "motion": {
+      "running": [],
+      "films": 0
+    },
+    "axe": {
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "n": 26,
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "sample": ".max-nav\\:\\[\\&\\>span\\:last-child\\]\\:text-\\[1\\.375rem\\] > .text-logo.font-medium.tracking-\\[0\\.01em\\] | .gap-1.flex-1[href=\"/\"] > .text-beige\\/70.text-\\[0\\.6875rem\\].tracking-\\[0\\.06em\\] | .gap-1.flex-1[href$=\"menu\"] > .text-beige\\/70.text-\\"
+        }
+      ]
+    },
+    "structure": {
+      "lang": "en",
+      "title": "Reserve a table · Noir Café",
+      "h1": 1,
+      "mains": 1,
+      "jumps": [],
+      "imgsNoAlt": 0
+    },
+    "skip": {
+      "text": "Skip to content",
+      "href": "#main",
+      "visible": true,
+      "lands": true
+    },
+    "keyboard": {
+      "tabbables": 25,
+      "noVisibleFocus": []
+    },
+    "pixelContrast": {
+      "checked": 6,
+      "fails": []
+    },
+    "targets": [
+      "A \"hello@noircafe.com\" 130×15",
+      "A \"+1 (212) 555-0142\" 122×15"
+    ]
+  },
+  "desktop /reservation": {
+    "route": "/reservation",
+    "view": "desktop",
+    "motion": {
+      "running": [],
+      "films": 0
+    },
+    "axe": {
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "n": 11,
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "sample": ".max-nav\\:\\[\\&\\>span\\:last-child\\]\\:text-\\[1\\.375rem\\] > .text-logo.font-medium.tracking-\\[0\\.01em\\] | .group\\/link.h-11[href=\"/\"] > .duration-500.transition-transform | .group\\/link.h-11[href$=\"menu\"] > .duration-500.transition-transform"
+        }
+      ]
+    },
+    "structure": {
+      "lang": "en",
+      "title": "Reserve a table · Noir Café",
+      "h1": 1,
+      "mains": 1,
+      "jumps": [],
+      "imgsNoAlt": 0
+    },
+    "skip": {
+      "text": "Skip to content",
+      "href": "#main",
+      "visible": true,
+      "lands": true
+    },
+    "keyboard": {
+      "tabbables": 39,
+      "noVisibleFocus": []
+    },
+    "pixelContrast": {
+      "checked": 7,
+      "fails": []
+    }
+  },
+  "phone /locations": {
+    "route": "/locations",
+    "view": "phone",
+    "motion": {
+      "running": [],
+      "films": 0
+    },
+    "axe": {
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "n": 16,
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "sample": ".max-nav\\:\\[\\&\\>span\\:last-child\\]\\:text-\\[1\\.375rem\\] > .text-logo.font-medium.tracking-\\[0\\.01em\\] | .justify-center.gap-1[href=\"/\"] > .text-beige\\/70.tracking-\\[0\\.06em\\].text-\\[0\\.6875rem\\] | .justify-center.gap-1[href$=\"menu\"] > .text-"
+        }
+      ]
+    },
+    "structure": {
+      "lang": "en",
+      "title": "Locations · Noir Café",
+      "h1": 1,
+      "mains": 1,
+      "jumps": [],
+      "imgsNoAlt": 0
+    },
+    "skip": {
+      "text": "Skip to content",
+      "href": "#main",
+      "visible": true,
+      "lands": true
+    },
+    "keyboard": {
+      "tabbables": 24,
+      "noVisibleFocus": []
+    },
+    "pixelContrast": {
+      "checked": 7,
+      "fails": []
+    },
+    "targets": [
+      "A \"hello@noircafe.com\" 130×15",
+      "A \"+1 (212) 555-0142\" 122×15"
+    ]
+  },
+  "desktop /locations": {
+    "route": "/locations",
+    "view": "desktop",
+    "motion": {
+      "running": [],
+      "films": 0
+    },
+    "axe": {
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "n": 14,
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "sample": ".max-nav\\:\\[\\&\\>span\\:last-child\\]\\:text-\\[1\\.375rem\\] > .text-logo.font-medium.tracking-\\[0\\.01em\\] | .text-strong\\/80.group\\/link[href=\"/\"] > .duration-500.transition-transform.ease-noir | .text-strong\\/80.group\\/link[href$=\"menu\"] > .dur"
+        }
+      ]
+    },
+    "structure": {
+      "lang": "en",
+      "title": "Locations · Noir Café",
+      "h1": 1,
+      "mains": 1,
+      "jumps": [],
+      "imgsNoAlt": 0
+    },
+    "skip": {
+      "text": "Skip to content",
+      "href": "#main",
+      "visible": true,
+      "lands": true
+    },
+    "keyboard": {
+      "tabbables": 29,
+      "noVisibleFocus": []
+    },
+    "pixelContrast": {
+      "checked": 7,
+      "fails": []
+    }
+  },
+  "phone /shop": {
+    "route": "/shop",
+    "view": "phone",
+    "motion": {
+      "running": [],
+      "films": 0
+    },
+    "axe": {
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "n": 10,
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "sample": ".max-nav\\:\\[\\&\\>span\\:last-child\\]\\:text-\\[1\\.375rem\\] > .text-logo.font-medium.tracking-\\[0\\.01em\\] | .gap-1.justify-center[href=\"/\"] > .text-beige\\/70.text-\\[0\\.6875rem\\].tracking-\\[0\\.06em\\] | .gap-1.justify-center[href$=\"menu\"] > .text-"
+        }
+      ]
+    },
+    "structure": {
+      "lang": "en",
+      "title": "Shop · Noir Café",
+      "h1": 1,
+      "mains": 1,
+      "jumps": [],
+      "imgsNoAlt": 0
+    },
+    "skip": {
+      "text": "Skip to content",
+      "href": "#main",
+      "visible": true,
+      "lands": true
+    },
+    "keyboard": {
+      "tabbables": 32,
+      "noVisibleFocus": []
+    },
+    "pixelContrast": {
+      "checked": 6,
+      "fails": []
+    },
+    "targets": [
+      "A \"hello@noircafe.com\" 130×15",
+      "A \"+1 (212) 555-0142\" 122×15"
+    ]
+  },
+  "desktop /shop": {
+    "route": "/shop",
+    "view": "desktop",
+    "motion": {
+      "running": [],
+      "films": 0
+    },
+    "axe": {
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "n": 9,
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "sample": ".max-nav\\:\\[\\&\\>span\\:last-child\\]\\:text-\\[1\\.375rem\\] > .text-logo.font-medium.tracking-\\[0\\.01em\\] | .text-strong\\/80.group\\/link[href=\"/\"] > .duration-500.transition-transform | .text-strong\\/80.group\\/link[href$=\"menu\"] > .duration-500."
+        }
+      ]
+    },
+    "structure": {
+      "lang": "en",
+      "title": "Shop · Noir Café",
+      "h1": 1,
+      "mains": 1,
+      "jumps": [],
+      "imgsNoAlt": 0
+    },
+    "skip": {
+      "text": "Skip to content",
+      "href": "#main",
+      "visible": true,
+      "lands": true
+    },
+    "keyboard": {
+      "tabbables": 33,
+      "noVisibleFocus": []
+    },
+    "pixelContrast": {
+      "checked": 7,
+      "fails": []
+    }
+  },
+  "phone /concierge": {
+    "route": "/concierge",
+    "view": "phone",
+    "motion": {
+      "running": [],
+      "films": 0
+    },
+    "axe": {
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "n": 10,
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "sample": ".max-nav\\:\\[\\&\\>span\\:last-child\\]\\:text-\\[1\\.375rem\\] > .text-logo.font-medium.tracking-\\[0\\.01em\\] | .justify-center.gap-1[href=\"/\"] > .text-\\[0\\.6875rem\\].tracking-\\[0\\.06em\\].text-beige\\/70 | .justify-center.gap-1[href$=\"menu\"] > .text-"
+        }
+      ]
+    },
+    "structure": {
+      "lang": "en",
+      "title": "Ask the barista · Noir Café",
+      "h1": 1,
+      "mains": 1,
+      "jumps": [],
+      "imgsNoAlt": 0
+    },
+    "skip": {
+      "text": "Skip to content",
+      "href": "#main",
+      "visible": true,
+      "lands": true
+    },
+    "keyboard": {
+      "tabbables": 23,
+      "noVisibleFocus": []
+    },
+    "pixelContrast": {
+      "checked": 6,
+      "fails": []
+    },
+    "targets": [
+      "A \"menu\" 40×19",
+      "A \"shop\" 35×19",
+      "A \"hello@noircafe.com\" 130×15",
+      "A \"+1 (212) 555-0142\" 122×15"
+    ]
+  },
+  "desktop /concierge": {
+    "route": "/concierge",
+    "view": "desktop",
+    "motion": {
+      "running": [],
+      "films": 0
+    },
+    "axe": {
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "n": 8,
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "sample": ".max-nav\\:\\[\\&\\>span\\:last-child\\]\\:text-\\[1\\.375rem\\] > .text-logo.font-medium.tracking-\\[0\\.01em\\] | .group\\/link.h-11[href=\"/\"] > .duration-500.transition-transform.ease-noir | .group\\/link.h-11[href$=\"menu\"] > .duration-500.transition-t"
+        }
+      ]
+    },
+    "structure": {
+      "lang": "en",
+      "title": "Ask the barista · Noir Café",
+      "h1": 1,
+      "mains": 1,
+      "jumps": [],
+      "imgsNoAlt": 0
+    },
+    "skip": {
+      "text": "Skip to content",
+      "href": "#main",
+      "visible": true,
+      "lands": true
+    },
+    "keyboard": {
+      "tabbables": 24,
+      "noVisibleFocus": []
+    },
+    "pixelContrast": {
+      "checked": 7,
+      "fails": []
+    }
+  },
+  "phone /order": {
+    "route": "/order",
+    "view": "phone",
+    "motion": {
+      "running": [],
+      "films": 0
+    },
+    "axe": {
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "n": 10,
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "sample": ".max-nav\\:\\[\\&\\>span\\:last-child\\]\\:text-\\[1\\.375rem\\] > .text-logo.font-medium.tracking-\\[0\\.01em\\] | .gap-1.justify-center[href=\"/\"] > .text-\\[0\\.6875rem\\].tracking-\\[0\\.06em\\].text-beige\\/70 | .gap-1.justify-center[href$=\"menu\"] > .text-"
+        }
+      ]
+    },
+    "structure": {
+      "lang": "en",
+      "title": "Order ahead · Noir Café",
+      "h1": 1,
+      "mains": 1,
+      "jumps": [],
+      "imgsNoAlt": 0
+    },
+    "skip": {
+      "text": "Skip to content",
+      "href": "#main",
+      "visible": true,
+      "lands": true
+    },
+    "keyboard": {
+      "tabbables": 36,
+      "noVisibleFocus": []
+    },
+    "pixelContrast": {
+      "checked": 6,
+      "fails": []
+    },
+    "targets": [
+      "A \"hello@noircafe.com\" 130×15",
+      "A \"+1 (212) 555-0142\" 122×15"
+    ]
+  },
+  "desktop /order": {
+    "route": "/order",
+    "view": "desktop",
+    "motion": {
+      "running": [],
+      "films": 0
+    },
+    "axe": {
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "n": 8,
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "sample": ".max-nav\\:\\[\\&\\>span\\:last-child\\]\\:text-\\[1\\.375rem\\] > .text-logo.font-medium.tracking-\\[0\\.01em\\] | .group\\/link.h-11[href=\"/\"] > .duration-500.transition-transform.ease-noir | .group\\/link.h-11[href$=\"menu\"] > .duration-500.transition-t"
+        }
+      ]
+    },
+    "structure": {
+      "lang": "en",
+      "title": "Order ahead · Noir Café",
+      "h1": 1,
+      "mains": 1,
+      "jumps": [],
+      "imgsNoAlt": 0
+    },
+    "skip": {
+      "text": "Skip to content",
+      "href": "#main",
+      "visible": true,
+      "lands": true
+    },
+    "keyboard": {
+      "tabbables": 37,
+      "noVisibleFocus": []
+    },
+    "pixelContrast": {
+      "checked": 7,
+      "fails": []
+    }
+  },
+  "phone /offline": {
+    "route": "/offline",
+    "view": "phone",
+    "motion": {
+      "running": [],
+      "films": 0
+    },
+    "axe": {
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "n": 8,
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "sample": ".max-nav\\:\\[\\&\\>span\\:last-child\\]\\:text-\\[1\\.375rem\\] > .text-logo.font-medium.tracking-\\[0\\.01em\\] | .gap-1.justify-center[href=\"/\"] > .text-\\[0\\.6875rem\\].tracking-\\[0\\.06em\\].text-beige\\/70 | .gap-1.justify-center[href$=\"menu\"] > .text-"
+        }
+      ]
+    },
+    "structure": {
+      "lang": "en",
+      "title": "Offline · Noir Café",
+      "h1": 1,
+      "mains": 1,
+      "jumps": [],
+      "imgsNoAlt": 0
+    },
+    "skip": {
+      "text": "Skip to content",
+      "href": "#main",
+      "visible": true,
+      "lands": true
+    },
+    "keyboard": {
+      "tabbables": 23,
+      "noVisibleFocus": []
+    },
+    "pixelContrast": {
+      "checked": 6,
+      "fails": []
+    },
+    "targets": [
+      "A \"hello@noircafe.com\" 130×15",
+      "A \"+1 (212) 555-0142\" 122×15"
+    ]
+  },
+  "desktop /offline": {
+    "route": "/offline",
+    "view": "desktop",
+    "motion": {
+      "running": [],
+      "films": 0
+    },
+    "axe": {
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "n": 8,
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "sample": ".max-nav\\:\\[\\&\\>span\\:last-child\\]\\:text-\\[1\\.375rem\\] > .text-logo.font-medium.tracking-\\[0\\.01em\\] | .group\\/link.h-11[href=\"/\"] > .duration-500.transition-transform.ease-noir | .group\\/link.h-11[href$=\"menu\"] > .duration-500.transition-t"
+        }
+      ]
+    },
+    "structure": {
+      "lang": "en",
+      "title": "Offline · Noir Café",
+      "h1": 1,
+      "mains": 1,
+      "jumps": [],
+      "imgsNoAlt": 0
+    },
+    "skip": {
+      "text": "Skip to content",
+      "href": "#main",
+      "visible": true,
+      "lands": true
+    },
+    "keyboard": {
+      "tabbables": 24,
+      "noVisibleFocus": []
+    },
+    "pixelContrast": {
+      "checked": 7,
+      "fails": []
+    }
+  }
+}

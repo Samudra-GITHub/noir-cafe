@@ -73,7 +73,7 @@ export function StudioTimer({ method, seconds, crema }: { method: BrewMethod; se
   const fill = elapsed / seconds;
 
   return (
-    <div className="grid items-center gap-8 sm:grid-cols-[auto_1fr]">
+    <div className="grid grid-cols-[minmax(0,1fr)] items-center gap-8 sm:grid-cols-[auto_1fr]">
       <div className="flex items-end justify-center gap-6">
         <button
           type="button"

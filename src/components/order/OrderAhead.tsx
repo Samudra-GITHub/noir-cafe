@@ -155,13 +155,13 @@ export function OrderAhead({ accountSlot }: { accountSlot?: React.ReactNode }) {
             <CafeOption key={c.id} cafe={c} selected={c.id === cafeId} onSelect={() => setCafeId(c.id)} />
           ))}
         </div>
-        <label className="flex flex-col gap-2">
+        <label className="flex min-w-0 flex-col gap-2">
           <span className="font-mono text-micro text-stone uppercase">Pickup</span>
           {slots.length ? (
             <select
               value={pickup ?? ""}
               onChange={(e) => setPickupAt(e.target.value)}
-              className="h-13 rounded-full border border-sand bg-surface px-5 font-sans text-body-sm text-strong focus:border-espresso focus:outline-none"
+              className="h-13 max-w-full min-w-0 rounded-full border border-sand bg-surface px-5 font-sans text-body-sm text-strong focus:border-espresso"
             >
               {slots.map((s, i) => (
                 <option key={s} value={s}>
