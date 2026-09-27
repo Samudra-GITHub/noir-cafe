@@ -12,12 +12,18 @@ import {
   RESERVATION_VENUE,
   SEATING,
   type SeatingId,
+  RESERVATION_CAFE,
+  TABLE_MINUTES,
+  isoDay,
 } from "@/data/reservation";
 import { useMotionSafe } from "@/hooks/useMotionSafe";
 import { checkDraw, ease, shake, successReveal } from "@/lib/motion";
 import { cn } from "@/lib/cn";
 import { feedback } from "@/lib/feedback";
 import { Calendar, LONG_DATE } from "./Calendar";
+import { ReservationQR, downloadIcs } from "./ReservationQR";
+import { useBooking } from "./useBooking";
+import { reservationIcs } from "@/lib/ics";
 
 export const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
@@ -58,7 +64,8 @@ function StepTitle({ id, index, children }: { id: string; index: string; childre
 /**
  * Reservation experience — date, time, guests, seating and contact details on
  * the left; a live summary on the right that updates as choices change.
- * Validated on the client; not yet connected to a booking service.
+ * Books through /api/reservations; the confirmation carries the reservation
+ * code, its QR for the host stand, and a calendar invite.
  */
 export function ReservationExperience() {
   const today = useToday();
@@ -73,6 +80,7 @@ export function ReservationExperience() {
   const [errors, setErrors] = useState<Errors>({});
   const [requested, setRequested] = useState(false);
   const formRef = useRef<HTMLFormElement>(null);
+  const booking = useBooking(isoDay(date));
 
   const validate = (): Errors => {
     const next: Errors = {};
@@ -82,8 +90,9 @@ export function ReservationExperience() {
     return next;
   };
 
-  const onSubmit = (e: React.FormEvent) => {
+  const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (booking.status === "sending") return;
     const next = validate();
     setErrors(next);
     if (Object.keys(next).length) {
@@ -94,6 +103,8 @@ export function ReservationExperience() {
       }
       return;
     }
+    const booked = await booking.book({ day: isoDay(date), time, guests, seating, name: name.trim(), email: email.trim() });
+    if (!booked) return;
     setRequested(true);
     feedback("confirm");
   };
@@ -111,7 +122,7 @@ export function ReservationExperience() {
         <form
           ref={formRef}
           noValidate
-          onSubmit={onSubmit}
+          onSubmit={(e) => void onSubmit(e)}
           aria-label="Reserve a table"
           className="rounded-2xl bg-surface p-6 shadow-card md:p-10"
         >
@@ -319,7 +330,40 @@ export function ReservationExperience() {
               </svg>
               <p className="font-sans text-body-xs text-cream">
                 Thank you, {name.trim().split(" ")[0]}. Your table for {LONG_DATE.format(date)} at {to12h(time)} is
-                requested. We look forward to seeing you.
+                {booking.booked ? "booked" : "requested"}. We look forward to seeing you.
+                {booking.booked && (
+                  <>
+                    <span className="mt-4 flex items-center gap-4">
+                      <ReservationQR code={booking.booked.code} className="size-24 shrink-0" />
+                      <span className="flex flex-col gap-1">
+                        <span className="font-mono text-micro text-taupe uppercase">Reservation{booking.booked.persisted ? "" : " · demo"}</span>
+                        <span className="font-mono text-eyebrow tracking-[0.12em] text-beige">{booking.booked.code}</span>
+                        <button
+                          type="button"
+                          className="mt-1 self-start font-mono text-micro text-caramel-glow uppercase underline underline-offset-4"
+                          onClick={() =>
+                            downloadIcs(
+                              `noir-cafe-${booking.booked!.code}.ics`,
+                              reservationIcs({
+                                code: booking.booked!.code,
+                                day: booking.booked!.day,
+                                time,
+                                minutes: TABLE_MINUTES,
+                                guests,
+                                seating: SEAT_SUMMARY[seating],
+                                name: name.trim(),
+                                venue: RESERVATION_VENUE.name.join(" · "),
+                                address: RESERVATION_CAFE.address,
+                              }),
+                            )
+                          }
+                        >
+                          Add to calendar
+                        </button>
+                      </span>
+                    </span>
+                  </>
+                )}
               </p>
             </m.div>
           ) : (
@@ -336,6 +380,11 @@ export function ReservationExperience() {
             </m.div>
           )}
         </AnimatePresence>
+        {booking.error && (
+          <p role="alert" className="mt-4 font-sans text-body-xs text-caramel-glow">
+            {booking.error}
+          </p>
+        )}
         <p className="mt-9 text-center font-mono text-micro text-taupe uppercase">{RESERVATION_VENUE.note}</p>
       </aside>
     </div>

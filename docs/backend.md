@@ -7,8 +7,9 @@ every feature says plainly when it is running without its backend.
 | Service | Enables | Without it |
 | --- | --- | --- |
 | **Anthropic** (`ANTHROPIC_API_KEY`) | `/concierge` — the AI barista (streams Claude, grounded in the site's own menu, shop, recipes and cafés) | The concierge shows as resting; no canned replies |
-| **Supabase** (`SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`) | Orders stored in Postgres, live "sold out today" availability, synced favourites | Orders are validated and priced by the server but not stored — labelled *demo* |
+| **Supabase** (`SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`) | Orders and reservations stored in Postgres, live availability (menu and tables), synced favourites | Orders and bookings are validated by the server against default capacity but not stored — labelled *demo* |
 | **Stripe** (`STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET`) | "Pay now" via Checkout; the webhook marks orders paid | Pay at pickup only |
+| **Resend** (`RESEND_API_KEY`, `RESERVATIONS_FROM`) | Reservation confirmation emails (HTML + calendar invite) | The pass, QR and calendar download still work; no email is sent |
 | **Clerk** (`NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY`, `CLERK_SECRET_KEY`) | Sign-in on `/order`; favourites follow the account | Guests order without an account; favourites stay on the device |
 
 ## Security model
@@ -34,6 +35,15 @@ every feature says plainly when it is running without its backend.
    — `/order` picks it up within a minute.
 3. Set `SUPABASE_URL` and `SUPABASE_SERVICE_ROLE_KEY` in Vercel.
 
+## Reservations
+
+- `GET /api/reservations/availability?day=YYYY-MM-DD` returns remaining covers
+  per time and seating area (window, indoor, outdoor). Times already past are closed; bookings open up to 60 days ahead.
+- `POST /api/reservations` validates and books. With Supabase, the `book_table`
+  function (`supabase/migrations/0002_reservations.sql`) locks the area's capacity row and inserts only if the party fits — no double-booking.
+  Capacities live in `reservation_capacity` (defaults 8 / 16 / 10 covers).
+- The confirmation carries a code (`NC-XXXXXX`) and a QR (`NOIR-RES:<code>`) for the host stand, an RFC 5545 invite (`src/lib/ics.ts`), and — with Resend — an email (`src/server/email.ts`).
+
 ## Stripe setup
 
 1. Set `STRIPE_SECRET_KEY` (test mode first).
@@ -52,3 +62,5 @@ every feature says plainly when it is running without its backend.
 | `/api/orders/confirm` | GET | Paid order summary after Checkout |
 | `/api/stripe/webhook` | POST | Mark orders paid |
 | `/api/favorites` | GET · PUT | Account favourites (Clerk + Supabase) |
+| `/api/reservations/availability` | GET | Remaining covers per time and area |
+| `/api/reservations` | POST | Book a table (atomic with Supabase), email confirmation |

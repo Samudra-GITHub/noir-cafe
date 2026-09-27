@@ -10,8 +10,16 @@ import {
   RESERVATION_TIMES,
   RESERVATION_VENUE,
   SEATING,
+  RESERVATION_CAFE,
+  TABLE_MINUTES,
+  guestCount,
+  isoDay,
   type SeatingId,
 } from "@/data/reservation";
+import { reservationIcs } from "@/lib/ics";
+import { ReservationQR, downloadIcs } from "./ReservationQR";
+import { SeatMap } from "./SeatMap";
+import { useBooking } from "./useBooking";
 import { useMotionSafe } from "@/hooks/useMotionSafe";
 import { ease } from "@/lib/motion";
 import { cn } from "@/lib/cn";
@@ -25,8 +33,8 @@ const SHORT_DATE = new Intl.DateTimeFormat("en-US", { weekday: "short", month: "
 /**
  * Mobile reservation (below 768px) — Apple Wallet–style. A pass at the top
  * updates live while a four-step flow below collects the booking; on confirm
- * the pass lifts into its "requested" state. Not yet connected to a booking
- * service.
+ * the table is booked through /api/reservations (live availability per time
+ * and seating area) and the pass is issued — Wallet-style — with its QR code.
  */
 export function MobileReservation() {
   const safe = useMotionSafe();
@@ -43,18 +51,22 @@ export function MobileReservation() {
   const [errors, setErrors] = useState<{ name?: string; email?: string }>({});
   const [done, setDone] = useState(false);
   const rootRef = useRef<HTMLDivElement>(null);
+  const booking = useBooking(isoDay(date));
+  const covers = guestCount(guests);
 
   const go = (to: number) => {
     setDir(to > step ? 1 : -1);
     setStep(to);
   };
 
-  const confirm = () => {
+  const confirm = async () => {
     const next: typeof errors = {};
     if (!name.trim()) next.name = "Please add a name for the table";
     if (!EMAIL.test(email.trim())) next.email = "Enter a valid email address";
     setErrors(next);
-    if (!Object.keys(next).length) {
+    if (Object.keys(next).length) return;
+    const booked = await booking.book({ day: isoDay(date), time, guests, seating, name: name.trim(), email: email.trim() });
+    if (booked) {
       setDone(true);
       feedback("confirm");
       // The steps collapse away; bring the finished pass into view.
@@ -73,7 +85,40 @@ export function MobileReservation() {
         seating={seating}
         name={name}
         done={done}
+        code={booking.booked?.code}
+        demo={booking.booked ? !booking.booked.persisted : false}
       />
+
+      {done && booking.booked && (
+        <div className="mt-4 flex flex-col gap-3">
+          <Button
+            variant="secondary"
+            arrow={false}
+            fullWidth
+            onClick={() =>
+              downloadIcs(
+                `noir-cafe-${booking.booked!.code}.ics`,
+                reservationIcs({
+                  code: booking.booked!.code,
+                  day: booking.booked!.day,
+                  time,
+                  minutes: TABLE_MINUTES,
+                  guests,
+                  seating: SEAT_SUMMARY[seating],
+                  name: name.trim(),
+                  venue: RESERVATION_VENUE.name.join(" · "),
+                  address: RESERVATION_CAFE.address,
+                }),
+              )
+            }
+          >
+            Add to calendar
+          </Button>
+          <p className="text-center font-sans text-body-xs text-stone">
+            {booking.emailed ? `A confirmation is on its way to ${email.trim()}.` : "Show this pass at the host stand."}
+          </p>
+        </div>
+      )}
 
       {!done && (
         <section aria-labelledby={titleId} className="mt-8">
@@ -112,8 +157,16 @@ export function MobileReservation() {
                       <legend className="font-mono text-micro text-stone uppercase">Time</legend>
                       <div className="mt-3 grid grid-cols-2 gap-2.5">
                         {RESERVATION_TIMES.map((t) => (
-                          <Chip key={t} size="lg" selected={time === t} onClick={() => setTime(t)} className="h-12 w-full text-[0.6875rem]">
+                          <Chip
+                            key={t}
+                            size="lg"
+                            selected={time === t}
+                            disabled={!booking.timeOpen(t, guests)}
+                            onClick={() => setTime(t)}
+                            className="h-12 w-full text-[0.6875rem] disabled:opacity-40"
+                          >
                             {to12h(t)}
+                            {!booking.timeOpen(t, guests) && <span className="ml-1.5 text-stone">· Full</span>}
                           </Chip>
                         ))}
                       </div>
@@ -139,17 +192,23 @@ export function MobileReservation() {
                 )}
 
                 {step === 2 && (
+                  <div className="flex flex-col gap-4">
+                  <SeatMap selected={seating} onSelect={setSeating} left={(id) => booking.left(time, id)} covers={covers} className="rounded-xl bg-surface p-3 shadow-card" />
                   <div role="radiogroup" aria-label="Seating" className="flex flex-col gap-3">
                     {SEATING.map((option) => {
                       const checked = seating === option.id;
+                      const left = booking.left(time, option.id);
+                      const full = left != null && left < covers;
                       return (
                         <button
                           key={option.id}
                           type="button"
                           role="radio"
                           aria-checked={checked}
-                          onClick={() => setSeating(option.id)}
+                          aria-disabled={full || undefined}
+                          onClick={() => !full && setSeating(option.id)}
                           className={cn(
+                            full && "opacity-50",
                             "group/seat relative isolate h-[132px] overflow-hidden rounded-xl text-left text-beige ring-offset-2 ring-offset-canvas transition-shadow duration-300",
                             checked && "ring-2 ring-caramel",
                           )}
@@ -164,7 +223,10 @@ export function MobileReservation() {
                           <span aria-hidden className="absolute inset-0 -z-10 bg-[linear-gradient(90deg,rgb(23_18_14/0.85),rgb(23_18_14/0.2))]" />
                           <span className="absolute bottom-4 left-5">
                             <span className="block font-display text-[1.75rem] leading-none">{option.label}</span>
-                            <span className="mt-1.5 block font-mono text-micro text-cream uppercase">{option.detail}</span>
+                            <span className="mt-1.5 block font-mono text-micro text-cream uppercase">
+                              {option.detail}
+                              {left != null && <> · {full ? "Full" : `${left} seats left`}</>}
+                            </span>
                           </span>
                           <span
                             aria-hidden
@@ -178,6 +240,7 @@ export function MobileReservation() {
                         </button>
                       );
                     })}
+                  </div>
                   </div>
                 )}
 
@@ -223,11 +286,16 @@ export function MobileReservation() {
                 Continue
               </Button>
             ) : (
-              <Button variant="accent" onClick={confirm} className="flex-[2] justify-between pr-6">
-                Confirm
+              <Button variant="accent" onClick={() => void confirm()} disabled={booking.status === "sending"} className="flex-[2] justify-between pr-6">
+                {booking.status === "sending" ? "Booking…" : "Confirm"}
               </Button>
             )}
           </div>
+          {booking.error && (
+            <p role="alert" className="mt-4 font-sans text-body-sm text-caramel-ink">
+              {booking.error}
+            </p>
+          )}
           <p className="mt-5 text-center font-mono text-micro text-stone uppercase">{RESERVATION_VENUE.note}</p>
         </section>
       )}
@@ -243,6 +311,8 @@ function Pass({
   seating,
   name,
   done,
+  code,
+  demo,
 }: {
   date: Date;
   time: string;
@@ -250,6 +320,8 @@ function Pass({
   seating: SeatingId;
   name: string;
   done: boolean;
+  code?: string;
+  demo?: boolean;
 }) {
   const safe = useMotionSafe();
   const rows = [
@@ -264,13 +336,16 @@ function Pass({
       aria-live="polite"
       layout={safe}
       transition={ease(0.6)}
-      className="relative isolate overflow-hidden rounded-2xl bg-espresso text-beige shadow-[0_24px_60px_-20px_rgb(23_18_14/0.55)]"
+      className={cn(
+        "relative isolate overflow-hidden rounded-2xl bg-espresso text-beige shadow-[0_24px_60px_-20px_rgb(23_18_14/0.55)]",
+        code && "pass-issued",
+      )}
     >
       {/* Stacked-pass edge */}
       <span aria-hidden className="absolute inset-x-5 -top-2 -z-10 h-4 rounded-t-2xl bg-walnut" />
       <div className="flex items-start justify-between px-6 pt-6">
         <div>
-          <p className="font-mono text-micro text-caramel-glow uppercase">{done ? "Requested" : RESERVATION_VENUE.eyebrow}</p>
+          <p className="font-mono text-micro text-caramel-glow uppercase">{code ? (demo ? "Booked · demo" : "Booked") : done ? "Requested" : RESERVATION_VENUE.eyebrow}</p>
           <p className="mt-2 font-display text-[1.75rem] leading-[1.05]">
             {RESERVATION_VENUE.name[0]}
             <br />
@@ -314,7 +389,13 @@ function Pass({
           <p className="font-mono text-micro text-taupe uppercase">Guest</p>
           <p className="mt-1 font-sans text-[0.8125rem]">{name.trim() || "—"}</p>
         </div>
-        {/* Decorative code strip, not a scannable code. */}
+        {code ? (
+          <div className="text-right">
+            <p className="font-mono text-micro text-taupe uppercase">Reservation</p>
+            <p className="mt-1 font-mono text-eyebrow tracking-[0.12em]">{code}</p>
+          </div>
+        ) : (
+        /* Decorative code strip until the pass is issued. */
         <span aria-hidden className="flex h-10 items-end gap-[3px]">
           {[3, 7, 4, 9, 5, 8, 3, 6, 9, 4, 7, 5, 8, 3, 6].map((h, i) => (
             <span
@@ -324,7 +405,22 @@ function Pass({
             />
           ))}
         </span>
+        )}
       </div>
+
+      {code && (
+        <m.div
+          initial={safe ? { height: 0, opacity: 0 } : false}
+          animate={{ height: "auto", opacity: 1 }}
+          transition={ease(0.7, 0.35)}
+          className="overflow-hidden"
+        >
+          <div className="flex items-center gap-5 border-t border-char px-6 py-6">
+            <ReservationQR code={code} className="size-28 shrink-0" />
+            <p className="font-sans text-body-xs text-cream">Show this code at the host stand — we&rsquo;ll take you straight to your table.</p>
+          </div>
+        </m.div>
+      )}
 
       {done && (
         <m.p
@@ -334,7 +430,7 @@ function Pass({
           transition={ease(0.5, 0.2)}
           className="border-t border-char px-6 py-5 font-sans text-body-xs text-cream"
         >
-          Thank you, {name.trim().split(" ")[0]}. Your table for {LONG_DATE.format(date)} at {to12h(time)} is requested. We look forward to seeing you.
+          Thank you, {name.trim().split(" ")[0]}. Your table for {LONG_DATE.format(date)} at {to12h(time)} is {code ? "booked" : "requested"}. We look forward to seeing you.
         </m.p>
       )}
     </m.section>

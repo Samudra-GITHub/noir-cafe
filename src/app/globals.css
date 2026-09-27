@@ -891,3 +891,65 @@ html[data-vt="push"]::view-transition-new(.page-dissolve) {
     display: none;
   }
 }
+
+/* Reservation pass — issued like a Wallet boarding pass: it lifts out of the
+   stack with a slight tilt, settles, and a light sweeps across the card. */
+.pass-issued {
+  transform-origin: 50% 100%;
+  animation: pass-issue 900ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.pass-issued::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(115deg, transparent 30%, rgb(248 244 236 / 0.16) 48%, transparent 66%);
+  transform: translateX(-120%);
+  animation: pass-shine 1.1s cubic-bezier(0.4, 0, 0.2, 1) 250ms both;
+}
+@keyframes pass-issue {
+  0% { transform: perspective(900px) translateY(0) rotateX(0) scale(1); }
+  35% { transform: perspective(900px) translateY(-18px) rotateX(9deg) scale(0.975); }
+  70% { transform: perspective(900px) translateY(4px) rotateX(-2deg) scale(1.005); }
+  100% { transform: none; }
+}
+@keyframes pass-shine {
+  to { transform: translateX(120%); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .pass-issued,
+  .pass-issued::after { animation: none; }
+  .pass-issued::after { display: none; }
+}
+
+/* Reservation pass — issued like a Wallet boarding pass: it lifts out of the
+   stack with a slight tilt, settles, and a light sweeps across the card. */
+.pass-issued {
+  transform-origin: 50% 100%;
+  animation: pass-issue 900ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.pass-issued::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(115deg, transparent 30%, rgb(248 244 236 / 0.16) 48%, transparent 66%);
+  transform: translateX(-120%);
+  animation: pass-shine 1.1s cubic-bezier(0.4, 0, 0.2, 1) 250ms both;
+}
+@keyframes pass-issue {
+  0% { transform: perspective(900px) translateY(0) rotateX(0) scale(1); }
+  35% { transform: perspective(900px) translateY(-18px) rotateX(9deg) scale(0.975); }
+  70% { transform: perspective(900px) translateY(4px) rotateX(-2deg) scale(1.005); }
+  100% { transform: none; }
+}
+@keyframes pass-shine {
+  to { transform: translateX(120%); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .pass-issued,
+  .pass-issued::after { animation: none; }
+  .pass-issued::after { display: none; }
+}

@@ -26,3 +26,19 @@ export const RESERVATION_DEFAULTS = {
   guests: "2",
   seating: "window" as SeatingId,
 };
+
+/**
+ * Booking rules. Covers per seating area are operating defaults — the
+ * Supabase table `reservation_capacity` overrides them when connected.
+ */
+export const SEAT_CAPACITY: Record<SeatingId, number> = { window: 8, indoor: 16, outdoor: 10 };
+export const MAX_ADVANCE_DAYS = 60;
+/** How long a table is held, for calendar invites. */
+export const TABLE_MINUTES = 90;
+export const RESERVATION_CAFE = { id: "mercer", address: "14 Mercer Street, New York, NY 10013" } as const;
+
+/** Guests counted against capacity ("4+" books four covers). */
+export const guestCount = (g: string) => (g === "4+" ? 4 : Number(g));
+
+/** Calendar date as YYYY-MM-DD (the date the guest picked, no time zone shift). */
+export const isoDay = (d: Date) => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
