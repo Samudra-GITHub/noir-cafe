@@ -741,3 +741,153 @@ html.cursor-pressed .cursor-bean {
 html[data-menu-open] .mobile-dock {
   visibility: hidden;
 }
+
+/* ── Transitions 2.0 ─────────────────────────────────────────────────────
+   The cut is chosen by html[data-vt] (components/layout/TransitionDirector,
+   lib/transitions). Old and new pages are the .page-dissolve snapshots from
+   PageTransition; the site nav and phone dock stay pinned. Without the View
+   Transitions API the page swaps instantly and the grain veil still plays. */
+
+@property --stain-r {
+  syntax: "<length>";
+  inherits: false;
+  initial-value: 0px;
+}
+
+/* The UA cross-fade blends old and new with plus-lighter; the wipes and the
+   push layer the new page over the old instead, so they blend normally. The
+   page snapshot is <main>, whose background is transparent (the canvas colour
+   belongs to <body>) — so the arriving page carries the canvas with it, or
+   the old page would show through it. */
+html:is([data-vt="liquid"], [data-vt="steam"], [data-vt="stain"], [data-vt="push"])::view-transition-old(.page-dissolve),
+html:is([data-vt="liquid"], [data-vt="steam"], [data-vt="stain"], [data-vt="push"])::view-transition-new(.page-dissolve) {
+  mix-blend-mode: normal;
+}
+html:is([data-vt="liquid"], [data-vt="steam"], [data-vt="stain"], [data-vt="push"])::view-transition-new(.page-dissolve) {
+  background-color: var(--bg-canvas);
+}
+
+/* The page underneath settles back while the new one arrives over it. */
+@keyframes vt-recede {
+  to { opacity: 0.55; filter: blur(3px); transform: scale(0.985); }
+}
+
+/* Liquid — the menu pours in: a wave line rises through the page. */
+html[data-vt="liquid"]::view-transition-old(.page-dissolve) {
+  animation: vt-recede 900ms cubic-bezier(0.4, 0, 0.6, 1) both;
+}
+html[data-vt="liquid"]::view-transition-new(.page-dissolve) {
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200' preserveAspectRatio='none'%3E%3Cpath d='M0 100 Q12.5 97 25 100 Q37.5 103 50 100 Q62.5 97 75 100 Q87.5 103 100 100 Q112.5 97 125 100 Q137.5 103 150 100 Q162.5 97 175 100 Q187.5 103 200 100 V200 H0Z' fill='white'/%3E%3C/svg%3E");
+  /* Twice the page tall, wave across the middle: it crosses the whole page
+     as the mask travels from 0% to 100%. */
+  mask-size: 200% 200%;
+  mask-repeat: repeat-x;
+  animation: vt-pour 900ms cubic-bezier(0.55, 0, 0.25, 1) both;
+}
+@keyframes vt-pour {
+  from { mask-position: 0% 0%; }
+  to { mask-position: 100% 100%; }
+}
+
+/* Steam — lab pages clear like steam: a soft edge lifts, the old page rises away. */
+html[data-vt="steam"]::view-transition-old(.page-dissolve) {
+  animation: vt-steam-out 850ms cubic-bezier(0.4, 0, 0.6, 1) both;
+}
+html[data-vt="steam"]::view-transition-new(.page-dissolve) {
+  mask-image: linear-gradient(to bottom, transparent 36%, rgb(0 0 0 / 0.5) 48%, #000 64%);
+  mask-size: 100% 300%;
+  animation: vt-steam-in 850ms cubic-bezier(0.5, 0, 0.2, 1) both;
+}
+@keyframes vt-steam-out {
+  to { opacity: 0; filter: blur(10px); transform: translateY(-28px) scale(1.01); }
+}
+@keyframes vt-steam-in {
+  from { mask-position: 0 0%; filter: blur(6px); }
+  to { mask-position: 0 100%; filter: blur(0); }
+}
+
+/* Stain — reservations bloom from the tap, ringed like a coffee stain. */
+html[data-vt="stain"]::view-transition-old(.page-dissolve) {
+  animation: vt-recede 800ms cubic-bezier(0.4, 0, 0.6, 1) both;
+}
+html[data-vt="stain"]::view-transition-new(.page-dissolve) {
+  mask-image: radial-gradient(circle at var(--vt-x, 50vw) var(--vt-y, 50vh), #000 calc(var(--stain-r) - 18px), transparent var(--stain-r));
+  animation: vt-stain 800ms cubic-bezier(0.55, 0, 0.2, 1) both;
+}
+@keyframes vt-stain {
+  from { --stain-r: 0px; }
+  to { --stain-r: 160vmax; }
+}
+.vt-ring {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 1px;
+  height: 1px;
+  pointer-events: none;
+  view-transition-name: vt-ring;
+}
+::view-transition-group(vt-ring) {
+  animation: none;
+}
+html[data-vt="stain"]::view-transition-group(vt-ring) {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  box-shadow:
+    0 0 0 1.5px rgb(144 91 51 / 0.55),
+    inset 0 0 10px 2px rgb(144 91 51 / 0.35),
+    0 0 18px rgb(144 91 51 / 0.2);
+  animation: vt-ring 800ms cubic-bezier(0.55, 0, 0.2, 1) both;
+}
+@keyframes vt-ring {
+  from { opacity: 1; transform: translate(calc(var(--vt-x, 50vw) - 32px), calc(var(--vt-y, 50vh) - 32px)) scale(0); }
+  75% { opacity: 0.7; }
+  to { opacity: 0; transform: translate(calc(var(--vt-x, 50vw) - 32px), calc(var(--vt-y, 50vh) - 32px)) scale(50); }
+}
+
+/* Push — the hero pages: a slow camera push through the cut. */
+html[data-vt="push"]::view-transition-old(.page-dissolve) {
+  animation: vt-push-out 480ms cubic-bezier(0.4, 0, 1, 1) both;
+}
+html[data-vt="push"]::view-transition-new(.page-dissolve) {
+  animation: vt-push-in 820ms cubic-bezier(0.22, 1, 0.36, 1) 80ms both;
+}
+@keyframes vt-push-out {
+  to { opacity: 0; filter: blur(8px); transform: scale(0.94); }
+}
+@keyframes vt-push-in {
+  from { opacity: 0; filter: blur(10px); transform: scale(1.07); }
+}
+
+/* Shared element: the page title morphs between pages with a typographic
+   motion blur (a horizontal smear), or slides in out of a blur on arrival. */
+::view-transition-group(.title-morph) {
+  animation-duration: 620ms;
+  animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+}
+::view-transition-old(.title-morph),
+::view-transition-old(.title-out) {
+  animation: vt-title-out 280ms cubic-bezier(0.4, 0, 1, 1) both;
+}
+::view-transition-new(.title-morph) {
+  animation: vt-title-in 560ms cubic-bezier(0.22, 1, 0.36, 1) 120ms both;
+}
+::view-transition-new(.title-in) {
+  animation: vt-title-in 720ms cubic-bezier(0.22, 1, 0.36, 1) 220ms both;
+}
+@keyframes vt-title-in {
+  from { opacity: 0; filter: blur(9px); transform: translateX(32px) scaleX(1.06); transform-origin: left center; }
+}
+@keyframes vt-title-out {
+  to { opacity: 0; filter: blur(9px); transform: translateX(-32px) scaleX(1.06); transform-origin: left center; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html[data-vt]::view-transition-new(.page-dissolve) {
+    mask: none !important;
+  }
+  html[data-vt]::view-transition-group(vt-ring) {
+    display: none;
+  }
+}

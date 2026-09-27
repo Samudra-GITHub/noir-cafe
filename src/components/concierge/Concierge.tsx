@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Chat, type ChatMessage } from "@/components/chat/Chat";
 import { Eyebrow } from "@/components/ui";
+import { PageTitle } from "@/components/layout/PageTitle";
 import { MENU } from "@/data/menu";
 import { HOME_RITUAL_SET, PRODUCTS } from "@/data/shop";
 
@@ -67,7 +68,9 @@ export function Concierge() {
     <div className="container-page flex h-[calc(100dvh-var(--dock-height)-28px-var(--safe-bottom))] max-w-[760px] flex-col pt-[calc(var(--safe-top)+96px)] pb-4 md:h-dvh md:pt-32 md:pb-10">
       <header className="shrink-0">
         <Eyebrow>Concierge</Eyebrow>
-        <h1 className="type-display-md mt-3 text-strong">Ask the barista</h1>
+        <PageTitle>
+          <h1 className="type-display-md mt-3 text-strong">Ask the barista</h1>
+        </PageTitle>
       </header>
       <Chat
         endpoint="/api/concierge"

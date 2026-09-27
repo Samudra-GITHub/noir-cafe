@@ -6,6 +6,7 @@ import "./globals.css";
 import { Atmosphere } from "@/components/layout/Atmosphere";
 import { ClientEnhancements } from "@/components/layout/ClientEnhancements";
 import { GrainDissolve } from "@/components/layout/GrainDissolve";
+import { TransitionDirector } from "@/components/layout/TransitionDirector";
 import { LOADER_BOOT, Loader } from "@/components/layout/Loader";
 import { SHOW_LOADER } from "@/constants/site";
 import { SiteFooter } from "@/components/layout/SiteFooter";
@@ -117,6 +118,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <SiteFooter />
           <Atmosphere />
           <GrainDissolve />
+          <TransitionDirector />
           <ClientEnhancements />
         </SmoothScroll>
         </MotionProvider>

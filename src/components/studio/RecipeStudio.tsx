@@ -23,6 +23,7 @@ import { feedback } from "@/lib/feedback";
 import { haptic } from "@/lib/haptics";
 import { useMotionSafe } from "@/hooks/useMotionSafe";
 import { cn } from "@/lib/cn";
+import { PageTitle } from "@/components/layout/PageTitle";
 import { ExtractionMeter } from "./ExtractionMeter";
 import { FlavorWheel } from "./FlavorWheel";
 import { RoastSimulator } from "./RoastSimulator";
@@ -122,7 +123,9 @@ export function RecipeStudio() {
       <header className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
         <div>
           <Eyebrow>Brewing Lab · Studio</Eyebrow>
-          <h1 className="type-display-lg mt-[13px] text-strong">Recipe studio</h1>
+          <PageTitle>
+            <h1 className="type-display-lg mt-[13px] text-strong">Recipe studio</h1>
+          </PageTitle>
         </div>
         <p className="max-w-[420px] font-sans text-body-sm leading-[26px] text-stone">
           Start from one of our house recipes, then change the dose, ratio, grind, heat and roast. The cup, the extraction and the flavour wheel follow every move.

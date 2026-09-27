@@ -1,6 +1,7 @@
 import { FadeUp } from "@/components/motion/FadeUp";
 import { Eyebrow, Display } from "@/components/ui";
 import { cn } from "@/lib/cn";
+import { PageTitle } from "@/components/layout/PageTitle";
 
 /**
  * PageIntro — the opening band shared by the inner pages (Menu, Brewing Lab,
@@ -31,9 +32,11 @@ export function PageIntro({
     >
       <div>
         <Eyebrow>{eyebrow}</Eyebrow>
-        <Display as="h1" size="lg" className={cn("mt-[13px] text-strong", titleClassName)}>
-          {title}
-        </Display>
+        <PageTitle>
+          <Display as="h1" size="lg" className={cn("mt-[13px] text-strong", titleClassName)}>
+            {title}
+          </Display>
+        </PageTitle>
       </div>
       <p
         className={cn(

@@ -10,6 +10,7 @@ import { JOURNEY } from "@/data/journey";
 import { useMotionSafe } from "@/hooks/useMotionSafe";
 import { feedback } from "@/lib/feedback";
 import { cn } from "@/lib/cn";
+import { PageTitle } from "@/components/layout/PageTitle";
 
 const loadJourney = () => import("@/components/three/JourneyScene");
 const ART_NAME: Record<LatteArt, string> = { rosetta: "Rosetta", heart: "Heart", tulip: "Tulip" };
@@ -103,9 +104,11 @@ export function CupJourney() {
           <div className="container-page pointer-events-none relative flex h-full flex-col justify-between pt-[calc(var(--safe-top)+112px)] pb-[calc(var(--dock-height)+44px+var(--safe-bottom))] md:pt-40 md:pb-16">
             <div>
               <Eyebrow tone="accent-inverse">From seed to cup · 3D</Eyebrow>
-              <h1 id="cup-title" className="type-display-lg mt-4 max-w-[560px] text-beige">
-                Five transformations. One expressive cup.
-              </h1>
+              <PageTitle>
+                <h1 id="cup-title" className="type-display-lg mt-4 max-w-[560px] text-beige">
+                  Five transformations. One expressive cup.
+                </h1>
+              </PageTitle>
             </div>
 
             <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
