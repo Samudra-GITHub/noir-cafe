@@ -138,7 +138,7 @@ function CafePanel({ cafe }: { cafe: Cafe }) {
             exit={{ opacity: 0 }}
             transition={ease(0.8)}
           >
-            <BackgroundVideo video={VIDEOS.ambienceCafe} priority className="opacity-25">
+            <BackgroundVideo video={VIDEOS.ambienceCafe} className="opacity-25">
               <div className="absolute inset-0 bg-[linear-gradient(180deg,rgb(23_18_14/0.6),rgb(23_18_14/0.85))]" />
             </BackgroundVideo>
           </m.div>

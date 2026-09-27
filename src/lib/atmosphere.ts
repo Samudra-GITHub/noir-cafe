@@ -27,24 +27,28 @@ export function daypartAt(date = new Date()): Daypart {
   return "evening";
 }
 
-type State = { light: LightChoice; rain: boolean; daypart: Daypart };
+/** Rain: "auto" follows New York's real weather (lib/weather); on/off are the visitor's choice. */
+export type RainPref = "auto" | "on" | "off";
+type State = { light: LightChoice; rain: boolean; rainPref: RainPref; weatherRain: boolean; daypart: Daypart };
 
 const listeners = new Set<() => void>();
 let state: State | null = null;
-const SERVER_STATE: State = { light: "auto", rain: false, daypart: "afternoon" };
+const SERVER_STATE: State = { light: "auto", rain: false, rainPref: "auto", weatherRain: false, daypart: "afternoon" };
 
 function read(): State {
   let light: LightChoice = "auto";
-  let rain = false;
+  let rainPref: RainPref = "auto";
   try {
     const stored = localStorage.getItem(LIGHT_KEY);
     if (stored && (stored === "auto" || DAYPARTS.includes(stored as Daypart))) light = stored as LightChoice;
-    rain = localStorage.getItem(RAIN_KEY) === "1";
+    const r = localStorage.getItem(RAIN_KEY);
+    rainPref = r === "1" ? "on" : r === "0" ? "off" : "auto";
   } catch {}
-  return { light, rain, daypart: light === "auto" ? daypartAt() : light };
+  return { light, rainPref, weatherRain: false, rain: rainPref === "on", daypart: light === "auto" ? daypartAt() : light };
 }
 
-function apply(next: State) {
+function apply(input: State) {
+  const next = { ...input, rain: input.rainPref === "on" || (input.rainPref === "auto" && input.weatherRain) };
   state = next;
   const root = document.documentElement;
   root.dataset.daypart = next.daypart;
@@ -89,5 +93,19 @@ export function setRain(rain: boolean) {
   try {
     localStorage.setItem(RAIN_KEY, rain ? "1" : "0");
   } catch {}
-  apply({ ...getState(), rain });
+  apply({ ...getState(), rainPref: rain ? "on" : "off" });
+}
+
+/** Hand rain back to New York's weather. */
+export function setRainAuto() {
+  try {
+    localStorage.removeItem(RAIN_KEY);
+  } catch {}
+  apply({ ...getState(), rainPref: "auto" });
+}
+
+/** Is it raining in New York right now? (Drives rain when the preference is "auto".) */
+export function setWeatherRain(raining: boolean) {
+  const s = getState();
+  if (s.weatherRain !== raining) apply({ ...s, weatherRain: raining });
 }

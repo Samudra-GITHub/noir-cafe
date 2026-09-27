@@ -1,6 +1,6 @@
 "use client";
 
-import { DAYPARTS, setLight, setRain, useAtmosphere, type LightChoice } from "@/lib/atmosphere";
+import { DAYPARTS, setLight, setRain, setRainAuto, useAtmosphere, type LightChoice } from "@/lib/atmosphere";
 import { Switch } from "@/components/ui";
 import { setHapticsEnabled, useHaptics } from "@/lib/haptics";
 import { setSoundEnabled, useSoundEnabled } from "@/lib/sound";
@@ -14,7 +14,7 @@ const LABEL: Record<LightChoice, string> = { auto: "Auto", morning: "Morning", a
  * where the device can vibrate — haptics.
  */
 export function AtmosphereControls({ className }: { className?: string }) {
-  const { light, rain, daypart } = useAtmosphere();
+  const { light, rain, rainPref, weatherRain, daypart } = useAtmosphere();
   const sound = useSoundEnabled();
   const haptics = useHaptics();
   const choices: LightChoice[] = ["auto", ...DAYPARTS];
@@ -56,7 +56,19 @@ export function AtmosphereControls({ className }: { className?: string }) {
         </div>
       </div>
 
-      <Switch checked={rain} onChange={setRain} label="Rain mode" />
+      <div className="flex flex-col gap-1">
+        <Switch
+          checked={rain}
+          onChange={setRain}
+          label="Rain mode"
+          description={rainPref === "auto" ? (weatherRain ? "Raining in New York now" : "Follows New York’s weather") : "Set by you"}
+        />
+        {rainPref !== "auto" && (
+          <button type="button" onClick={setRainAuto} className="self-start font-mono text-micro text-caramel-glow uppercase underline underline-offset-4">
+            Follow the weather
+          </button>
+        )}
+      </div>
       <Switch checked={sound} onChange={(on) => void setSoundEnabled(on)} label="Café sound" description="Room tone, felt piano, the bar at work" />
       {haptics.supported && (
         <Switch checked={haptics.enabled} onChange={setHapticsEnabled} label="Haptics" description="A light tap on presses and swipes" />

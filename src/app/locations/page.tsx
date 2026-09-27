@@ -4,6 +4,7 @@ import { pageMetadata } from "@/lib/seo";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { cafesSchema } from "@/lib/schema";
 import { LocationsExperience } from "@/components/locations/LocationsExperience";
+import { NycWorld } from "@/components/locations/NycWorld";
 import { PageIntro } from "@/components/shared/PageIntro";
 
 export const metadata: Metadata = pageMetadata({
@@ -23,7 +24,11 @@ export default function LocationsPage() {
         titleClassName="max-w-[720px]"
         lead="Each Noir café is shaped by its neighborhood, with the same coffee, materials, and generous sense of pause."
       />
-      <LocationsExperience />
+      {/* Phones: New York, live; larger screens keep the designed map and cards. */}
+      <NycWorld />
+      <div className="hidden md:block">
+        <LocationsExperience />
+      </div>
     </main>
     </PageTransition>
   );
