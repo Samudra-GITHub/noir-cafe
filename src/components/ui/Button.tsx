@@ -4,6 +4,7 @@ import { useEffect, useRef } from "react";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { useMotionSafe } from "@/hooks/useMotionSafe";
+import { haptic } from "@/lib/haptics";
 import { cn } from "@/lib/cn";
 
 /**
@@ -18,6 +19,7 @@ import { cn } from "@/lib/cn";
  *
  * Micro-interactions (fine pointers, motion allowed): lifts 2px with a soft
  * shadow, a light bloom follows the cursor, and the pill leans ≤3px toward it.
+ * On touch devices with a vibration motor, a press gives a short haptic tap.
  */
 
 export type ButtonVariant = "primary" | "accent" | "secondary" | "inverse" | "outline-inverse";
@@ -77,6 +79,15 @@ const MAGNET_Y = 2;
 function useMagnetic<T extends HTMLElement>() {
   const ref = useRef<T>(null);
   const safe = useMotionSafe();
+
+  // Press haptic (touch devices; lib/haptics decides whether the device can).
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const press = () => haptic("press");
+    el.addEventListener("pointerdown", press);
+    return () => el.removeEventListener("pointerdown", press);
+  }, []);
 
   useEffect(() => {
     const el = ref.current;

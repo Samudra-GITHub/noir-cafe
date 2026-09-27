@@ -8,6 +8,7 @@ import { useBag } from "@/hooks/useBag";
 import { useMotionSafe } from "@/hooks/useMotionSafe";
 import { successReveal } from "@/lib/motion";
 import { cn } from "@/lib/cn";
+import { feedback, useFeedbackOnChange } from "@/lib/feedback";
 import { OriginMap } from "./OriginMap";
 
 /**
@@ -21,6 +22,7 @@ export function MobileProductPage({ product }: { product: ShopProduct }) {
   const { add, count } = useBag();
   const galleryRef = useRef<HTMLUListElement>(null);
   const [frame, setFrame] = useState(0);
+  useFeedbackOnChange(frame, "swipe");
   const [roast, setRoast] = useState<RoastLevel | undefined>(product.roasts?.[Math.min(1, product.roasts.length - 1)]);
   const [variants, setVariants] = useState<Record<string, string>>(() =>
     Object.fromEntries(product.variants.map((g) => [g.name, g.options[0]])),
@@ -164,6 +166,7 @@ export function MobileProductPage({ product }: { product: ShopProduct }) {
             onClick={() => {
               add({ slug: product.slug, name: product.name, variant: variantLabel, quantity, price: product.price });
               setAdded(true);
+              feedback("add");
             }}
           >
             Add · ${(product.price * quantity).toFixed(0)}

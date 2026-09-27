@@ -1,16 +1,22 @@
 "use client";
 
 import { DAYPARTS, setLight, setRain, useAtmosphere, type LightChoice } from "@/lib/atmosphere";
+import { Switch } from "@/components/ui";
+import { setHapticsEnabled, useHaptics } from "@/lib/haptics";
+import { setSoundEnabled, useSoundEnabled } from "@/lib/sound";
 import { cn } from "@/lib/cn";
 
 const LABEL: Record<LightChoice, string> = { auto: "Auto", morning: "Morning", afternoon: "Afternoon", evening: "Evening" };
 
 /**
  * Atmosphere controls for the phone menu sheet: the light (follows New York's
- * clock by default, or fixed to a time of day) and rain mode.
+ * clock by default, or fixed to a time of day), rain mode, café sound and —
+ * where the device can vibrate — haptics.
  */
 export function AtmosphereControls({ className }: { className?: string }) {
   const { light, rain, daypart } = useAtmosphere();
+  const sound = useSoundEnabled();
+  const haptics = useHaptics();
   const choices: LightChoice[] = ["auto", ...DAYPARTS];
 
   // Radio group keyboard model: one tab stop, arrows move and select.
@@ -50,29 +56,11 @@ export function AtmosphereControls({ className }: { className?: string }) {
         </div>
       </div>
 
-      <button
-        type="button"
-        role="switch"
-        aria-checked={rain}
-        onClick={() => setRain(!rain)}
-        className="flex min-h-11 items-center justify-between gap-4 text-left"
-      >
-        <span className="font-mono text-eyebrow text-cream uppercase">Rain mode</span>
-        <span
-          aria-hidden
-          className={cn(
-            "relative h-6 w-10 rounded-full border transition-colors duration-300",
-            rain ? "border-beige bg-beige" : "border-beige/40 bg-transparent",
-          )}
-        >
-          <span
-            className={cn(
-              "absolute top-1/2 left-1 size-4 -translate-y-1/2 rounded-full transition-transform duration-300 ease-noir",
-              rain ? "translate-x-4 bg-espresso" : "bg-beige/70",
-            )}
-          />
-        </span>
-      </button>
+      <Switch checked={rain} onChange={setRain} label="Rain mode" />
+      <Switch checked={sound} onChange={(on) => void setSoundEnabled(on)} label="Café sound" description="Room tone, felt piano, the bar at work" />
+      {haptics.supported && (
+        <Switch checked={haptics.enabled} onChange={setHapticsEnabled} label="Haptics" description="A light tap on presses and swipes" />
+      )}
     </div>
   );
 }

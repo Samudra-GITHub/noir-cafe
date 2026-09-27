@@ -1,19 +1,26 @@
 "use client";
 
-import { useAmbientAudio } from "@/hooks/useAmbientAudio";
+import { useEffect } from "react";
+import { resumeRememberedSound, toggleSound, useSoundEnabled, useSoundSupported } from "@/lib/sound";
 import { cn } from "@/lib/cn";
 
 /**
  * Sound toggle — four hairline bars that lie flat when muted and sway softly
- * while the café's room tone plays. Muted by default.
+ * while the café plays. Muted by default; the sound engine itself is only
+ * downloaded the first time a visitor turns it on (lib/sound).
  */
 export function SoundToggle({ inverse = false, className }: { inverse?: boolean; className?: string }) {
-  const { enabled, supported, toggle } = useAmbientAudio();
+  const enabled = useSoundEnabled();
+  const supported = useSoundSupported();
+
+  // Sound left on earlier this session resumes at the next gesture.
+  useEffect(() => resumeRememberedSound(), []);
+
   if (!supported) return null;
   return (
     <button
       type="button"
-      onClick={toggle}
+      onClick={() => void toggleSound()}
       aria-pressed={enabled}
       aria-label={enabled ? "Mute ambient café sound" : "Play ambient café sound"}
       data-cursor="link"

@@ -15,6 +15,7 @@ import { ease } from "@/lib/motion";
 import { cn } from "@/lib/cn";
 import { BrewTimer } from "./BrewTimer";
 import { MobileBrewStory } from "./MobileBrewStory";
+import { feedback } from "@/lib/feedback";
 import { GrindIndicator, RoastRecommendation, TemperatureIndicator } from "./BrewIndicators";
 
 const SAVED_KEY = "noir:saved-recipes";
@@ -199,7 +200,10 @@ function RecipePanel({ method }: { method: BrewMethod }) {
         variant="inverse"
         fullWidth
         aria-pressed={isSaved}
-        onClick={() => toggle(method.id)}
+        onClick={() => {
+          if (!isSaved) feedback("favorite");
+          toggle(method.id);
+        }}
         className="mt-10 lg:mt-16"
       >
         {isSaved ? "Recipe saved" : "Save recipe"}

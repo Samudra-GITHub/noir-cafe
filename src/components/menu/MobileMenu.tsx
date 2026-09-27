@@ -11,6 +11,7 @@ import { useMotionSafe } from "@/hooks/useMotionSafe";
 import { useScrollSpy } from "@/hooks/useScrollSpy";
 import { useScrollTo } from "@/hooks/useScrollTo";
 import { ease } from "@/lib/motion";
+import { feedback } from "@/lib/feedback";
 import { cn } from "@/lib/cn";
 
 const IDS = MENU.map((c) => `m-${c.id}`);
@@ -94,7 +95,10 @@ export function MobileMenu() {
                       item={item}
                       expanded={expanded}
                       onToggle={() => setOpen(expanded ? null : key)}
-                      onDetails={() => setDetail({ item, category: category.id })}
+                      onDetails={() => {
+                        feedback("steam");
+                        setDetail({ item, category: category.id });
+                      }}
                     />
                   </li>
                 );

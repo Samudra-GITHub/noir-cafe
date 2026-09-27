@@ -13,3 +13,4 @@ export { Dialog } from "./Dialog";
 export { QuantitySelector } from "./QuantitySelector";
 export { SocialIcon } from "./SocialIcon";
 export { ZoomableImage } from "./ZoomableImage";
+export { Switch } from "./Switch";

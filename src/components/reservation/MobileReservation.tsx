@@ -16,6 +16,7 @@ import { useMotionSafe } from "@/hooks/useMotionSafe";
 import { ease } from "@/lib/motion";
 import { cn } from "@/lib/cn";
 import { Calendar, LONG_DATE } from "./Calendar";
+import { feedback } from "@/lib/feedback";
 import { EMAIL, SEAT_SUMMARY, to12h, useToday } from "./ReservationExperience";
 
 const STEPS = ["Date", "Time & guests", "Seating", "Details"] as const;
@@ -55,6 +56,7 @@ export function MobileReservation() {
     setErrors(next);
     if (!Object.keys(next).length) {
       setDone(true);
+      feedback("confirm");
       // The steps collapse away; bring the finished pass into view.
       requestAnimationFrame(() =>
         rootRef.current?.scrollIntoView({ behavior: safe ? "smooth" : "auto", block: "start" }),

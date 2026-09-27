@@ -8,6 +8,7 @@ import { SectionIntro } from "@/components/shared/SectionIntro";
 import { Button } from "@/components/ui";
 import { MOST_LOVED } from "@/data/drinks";
 import { useMotionSafe } from "@/hooks/useMotionSafe";
+import { feedback } from "@/lib/feedback";
 import { CAROUSEL_TILT, carouselSlide, tiltSpring } from "@/lib/motion";
 
 const AUTOPLAY_MS = 6000;
@@ -52,14 +53,20 @@ export function MostLoved() {
     rawY.set(0);
   };
 
+  // A slide the visitor moves (not autoplay) gets a haptic tap and bean rustle.
+  const step = (dir: 1 | -1) => {
+    feedback("swipe");
+    go(dir);
+  };
+
   const onDragEnd = (_: unknown, info: PanInfo) => {
-    if (info.offset.x < -SWIPE_DISTANCE || info.velocity.x < -SWIPE_VELOCITY) go(1);
-    else if (info.offset.x > SWIPE_DISTANCE || info.velocity.x > SWIPE_VELOCITY) go(-1);
+    if (info.offset.x < -SWIPE_DISTANCE || info.velocity.x < -SWIPE_VELOCITY) step(1);
+    else if (info.offset.x > SWIPE_DISTANCE || info.velocity.x > SWIPE_VELOCITY) step(-1);
   };
 
   const onKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === "ArrowRight") go(1);
-    if (e.key === "ArrowLeft") go(-1);
+    if (e.key === "ArrowRight") step(1);
+    if (e.key === "ArrowLeft") step(-1);
   };
 
   return (
@@ -133,7 +140,7 @@ export function MostLoved() {
             <p aria-live="polite" className="pt-0.5 font-mono text-mono-sm text-beige uppercase">
               {pad(index + 1)} / {pad(total)} · {slide.name}
             </p>
-            <Button variant="inverse" onClick={() => go(1)} aria-label={`Next drink: ${MOST_LOVED[(index + 1) % total].name}`}>
+            <Button variant="inverse" onClick={() => step(1)} aria-label={`Next drink: ${MOST_LOVED[(index + 1) % total].name}`}>
               Next
             </Button>
           </div>

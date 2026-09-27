@@ -14,7 +14,6 @@ import { SmoothScroll } from "@/components/layout/SmoothScroll";
 import { MotionProvider } from "@/components/motion/MotionProvider";
 import { SiteNav } from "@/components/navigation/SiteNav";
 import { MobileDock } from "@/components/navigation/MobileDock";
-import { AmbientAudioProvider } from "@/hooks/useAmbientAudio";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { DEFAULT_DESCRIPTION, SITE_URL, pageMetadata } from "@/lib/seo";
 import { organizationSchema } from "@/lib/schema";
@@ -102,7 +101,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body>
         {SHOW_LOADER && <Loader />}
         <MotionProvider>
-        <AmbientAudioProvider>
         <SmoothScroll>
           <a
             href="#main"
@@ -121,7 +119,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <GrainDissolve />
           <ClientEnhancements />
         </SmoothScroll>
-        </AmbientAudioProvider>
         </MotionProvider>
         <script dangerouslySetInnerHTML={{ __html: EARLY_REVEAL }} />
       </body>

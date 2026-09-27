@@ -10,6 +10,7 @@ import { useBag } from "@/hooks/useBag";
 import { useMotionSafe } from "@/hooks/useMotionSafe";
 import { ease, productHover, successReveal } from "@/lib/motion";
 import { cn } from "@/lib/cn";
+import { feedback } from "@/lib/feedback";
 import { MobileProductPage } from "./MobileProductPage";
 
 type FilterId = (typeof SHOP_FILTERS)[number]["id"];
@@ -242,6 +243,7 @@ function QuickView({ product }: { product: ShopProduct }) {
               onClick={() => {
                 add({ slug: product.slug, name: product.name, variant: variantLabel, quantity, price: product.price });
                 setAdded(true);
+                feedback("add");
               }}
             >
               Add to bag

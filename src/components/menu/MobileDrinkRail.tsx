@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Price } from "@/components/ui";
 import type { Drink } from "@/data/types";
+import { useFeedbackOnChange } from "@/lib/feedback";
 import { cn } from "@/lib/cn";
 
 const ROAST_LEVEL: Record<Drink["roast"], number> = { Light: 1, Medium: 2, Dark: 3 };
@@ -17,6 +18,7 @@ const ROAST_LEVEL: Record<Drink["roast"], number> = { Light: 1, Medium: 2, Dark:
 export function MobileDrinkRail({ drinks }: { drinks: Drink[] }) {
   const railRef = useRef<HTMLUListElement>(null);
   const [active, setActive] = useState(0);
+  useFeedbackOnChange(active, "swipe");
 
   useEffect(() => {
     const rail = railRef.current;

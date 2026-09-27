@@ -16,6 +16,7 @@ import {
 import { useMotionSafe } from "@/hooks/useMotionSafe";
 import { checkDraw, ease, shake, successReveal } from "@/lib/motion";
 import { cn } from "@/lib/cn";
+import { feedback } from "@/lib/feedback";
 import { Calendar, LONG_DATE } from "./Calendar";
 
 export const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
@@ -94,6 +95,7 @@ export function ReservationExperience() {
       return;
     }
     setRequested(true);
+    feedback("confirm");
   };
 
   const summary = [

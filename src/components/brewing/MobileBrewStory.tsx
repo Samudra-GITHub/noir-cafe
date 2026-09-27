@@ -5,6 +5,7 @@ import { Pause, Play, RotateCcw } from "lucide-react";
 import { BREW_METHODS, GRIND_RANGE, TEMP_RANGE, formatClock, type BrewMethod } from "@/data/brewing";
 import { RoastMeter } from "@/components/ui";
 import { useMotionSafe } from "@/hooks/useMotionSafe";
+import { feedback, useFeedbackOnChange } from "@/lib/feedback";
 import { cn } from "@/lib/cn";
 
 const RING = 2 * Math.PI * 108;
@@ -19,6 +20,7 @@ const pct = (v: number, min: number, max: number) => Math.min(1, Math.max(0, (v 
 export function MobileBrewStory() {
   const railRef = useRef<HTMLDivElement>(null);
   const [active, setActive] = useState(0);
+  useFeedbackOnChange(active, "swipe");
 
   useEffect(() => {
     const rail = railRef.current;
@@ -138,6 +140,7 @@ function BrewSlide({ method, index, active }: { method: BrewMethod; index: numbe
             base.current = 0;
             setElapsed(0);
           }
+          if (!running) feedback("pour");
           setRunning((r) => !r);
         }}
         aria-label={running ? "Pause brew timer" : "Start brew timer"}
