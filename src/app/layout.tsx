@@ -19,6 +19,7 @@ import { JsonLd } from "@/components/seo/JsonLd";
 import { DEFAULT_DESCRIPTION, SITE_URL, pageMetadata } from "@/lib/seo";
 import { organizationSchema } from "@/lib/schema";
 import { EARLY_REVEAL } from "@/lib/early-reveal";
+import { ATMOSPHERE_BOOT } from "@/lib/atmosphere-boot";
 
 // Upright cuts are preloaded — they paint the first screen — and self-hosted
 // with the weight axis trimmed to what the site renders (see src/fonts).
@@ -95,6 +96,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     >
       <head>
         {SHOW_LOADER && <script dangerouslySetInnerHTML={{ __html: LOADER_BOOT }} />}
+        <script dangerouslySetInnerHTML={{ __html: ATMOSPHERE_BOOT }} />
         <JsonLd data={organizationSchema()} />
       </head>
       <body>

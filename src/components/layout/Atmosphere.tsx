@@ -1,8 +1,16 @@
+import { AtmosphereEngine } from "@/components/atmosphere/AtmosphereEngine";
+
 /**
  * Ambient page layers — paper grain, a warm wash of window light, and a few
  * dust motes drifting through it. Fixed, non-interactive, hidden from
  * assistive tech, and every layer stays under 8% opacity. Plain opacity (no
  * blend modes) keeps the layers cheap to composite while scrolling.
+ *
+ * Phones (below 768px) get the living version — the atmosphere engine: the
+ * sun moves with New York's time of day (or the visitor's chosen light), an
+ * ambient wash breathes, a warm vignette settles the edges, and the canvas
+ * layer adds scroll-reactive steam and optional rain. The desktop keeps the
+ * fixed, designed light.
  */
 
 // Deterministic positions so server and client render identically.
@@ -23,8 +31,15 @@ export function Atmosphere() {
       {/* Paper grain */}
       <div className="grain absolute inset-0 opacity-[0.05]" />
 
-      {/* Warm sunlight falling from the upper left */}
-      <div className="absolute inset-0 bg-[radial-gradient(70%_60%_at_8%_0%,rgb(232_168_104),transparent_70%)] opacity-[0.06]" />
+      {/* Warm sunlight falling from the upper left (desktop: fixed light) */}
+      <div className="absolute inset-0 bg-[radial-gradient(70%_60%_at_8%_0%,rgb(232_168_104),transparent_70%)] opacity-[0.06] max-md:hidden" />
+
+      {/* Phones: light by the hour, ambient wash, vignette (see "Atmosphere engine" in globals.css) */}
+      <div className="md:hidden">
+        <div className="atmo-sun" />
+        <div className="atmo-ambient" />
+        <div className="atmo-vignette" />
+      </div>
 
       {/* Dust motes */}
       <div className="absolute inset-0 opacity-[0.07]">
@@ -46,6 +61,8 @@ export function Atmosphere() {
           />
         ))}
       </div>
+
+      <AtmosphereEngine />
     </div>
   );
 }

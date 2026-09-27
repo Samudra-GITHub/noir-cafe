@@ -599,3 +599,89 @@ html.cursor-pressed .cursor-bean {
 @keyframes fade-in {
   from { opacity: 0; }
 }
+
+/* ── Atmosphere engine (phones) ───────────────────────────────────────────
+   Light follows html[data-daypart] (set before paint by ATMOSPHERE_BOOT from
+   New York's clock, or the visitor's choice); html[data-rain] cools it. The
+   sun's position and colour are registered properties, so a change of light
+   glides rather than jumps. Every layer stays at or under 8% opacity. */
+@property --sun-x { syntax: "<percentage>"; inherits: true; initial-value: 50%; }
+@property --sun-y { syntax: "<percentage>"; inherits: true; initial-value: -4%; }
+@property --sun-color { syntax: "<color>"; inherits: true; initial-value: rgb(236 176 112); }
+@property --ambient-a { syntax: "<color>"; inherits: true; initial-value: rgb(168 106 60); }
+@property --ambient-b { syntax: "<color>"; inherits: true; initial-value: rgb(96 60 36); }
+
+@media (max-width: 767px) {
+  :root {
+    transition: --sun-x 2.4s var(--ease-noir), --sun-y 2.4s var(--ease-noir), --sun-color 2.4s var(--ease-noir),
+      --ambient-a 2.4s var(--ease-noir), --ambient-b 2.4s var(--ease-noir);
+  }
+  :root[data-daypart="morning"] {
+    --sun-x: 10%;
+    --sun-y: 6%;
+    --sun-color: rgb(246 204 150);
+    --ambient-a: rgb(214 170 118);
+    --ambient-b: rgb(168 124 84);
+  }
+  :root[data-daypart="afternoon"] {
+    --sun-x: 52%;
+    --sun-y: -6%;
+    --sun-color: rgb(236 176 112);
+    --ambient-a: rgb(168 106 60);
+    --ambient-b: rgb(120 76 44);
+  }
+  :root[data-daypart="evening"] {
+    --sun-x: 94%;
+    --sun-y: 34%;
+    --sun-color: rgb(212 112 58);
+    --ambient-a: rgb(140 70 36);
+    --ambient-b: rgb(60 36 21);
+  }
+  :root[data-rain] {
+    --sun-color: rgb(176 176 172);
+    --ambient-a: rgb(110 122 130);
+    --ambient-b: rgb(60 66 72);
+  }
+
+  .atmo-sun,
+  .atmo-ambient,
+  .atmo-vignette {
+    position: absolute;
+    pointer-events: none;
+  }
+  .atmo-sun {
+    inset: -20%;
+    opacity: 0.07;
+    background: radial-gradient(52% 42% at var(--sun-x) var(--sun-y), var(--sun-color), transparent 72%);
+    animation: sun-drift 52s ease-in-out infinite alternate;
+  }
+  :root[data-rain] .atmo-sun { opacity: 0.04; }
+  .atmo-ambient {
+    inset: 0;
+    opacity: 0.05;
+    background:
+      radial-gradient(42% 30% at 84% 88%, var(--ambient-a), transparent 70%),
+      radial-gradient(38% 30% at 8% 58%, var(--ambient-b), transparent 70%);
+    animation: ambient-breathe 26s ease-in-out infinite alternate;
+  }
+  .atmo-vignette {
+    inset: 0;
+    opacity: 0.06;
+    background: radial-gradient(130% 95% at 50% 42%, transparent 58%, rgb(23 18 14) 100%);
+  }
+  :root[data-daypart="evening"] .atmo-vignette { opacity: 0.08; }
+}
+
+@keyframes sun-drift {
+  from { transform: translate3d(-3%, -2%, 0) rotate(-2deg); }
+  to { transform: translate3d(4%, 3%, 0) rotate(2deg); }
+}
+@keyframes ambient-breathe {
+  from { opacity: 0.03; }
+  to { opacity: 0.05; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .atmo-sun,
+  .atmo-ambient { animation: none; }
+  :root { transition: none; }
+}

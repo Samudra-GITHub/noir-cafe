@@ -7,6 +7,7 @@ import { AnimatePresence, m, useScroll, useSpring } from "framer-motion";
 import { useLenis } from "@/lib/lenis";
 import { Button, Logo } from "@/components/ui";
 import { SoundToggle } from "./SoundToggle";
+import { AtmosphereControls } from "@/components/atmosphere/AtmosphereControls";
 import { DARK_HERO_ROUTES, NAV_LINKS, RESERVE_HREF, SITE } from "@/constants/site";
 import { useNavTheme, type NavTheme } from "@/hooks/useNavTheme";
 import { useMotionSafe } from "@/hooks/useMotionSafe";
@@ -233,9 +234,12 @@ function MobileSheet({
         return;
       }
       if (e.key !== "Tab") return;
-      // Keep focus inside the sheet and its close toggle.
-      const links = [...(sheetRef.current?.querySelectorAll<HTMLElement>("a[href]") ?? [])];
-      const cycle = [toggleRef.current, ...links].filter(Boolean) as HTMLElement[];
+      // Keep focus inside the sheet and its close toggle (links and the
+      // atmosphere controls; radio groups contribute their one tab stop).
+      const focusables = [
+        ...(sheetRef.current?.querySelectorAll<HTMLElement>("a[href], button:not([disabled])") ?? []),
+      ].filter((el) => el.tabIndex >= 0 && el.getClientRects().length > 0);
+      const cycle = [toggleRef.current, ...focusables].filter(Boolean) as HTMLElement[];
       const index = cycle.indexOf(document.activeElement as HTMLElement);
       e.preventDefault();
       const next = e.shiftKey ? index - 1 : index + 1;
@@ -301,6 +305,7 @@ function MobileSheet({
               })}
             </ul>
           </nav>
+          <AtmosphereControls className="container-page border-t border-beige/15 pt-6 pb-6 md:hidden" />
           <div className="container-page flex flex-col gap-1 pb-10 font-mono text-eyebrow text-cream uppercase">
             <span>{SITE.address}</span>
             <span>{SITE.hours}</span>
