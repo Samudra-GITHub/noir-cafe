@@ -2,6 +2,7 @@ import { PageTransition } from "@/components/layout/PageTransition";
 import type { Metadata } from "next";
 import { pageMetadata } from "@/lib/seo";
 import { ReservationExperience } from "@/components/reservation/ReservationExperience";
+import { MobileReservation } from "@/components/reservation/MobileReservation";
 import { PageIntro } from "@/components/shared/PageIntro";
 
 export const metadata: Metadata = pageMetadata({
@@ -21,6 +22,7 @@ export default function ReservationPage() {
         className="lg:pt-[152px]"
         leadClassName="max-w-[310px] text-[0.875rem] leading-6 lg:mb-2"
       />
+      <MobileReservation />
       <ReservationExperience />
     </main>
     </PageTransition>

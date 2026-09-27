@@ -9,6 +9,10 @@ import { useMotionSafe } from "@/hooks/useMotionSafe";
 import { ease } from "@/lib/motion";
 import { cn } from "@/lib/cn";
 
+/** Focusable and actually rendered (skips content hidden at the current breakpoint). */
+const focusables = (root: HTMLElement) =>
+  [...root.querySelectorAll<HTMLElement>(FOCUSABLE)].filter((el) => el.getClientRects().length > 0);
+
 const FOCUSABLE =
   'a[href], button:not([disabled]), input:not([disabled]), select, textarea, [tabindex]:not([tabindex="-1"])';
 
@@ -42,7 +46,7 @@ export function Dialog({
     returnTo.current = document.activeElement as HTMLElement;
     lenis?.stop();
     document.documentElement.style.overflow = "hidden";
-    requestAnimationFrame(() => panelRef.current?.querySelector<HTMLElement>(FOCUSABLE)?.focus());
+    requestAnimationFrame(() => (panelRef.current && focusables(panelRef.current)[0])?.focus());
 
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
@@ -51,7 +55,7 @@ export function Dialog({
         return;
       }
       if (e.key !== "Tab" || !panelRef.current) return;
-      const items = [...panelRef.current.querySelectorAll<HTMLElement>(FOCUSABLE)];
+      const items = focusables(panelRef.current);
       if (!items.length) return;
       const first = items[0];
       const last = items[items.length - 1];

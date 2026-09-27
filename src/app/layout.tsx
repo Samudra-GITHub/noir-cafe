@@ -11,23 +11,41 @@ import { SiteFooter } from "@/components/layout/SiteFooter";
 import { Newsletter } from "@/components/shared/Newsletter";
 import { SmoothScroll } from "@/components/layout/SmoothScroll";
 import { SiteNav } from "@/components/navigation/SiteNav";
+import { MobileDock } from "@/components/navigation/MobileDock";
 import { AmbientAudioProvider } from "@/hooks/useAmbientAudio";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { DEFAULT_DESCRIPTION, SITE_URL, pageMetadata } from "@/lib/seo";
 import { organizationSchema } from "@/lib/schema";
 
+// Upright cuts are preloaded — they paint the first screen. Italics and the
+// mono only appear in small or below-the-fold type, so they load on demand
+// (still swapped in) and stay off the mobile critical path.
 const cormorant = Cormorant_Garamond({
   subsets: ["latin"],
-  style: ["normal", "italic"],
   variable: "--font-cormorant",
   display: "swap",
 });
 
+const cormorantItalic = Cormorant_Garamond({
+  subsets: ["latin"],
+  style: "italic",
+  variable: "--font-cormorant-italic",
+  display: "swap",
+  preload: false,
+});
+
 const inter = Inter({
   subsets: ["latin"],
-  style: ["normal", "italic"],
   variable: "--font-inter",
   display: "swap",
+});
+
+const interItalic = Inter({
+  subsets: ["latin"],
+  style: "italic",
+  variable: "--font-inter-italic",
+  display: "swap",
+  preload: false,
 });
 
 const plexMono = IBM_Plex_Mono({
@@ -35,6 +53,7 @@ const plexMono = IBM_Plex_Mono({
   weight: ["400", "500"],
   variable: "--font-plex-mono",
   display: "swap",
+  preload: false,
 });
 
 export const metadata: Metadata = {
@@ -51,13 +70,15 @@ export const metadata: Metadata = {
 
 export const viewport: Viewport = {
   themeColor: "#17120e",
+  // Draw under the notch and home indicator; safe areas are padded explicitly.
+  viewportFit: "cover",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html
       lang="en"
-      className={`${cormorant.variable} ${inter.variable} ${plexMono.variable}`}
+      className={`${cormorant.variable} ${cormorantItalic.variable} ${inter.variable} ${interItalic.variable} ${plexMono.variable}`}
       suppressHydrationWarning
     >
       <head>
@@ -75,6 +96,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             Skip to content
           </a>
           <SiteNav />
+          <MobileDock />
           <div id="main" tabIndex={-1} className="outline-none">
             {children}
           </div>

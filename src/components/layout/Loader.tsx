@@ -60,5 +60,8 @@ export function Loader() {
   );
 }
 
-/** Runs before first paint: skip the loader on repeat visits this session. */
-export const LOADER_BOOT = `try{if(sessionStorage.getItem("noir:loaded")||matchMedia("(prefers-reduced-motion: reduce)").matches){document.documentElement.classList.add("noir-loaded")}else{document.documentElement.classList.add("noir-loading","noir-intro-late")}}catch(e){document.documentElement.classList.add("noir-loaded")}`;
+/**
+ * Runs before first paint: skip the loader on repeat visits this session, under
+ * reduced motion, and on phones (where it would cost the mobile LCP budget).
+ */
+export const LOADER_BOOT = `try{if(sessionStorage.getItem("noir:loaded")||matchMedia("(prefers-reduced-motion: reduce)").matches||matchMedia("(max-width: 767px)").matches){document.documentElement.classList.add("noir-loaded")}else{document.documentElement.classList.add("noir-loading","noir-intro-late")}}catch(e){document.documentElement.classList.add("noir-loaded")}`;

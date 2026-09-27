@@ -4,6 +4,7 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { ChevronDown } from "lucide-react";
 import { MenuItemRow } from "./MenuItemRow";
+import { MobileMenu } from "./MobileMenu";
 import { MENU } from "@/data/menu";
 import { useScrollSpy } from "@/hooks/useScrollSpy";
 import { useScrollTo } from "@/hooks/useScrollTo";
@@ -26,7 +27,11 @@ export function MenuBrowser() {
   const [open, setOpen] = useState<Record<string, boolean>>({ [IDS[0]]: true });
 
   return (
-    <div className="container-page mt-16 grid gap-10 lg:mt-[91px] lg:grid-cols-[292px_1fr] lg:gap-0">
+    <>
+    <div className="container-page">
+      <MobileMenu />
+    </div>
+    <div className="container-page mt-16 hidden gap-10 md:grid lg:mt-[91px] lg:grid-cols-[292px_1fr] lg:gap-0">
       <nav aria-label="Menu categories" className="hidden lg:block">
         <ol className="sticky top-[140px] -mt-1 flex flex-col gap-[17px] leading-[14px]">
           {MENU.map((category, i) => {
@@ -118,5 +123,6 @@ export function MenuBrowser() {
         })}
       </div>
     </div>
+    </>
   );
 }

@@ -41,6 +41,9 @@ export function HomeHero() {
   const copyY = useTransform(progress, [0, 0.6], safe ? [0, -72] : [0, 0]);
   const copyOpacity = useTransform(progress, [0, 0.55], safe ? [1, 0] : [1, 1]);
   const dim = useTransform(progress, [0, 1], [0, 0.6]);
+  // Steam rises and thins as the page moves (most visible on the tall mobile frame).
+  const steamY = useTransform(progress, [0, 1], safe ? [0, -180] : [0, 0]);
+  const steamOpacity = useTransform(progress, [0, 0.7], safe ? [1, 0] : [1, 1]);
 
   useMotionValueEvent(progress, "change", (v) => setCovered(v >= 1));
 
@@ -56,11 +59,17 @@ export function HomeHero() {
       data-cursor="progress"
       data-cursor-scope="pinned"
       aria-labelledby="home-hero-title"
-      className="sticky top-0 isolate h-svh overflow-hidden bg-espresso text-beige"
+      className="sticky top-0 isolate h-dvh overflow-hidden bg-espresso text-beige md:h-svh"
       style={{ visibility: covered ? "hidden" : "visible" }}
     >
       <motion.div className="absolute inset-x-0 top-0 -bottom-20" style={{ y: filmY, scale: filmScale }}>
-        <BackgroundVideo video={VIDEOS.heroEspresso} priority paused={covered} />
+        {/* On portrait phones the landscape film is framed on the espresso stream. */}
+        <BackgroundVideo
+          video={VIDEOS.heroEspresso}
+          priority
+          paused={covered}
+          videoClassName="object-[48%_50%] md:object-center"
+        />
       </motion.div>
 
       {/* Warm scrim: heavier at the foot for the copy, lighter mid-frame. */}
@@ -76,13 +85,15 @@ export function HomeHero() {
       {/* Warm cast to sit the film in the espresso palette */}
       <div aria-hidden className="absolute inset-0 bg-walnut/15 mix-blend-multiply" />
 
-      <HeroSteam />
+      <motion.div aria-hidden className="absolute inset-0" style={{ y: steamY, opacity: steamOpacity }}>
+        <HeroSteam />
+      </motion.div>
       <FilmGrain />
 
       <motion.div aria-hidden className="pointer-events-none absolute inset-0 bg-espresso" style={{ opacity: dim }} />
 
       <motion.div
-        className="container-page relative flex h-full flex-col justify-end pb-12 md:pb-16"
+        className="container-page relative flex h-full flex-col justify-end pb-[calc(var(--dock-height)+40px+var(--safe-bottom))] md:pb-16"
         style={{ y: copyY, opacity: copyOpacity }}
       >
         <div {...enter(0)}>
@@ -106,15 +117,16 @@ export function HomeHero() {
           </span>
         </h1>
 
-        <p {...enter(3)} className="hero-in mt-[26px] max-w-[480px] font-sans text-body leading-[26px] text-cream">
+        <p {...enter(3)} className="hero-in mt-5 max-w-[480px] font-sans text-body leading-[26px] text-cream md:mt-[26px]">
           Sourced with patience, roasted with restraint, and poured as a small act of attention.
         </p>
 
-        <div {...enter(4)} className="hero-in mt-8 flex flex-wrap gap-3">
-          <Button href={RESERVE_HREF} variant="inverse">
+        {/* Phones: full-width stacked pills; desktop: side by side. */}
+        <div {...enter(4)} className="hero-in mt-8 flex flex-col gap-3 md:flex-row md:flex-wrap">
+          <Button href={RESERVE_HREF} variant="inverse" className="max-md:w-full max-md:justify-between max-md:pr-6">
             Reserve table
           </Button>
-          <Button href="/menu" variant="outline-inverse">
+          <Button href="/menu" variant="outline-inverse" className="max-md:w-full max-md:justify-between max-md:pr-6">
             Explore menu
           </Button>
         </div>

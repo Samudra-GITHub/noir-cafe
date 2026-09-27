@@ -88,7 +88,7 @@ export function PreparationStory() {
               i === index ? "opacity-100" : "opacity-0",
             )}
           >
-            <BackgroundVideo video={c.video} paused={i !== index} />
+            <BackgroundVideo video={c.video} paused={i !== index} defer={i > index} />
           </div>
         ))}
         <div

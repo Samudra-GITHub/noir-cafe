@@ -4,9 +4,9 @@ export const RESERVATION_TIMES = ["09:30", "10:00", "10:30", "11:00"] as const;
 export const RESERVATION_GUESTS = ["1", "2", "3", "4+"] as const;
 
 export const SEATING = [
-  { id: "window", label: "Window", detail: "Morning light" },
-  { id: "indoor", label: "Indoor", detail: "Long oak table" },
-  { id: "outdoor", label: "Outdoor", detail: "Sidewalk terrace" },
+  { id: "window", label: "Window", detail: "Morning light", image: "/images/reservation/mercer-window.jpg" },
+  { id: "indoor", label: "Indoor", detail: "Long oak table", image: "/images/locations/wythe-avenue.jpg" },
+  { id: "outdoor", label: "Outdoor", detail: "Sidewalk terrace", image: "/images/locations/west-10th.jpg" },
 ] as const;
 
 export type SeatingId = (typeof SEATING)[number]["id"];

@@ -101,8 +101,8 @@ export function SiteNav() {
 
   return (
     <header
-      className="pointer-events-none fixed inset-x-0 z-50"
-      style={{ top: NAV_TOP, viewTransitionName: "site-nav" }}
+      className="pointer-events-none fixed inset-x-0 top-[calc(var(--safe-top)+12px)] z-50 md:top-7"
+      style={{ viewTransitionName: "site-nav" }}
     >
       <div className="container-page relative z-10">
         <nav

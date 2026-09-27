@@ -18,10 +18,10 @@ import { SHAKE_KEYFRAMES, checkDraw, ease, shakeTransition, successReveal } from
 import { cn } from "@/lib/cn";
 import { Calendar, LONG_DATE } from "./Calendar";
 
-const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+export const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
 /** Today's date on the client; 0 (no restriction) during SSR and hydration. */
-function useToday() {
+export function useToday() {
   const ms = useSyncExternalStore(
     () => () => {},
     () => {
@@ -33,12 +33,12 @@ function useToday() {
   return new Date(ms);
 }
 
-const to12h = (time: string) => {
+export const to12h = (time: string) => {
   const [h, m] = time.split(":").map(Number);
   return `${((h + 11) % 12) + 1}:${String(m).padStart(2, "0")} ${h < 12 ? "AM" : "PM"}`;
 };
 
-const SEAT_SUMMARY: Record<SeatingId, string> = {
+export const SEAT_SUMMARY: Record<SeatingId, string> = {
   window: "Window table",
   indoor: "Long oak table",
   outdoor: "Terrace table",
@@ -104,7 +104,7 @@ export function ReservationExperience() {
   ];
 
   return (
-    <div className="container-page mt-10 grid items-start gap-6 lg:mt-[61px] lg:grid-cols-[1fr_422px]">
+    <div className="container-page mt-10 hidden items-start gap-6 md:grid lg:mt-[61px] lg:grid-cols-[1fr_422px]">
       <FadeUp>
         <form
           ref={formRef}

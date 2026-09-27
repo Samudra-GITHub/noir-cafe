@@ -1,5 +1,6 @@
 import { FadeUp, Stagger, StaggerItem } from "@/components/motion/FadeUp";
 import { DrinkCard } from "@/components/menu/DrinkCard";
+import { MobileDrinkRail } from "@/components/menu/MobileDrinkRail";
 import { SectionIntro } from "@/components/shared/SectionIntro";
 import { Button } from "@/components/ui";
 import { FEATURED_DRINKS } from "@/data/drinks";
@@ -21,7 +22,8 @@ export function FeaturedDrinks() {
           </Button>
         </FadeUp>
 
-        <Stagger className="mt-12 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+        <MobileDrinkRail drinks={FEATURED_DRINKS} />
+        <Stagger className="mt-12 hidden gap-6 md:grid md:grid-cols-2 xl:grid-cols-3">
           {FEATURED_DRINKS.map((drink, i) => (
             <StaggerItem
               key={drink.slug}

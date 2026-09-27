@@ -10,6 +10,7 @@ import { useBag } from "@/hooks/useBag";
 import { useMotionSafe } from "@/hooks/useMotionSafe";
 import { ease, productHover, successReveal } from "@/lib/motion";
 import { cn } from "@/lib/cn";
+import { MobileProductPage } from "./MobileProductPage";
 
 type FilterId = (typeof SHOP_FILTERS)[number]["id"];
 
@@ -85,8 +86,23 @@ export function ShopExperience() {
         </motion.ul>
       </section>
 
-      <Dialog open={quickView !== null} onClose={() => setQuickView(null)} title={quickView ? `${quickView.name} — quick view` : "Quick view"}>
-        {quickView && <QuickView key={quickView.slug} product={quickView} />}
+      <Dialog
+        open={quickView !== null}
+        onClose={() => setQuickView(null)}
+        title={quickView ? `${quickView.name} — quick view` : "Quick view"}
+        className="max-md:h-dvh max-md:max-h-none max-md:rounded-none"
+      >
+        {quickView && (
+          <>
+            {/* Phones: an Apple Store–style product page; larger screens: the quick view. */}
+            <div className="md:hidden">
+              <MobileProductPage key={quickView.slug} product={quickView} />
+            </div>
+            <div className="hidden md:block">
+              <QuickView key={quickView.slug} product={quickView} />
+            </div>
+          </>
+        )}
       </Dialog>
     </>
   );

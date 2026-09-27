@@ -347,14 +347,17 @@
   animation: none;
 }
 
-::view-transition-group(site-nav) {
+::view-transition-group(site-nav),
+::view-transition-group(mobile-dock) {
   animation: none;
   z-index: 100;
 }
-::view-transition-old(site-nav) {
+::view-transition-old(site-nav),
+::view-transition-old(mobile-dock) {
   display: none;
 }
-::view-transition-new(site-nav) {
+::view-transition-new(site-nav),
+::view-transition-new(mobile-dock) {
   animation: none;
 }
 
@@ -503,4 +506,72 @@ html.has-custom-cursor select {
 }
 html.cursor-pressed .cursor-bean {
   scale: 0.8;
+}
+
+/* ── Mobile (below 768px) ─────────────────────────────────────────────── */
+:root {
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --dock-height: 64px;
+}
+
+@media (max-width: 767px) {
+  /* Leave room for the floating dock above the home indicator. */
+  body {
+    padding-bottom: calc(var(--dock-height) + 28px + var(--safe-bottom));
+  }
+}
+
+/* Horizontal swipe rails: native momentum, snap, no visible scrollbar. */
+@utility swipe-rail {
+  display: flex;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  & > * {
+    scroll-snap-align: center;
+    scroll-snap-stop: always;
+    flex: none;
+  }
+}
+
+@keyframes float-up {
+  from { opacity: 0; transform: translate3d(0, 14px, 0); }
+  to { opacity: 1; transform: none; }
+}
+
+/* Italic cuts live in their own (non-preloaded) next/font families. */
+.font-display.italic,
+.font-display .italic {
+  font-family: var(--font-cormorant-italic), var(--family-display);
+}
+.font-sans.italic,
+.font-sans .italic {
+  font-family: var(--font-inter-italic), var(--family-body);
+}
+
+/* Phones: the headline is the LCP element, so it rises a short way without
+   the clipping mask and paints on the very first frame. */
+@keyframes hero-rise {
+  from { transform: translate3d(0, 18px, 0); }
+  to { transform: none; }
+}
+@media (max-width: 767px) {
+  .hero-line {
+    animation-name: hero-rise;
+  }
+}
+
+/* Phones: the Figma's 8–10px mono labels are desktop sizes. Lift them to
+   legible sizes on small screens, keeping eyebrow above micro. */
+@media (max-width: 767px) {
+  :root {
+    --text-eyebrow: 0.75rem;
+    --text-micro: 0.6875rem;
+  }
 }

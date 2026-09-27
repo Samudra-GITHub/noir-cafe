@@ -14,6 +14,7 @@ import { useMotionSafe } from "@/hooks/useMotionSafe";
 import { ease } from "@/lib/motion";
 import { cn } from "@/lib/cn";
 import { BrewTimer } from "./BrewTimer";
+import { MobileBrewStory } from "./MobileBrewStory";
 import { GrindIndicator, RoastRecommendation, TemperatureIndicator } from "./BrewIndicators";
 
 const SAVED_KEY = "noir:saved-recipes";
@@ -125,7 +126,9 @@ export function BrewingLab() {
         </p>
       </div>
 
-      <section aria-labelledby="methods-title" className="container-page mt-24 lg:mt-[120px]">
+      <MobileBrewStory />
+
+      <section aria-labelledby="methods-title" className="container-page mt-24 hidden md:block lg:mt-[120px]">
         <FadeUp className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
           <SectionIntro id="methods-title" eyebrow="Five methods" gap="mt-[15px]" title="Choose your ritual." />
           <p className="max-w-[380px] font-sans text-body-sm leading-[26px] text-stone">

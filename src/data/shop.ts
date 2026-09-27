@@ -4,6 +4,9 @@ export type ProductCategory = "beans" | "drinkware" | "brewing-kits" | "apparel"
 
 export type VariantGroup = { name: string; options: string[] };
 
+/** A place on the origin map (decimal degrees). */
+export type OriginPoint = { name: string; lat: number; lon: number };
+
 export type ShopProduct = {
   slug: string;
   name: string;
@@ -17,7 +20,14 @@ export type ShopProduct = {
   /** Beans only — roasts offered as chips. */
   roasts?: RoastLevel[];
   variants: VariantGroup[];
+  /** Where it comes from — growing regions for coffee, workshops for objects. */
+  origin: { title: string; points: OriginPoint[] };
 };
+
+const NEW_YORK: OriginPoint = { name: "Roasted in New York", lat: 40.7, lon: -74 };
+const HUILA: OriginPoint = { name: "Huila, Colombia", lat: 2.5, lon: -75.5 };
+const SIDAMA: OriginPoint = { name: "Sidama, Ethiopia", lat: 6.7, lon: 38.4 };
+const CAJAMARCA: OriginPoint = { name: "Cajamarca, Peru", lat: -7.2, lon: -78.5 };
 
 export const SHOP_FILTERS: { id: "all" | ProductCategory; label: string }[] = [
   { id: "all", label: "All" },
@@ -39,6 +49,7 @@ export const PRODUCTS: ShopProduct[] = [
     description: "Our everyday blend: Huila and Sidama lots roasted for cacao, fig and a long, sweet finish.",
     details: ["Roasted weekly at Mercer Street", "Best 7–30 days from roast", "Compostable valve bag"],
     roasts: ["Light", "Medium", "Dark"],
+    origin: { title: "Grown in the coffee belt", points: [HUILA, SIDAMA, NEW_YORK] },
     variants: [{ name: "Grind", options: ["Whole bean", "Filter", "Espresso"] }],
   },
   {
@@ -51,6 +62,7 @@ export const PRODUCTS: ShopProduct[] = [
     imageAlt: "A dark stoneware mug on a wooden table by a pale wall",
     description: "Thrown in small runs, with a matte glaze that holds heat and sits well in the hand.",
     details: ["280 ml", "Dishwasher safe", "Each glaze varies slightly"],
+    origin: { title: "Thrown in the Hudson Valley", points: [{ name: "Hudson Valley, New York", lat: 41.9, lon: -74 }] },
     variants: [{ name: "Glaze", options: ["Charcoal", "Oat", "Walnut"] }],
   },
   {
@@ -63,6 +75,7 @@ export const PRODUCTS: ShopProduct[] = [
     imageAlt: "A matte black insulated bottle standing on a weathered stone outdoors",
     description: "Double-walled steel that keeps a pour-over warm through the morning commute.",
     details: ["355 ml", "Keeps warm for 6 hours", "Leak-proof lid"],
+    origin: { title: "Designed in New York", points: [NEW_YORK] },
     variants: [{ name: "Finish", options: ["Espresso", "Stone"] }],
   },
   {
@@ -75,6 +88,7 @@ export const PRODUCTS: ShopProduct[] = [
     imageAlt: "A black gooseneck kettle on a wooden counter",
     description: "Everything for the V60 ritual: ceramic dripper, glass server, gooseneck kettle and filters.",
     details: ["Ceramic dripper No. 02", "600 ml glass server", "100 paper filters"],
+    origin: { title: "Assembled at Mercer Street", points: [NEW_YORK] },
     variants: [{ name: "Set", options: ["Kit", "Kit + House Blend"] }],
   },
   {
@@ -88,6 +102,7 @@ export const PRODUCTS: ShopProduct[] = [
     description: "Three single origins side by side — taste how place shapes the cup.",
     details: ["Ethiopia · Colombia · Peru", "3 × 150 g", "Tasting card included"],
     roasts: ["Light", "Medium"],
+    origin: { title: "Three origins, one table", points: [HUILA, SIDAMA, CAJAMARCA, NEW_YORK] },
     variants: [{ name: "Grind", options: ["Whole bean", "Filter"] }],
   },
   {
@@ -100,6 +115,7 @@ export const PRODUCTS: ShopProduct[] = [
     imageAlt: "A barista wearing a brown linen apron",
     description: "The apron our baristas wear: heavy washed linen with leather straps that soften with use.",
     details: ["One size, adjustable", "Two front pockets", "Machine wash cold"],
+    origin: { title: "Sewn in Brooklyn", points: [{ name: "Brooklyn, New York", lat: 40.7, lon: -73.9 }] },
     variants: [{ name: "Colour", options: ["Walnut", "Espresso"] }],
   },
 ];
@@ -115,5 +131,6 @@ export const HOME_RITUAL_SET: ShopProduct = {
   description: "Everything needed for a precise, peaceful pour-over.",
   details: ["Pour-over Kit No. 02", "Studio Mug", "House Blend 01 · 250 g"],
   roasts: ["Light", "Medium", "Dark"],
-  variants: [{ name: "Mug glaze", options: ["Charcoal", "Oat", "Walnut"] }],
+  origin: { title: "From the coffee belt to your kitchen", points: [HUILA, SIDAMA, NEW_YORK] },
+    variants: [{ name: "Mug glaze", options: ["Charcoal", "Oat", "Walnut"] }],
 };
