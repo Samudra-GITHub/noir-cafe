@@ -953,3 +953,95 @@ html[data-vt="push"]::view-transition-new(.page-dissolve) {
   .pass-issued::after { animation: none; }
   .pass-issued::after { display: none; }
 }
+
+/* ── Story on phones (components/story/MobileStoryJourney) ────────────────
+   Each chapter's pinned media drifts from a slight push-in to rest as the
+   chapter passes, and a warm espresso veil dissolves one chapter into the
+   next — driven by the scroll itself (no JavaScript). Where scroll-driven
+   animations aren't supported, the media simply stays still. */
+.story-veil {
+  opacity: 0;
+}
+@supports (animation-timeline: view()) {
+  @media (max-width: 767px) and (prefers-reduced-motion: no-preference) {
+    .story-chapter {
+      view-timeline-name: --story-chapter;
+      view-timeline-axis: block;
+    }
+    .story-media {
+      animation: story-drift linear both;
+      animation-timeline: --story-chapter;
+      animation-range: entry 0% exit 100%;
+    }
+    .story-veil {
+      animation: story-veil linear both;
+      animation-timeline: --story-chapter;
+      animation-range: entry 0% exit 100%;
+    }
+    .story-quote blockquote {
+      animation: story-quote-in linear both;
+      animation-timeline: view();
+      animation-range: entry 10% cover 40%;
+    }
+  }
+}
+@keyframes story-drift {
+  from { transform: scale(1.14) translateY(-2%); }
+  to { transform: scale(1) translateY(2%); }
+}
+@keyframes story-veil {
+  0% { opacity: 0.92; }
+  16% { opacity: 0; }
+  84% { opacity: 0; }
+  100% { opacity: 0.92; }
+}
+@keyframes story-quote-in {
+  from { opacity: 0; transform: translateY(28px); filter: blur(4px); }
+  to { opacity: 1; transform: none; filter: none; }
+}
+
+/* ── Story on phones (components/story/MobileStoryJourney) ────────────────
+   Each chapter's pinned media drifts from a slight push-in to rest as the
+   chapter passes, and a warm espresso veil dissolves one chapter into the
+   next — driven by the scroll itself (no JavaScript). Where scroll-driven
+   animations aren't supported, the media simply stays still. */
+.story-veil {
+  opacity: 0;
+}
+@supports (animation-timeline: view()) {
+  @media (max-width: 767px) and (prefers-reduced-motion: no-preference) {
+    .story-chapter {
+      view-timeline-name: --story-chapter;
+      view-timeline-axis: block;
+    }
+    .story-media {
+      animation: story-drift linear both;
+      animation-timeline: --story-chapter;
+      animation-range: entry 0% exit 100%;
+    }
+    .story-veil {
+      animation: story-veil linear both;
+      animation-timeline: --story-chapter;
+      animation-range: entry 0% exit 100%;
+    }
+    .story-quote blockquote {
+      animation: story-quote-in linear both;
+      animation-timeline: view();
+      animation-range: entry 10% cover 40%;
+    }
+  }
+}
+@keyframes story-drift {
+  from { transform: scale(1.14) translateY(-2%); }
+  to { transform: scale(1) translateY(2%); }
+}
+@keyframes story-veil {
+  0% { opacity: 0.92; }
+  16% { opacity: 0; }
+  84% { opacity: 0; }
+  100% { opacity: 0.92; }
+}
+@keyframes story-quote-in {
+  from { opacity: 0; transform: translateY(28px); filter: blur(4px); }
+  to { opacity: 1; transform: none; filter: none; }
+}
