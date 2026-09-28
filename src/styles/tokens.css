@@ -96,4 +96,5 @@
 :root:lang(ja) {
   --family-display: var(--font-cormorant), "Noto Serif JP", "Hiragino Mincho ProN", "Yu Mincho", serif;
   --family-body: var(--font-inter), "Noto Sans JP", "Hiragino Sans", "Yu Gothic", sans-serif;
+  --family-code: var(--font-plex-mono), "Noto Sans JP", "Hiragino Sans", ui-monospace, monospace;
 }

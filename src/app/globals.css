@@ -1112,3 +1112,11 @@ html[data-vt="push"]::view-transition-new(.page-dissolve) {
   .nyc-train { display: none; }
   .nyc-pulse { animation: none; }
 }
+
+/* ── Japanese typesetting (M23) ─────────────────────────────────────────────
+   Latin tracking spreads kana apart; keep Japanese set solid. Unlayered so it
+   wins over the tracking utilities; English and the other locales are
+   untouched. */
+:lang(ja) :is(.font-mono, .type-eyebrow, [class*="tracking-"]) {
+  letter-spacing: 0.02em;
+}
