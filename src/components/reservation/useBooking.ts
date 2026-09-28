@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { track } from "@/lib/analytics";
 import { guestCount, type SeatingId } from "@/data/reservation";
 
 export type Slots = Record<string, Record<SeatingId, number>>;
@@ -52,6 +53,7 @@ export function useBooking(day: string) {
       setBooked(data.reservation);
       setEmailed(Boolean(data.emailed));
       setStatus("done");
+      track("reservation_confirmed", { guests: input.guests, seating: input.seating });
       return data.reservation as Booked;
     } catch {
       setError("The connection dropped. Please try again.");

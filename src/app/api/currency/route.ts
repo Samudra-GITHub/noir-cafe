@@ -1,3 +1,4 @@
+import { limited } from "@/server/rate-limit";
 import { DISPLAY_CURRENCIES, BASE_CURRENCY } from "@/i18n/config";
 
 /**
@@ -30,6 +31,8 @@ async function fetchRates(): Promise<Upstream | null> {
 }
 
 export async function GET(request: Request) {
+  const busy = limited(request, "currency", 120, 60_000);
+  if (busy) return busy;
   const data = await fetchRates();
   if (!data) return Response.json({ error: "rates unavailable" }, { status: 503 });
 

@@ -5,6 +5,7 @@ import { Minus, Plus, X } from "lucide-react";
 import { Button, Field } from "@/components/ui";
 import { ITEMS_BY_SLUG, describe, unitCents } from "@/data/ordering";
 import { formatPickup } from "@/lib/pickup";
+import { track } from "@/lib/analytics";
 import { feedback } from "@/lib/feedback";
 import { cn } from "@/lib/cn";
 import { lastOrder, orderBag, type PlacedOrder } from "./stores";
@@ -81,6 +82,7 @@ export function OrderReview({
         if (data.error === "pickup_unavailable") onNeedsNewSlot();
         return;
       }
+      track("order_placed", { payment, items: bag.length });
       if (data.checkoutUrl) {
         window.location.assign(data.checkoutUrl);
         return;

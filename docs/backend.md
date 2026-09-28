@@ -85,3 +85,4 @@ manifest carries shortcuts and install screenshots; iOS launch screens come from
 | `/api/push/send` | POST | Notify every subscriber (Bearer `PUSH_ADMIN_TOKEN`) |
 | `/api/currency` | GET | ECB reference rates from USD (Frankfurter, cached 6 h); `?amount&to` converts |
 | `/api/weather` | GET | New York weather (Open-Meteo, cached 15 min) for the atmosphere and locations |
+| `/api/health` | GET | Which integrations are configured (booleans only) — see `src/server/providers.ts` |

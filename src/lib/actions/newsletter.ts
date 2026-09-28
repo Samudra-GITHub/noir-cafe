@@ -1,9 +1,12 @@
 "use server";
 
+import { headers } from "next/headers";
+import { clientKey, rateLimit } from "@/server/rate-limit";
+
 /** Outcomes are codes; the form shows them in the visitor's language. */
 export type NewsletterState =
   | { status: "idle" }
-  | { status: "error"; code: "invalid"; email: string; at: number }
+  | { status: "error"; code: "invalid" | "busy"; email: string; at: number }
   | { status: "success" };
 
 const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
@@ -16,8 +19,11 @@ const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
  */
 export async function subscribe(_prev: NewsletterState, formData: FormData): Promise<NewsletterState> {
   const email = String(formData.get("email") ?? "").trim();
-  if (!EMAIL.test(email)) {
+  if (email.length > 254 || !EMAIL.test(email)) {
     return { status: "error", code: "invalid", email, at: Date.now() };
+  }
+  if (!rateLimit(`newsletter:${clientKey(await headers())}`, { limit: 5, windowMs: 10 * 60_000 })) {
+    return { status: "error", code: "busy", email, at: Date.now() };
   }
   return { status: "success" };
 }

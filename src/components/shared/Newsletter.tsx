@@ -8,6 +8,7 @@ import { SectionIntro } from "@/components/shared/SectionIntro";
 import { subscribe, type NewsletterState } from "@/lib/actions/newsletter";
 import { useMotionSafe } from "@/hooks/useMotionSafe";
 import { checkDraw, shake, successReveal } from "@/lib/motion";
+import { track } from "@/lib/analytics";
 import { cn } from "@/lib/cn";
 import { useI18n } from "@/i18n/client";
 
@@ -29,6 +30,11 @@ export function Newsletter() {
   const messageId = `${inputId}-message`;
   const isError = state.status === "error";
   const errorAt = state.status === "error" ? state.at : 0;
+
+  const subscribed = state.status === "success";
+  useEffect(() => {
+    if (subscribed) track("newsletter_subscribed");
+  }, [subscribed]);
 
   useEffect(() => {
     if (errorAt && safe && rowRef.current) {
@@ -131,7 +137,7 @@ export function Newsletter() {
             role="status"
             className={cn("mt-3 font-mono text-micro uppercase", isError ? "text-caramel-ink" : "text-stone")}
           >
-            {isError ? n.invalid : n.fine}
+            {isError ? (state.code === "busy" ? n.busy : n.invalid) : n.fine}
           </p>
         </form>
       </FadeUp>

@@ -106,6 +106,7 @@ export const fr: CoreDictionary = {
     sending: "Envoi",
     fine: "Une fois par mois au plus · Désabonnement à tout moment",
     invalid: "Saisissez une adresse e-mail valide",
+    busy: "Trop d’essais — patientez quelques minutes",
     success: "C’est noté — la prochaine lettre est pour vous",
   },
 

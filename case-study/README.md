@@ -33,7 +33,7 @@ Lighthouse run (`median of 5`, see `docs/perf/README.md`) rather than editing co
 
 ## Sources and credits
 
-- Photography and film: the editorial imagery shipped with the site (`public/images`, `public/videos`).
+- Photography: [Unsplash](https://unsplash.com) contributors, under the Unsplash License, graded for the site (`public/images`). Film: ambient coffee clips supplied for the project (`public/videos`).
 - Typefaces: Cormorant Garamond, Inter, IBM Plex Mono, Noto Serif JP / Noto Sans JP — all SIL Open Font License.
 - Icons: Lucide (ISC).
 - Device frames are drawn in CSS; no third-party mockup templates are used.

@@ -1,3 +1,4 @@
+import { limited } from "@/server/rate-limit";
 import { ITEMS_BY_SLUG, sanitize } from "@/data/ordering";
 import { currentUserId } from "@/server/auth";
 import { backends } from "@/server/env";
@@ -27,6 +28,8 @@ export async function GET() {
 }
 
 export async function PUT(request: Request) {
+  const busy = limited(request, "favorites", 30, 60_000);
+  if (busy) return busy;
   const g = await guard();
   if ("error" in g) return g.error;
   let list: unknown;

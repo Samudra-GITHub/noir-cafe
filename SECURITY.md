@@ -14,4 +14,14 @@ Use GitHub's [private vulnerability reporting](https://github.com/Samudra-GITHub
 
 ## Scope
 
-Noir Café is a static front end. The reservation form, newsletter and shop bag are not yet connected to any backend, and no personal data is stored server-side; the bag and saved recipes live only in the visitor's own browser storage.
+Noir Café is a prerendered Next.js site with optional server integrations —
+Supabase (orders, reservations, reviews, favourites, push subscriptions), Clerk
+(sign-in), Stripe (Checkout), Resend (confirmation email), Anthropic (the
+concierge) and Web Push. Each is off until its keys are set; without them no
+personal data is stored server-side, and the bag, saved recipes and preferences
+live only in the visitor's browser.
+
+In scope: the route handlers under `src/app/api`, the proxy, server actions,
+the security headers and CSP, and anything that could expose a secret or another
+visitor's data. How the site is hardened is described in
+[docs/security.md](docs/security.md).

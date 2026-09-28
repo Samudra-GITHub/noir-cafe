@@ -1,7 +1,10 @@
+import { limited } from "@/server/rate-limit";
 import { stripe } from "@/server/stripe";
 
 /** GET ?session_id= → the paid order's summary after Stripe Checkout returns. */
 export async function GET(request: Request) {
+  const busy = limited(request, "orders-confirm", 30, 10 * 60_000);
+  if (busy) return busy;
   const id = new URL(request.url).searchParams.get("session_id");
   const pay = stripe();
   if (!pay) return Response.json({ error: "card_unavailable" }, { status: 400 });

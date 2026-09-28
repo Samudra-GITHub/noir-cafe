@@ -1,6 +1,6 @@
 import "server-only";
 import { createClient, type SupabaseClient } from "@supabase/supabase-js";
-import { backends } from "./env";
+import { SUPABASE_URL, backends } from "./env";
 
 let client: SupabaseClient | null = null;
 
@@ -11,7 +11,7 @@ let client: SupabaseClient | null = null;
  */
 export function supabase() {
   if (!backends.supabase) return null;
-  client ??= createClient(process.env.SUPABASE_URL!, process.env.SUPABASE_SERVICE_ROLE_KEY!, {
+  client ??= createClient(SUPABASE_URL, process.env.SUPABASE_SERVICE_ROLE_KEY!, {
     auth: { persistSession: false, autoRefreshToken: false },
   });
   return client;

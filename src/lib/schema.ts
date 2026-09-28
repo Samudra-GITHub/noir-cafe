@@ -23,6 +23,17 @@ export const organizationSchema = () => ({
   sameAs: SOCIAL_LINKS.map((l) => l.href),
 });
 
+/** The site itself, in the page's language, published by the organization above. */
+export const websiteSchema = (inLanguage: string, url: string) => ({
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "@id": `${url}#website`,
+  name: SITE.name,
+  url,
+  inLanguage,
+  publisher: { "@id": `${SITE_URL}/#organization` },
+});
+
 export const cafesSchema = () =>
   CAFES.map((cafe) => ({
     "@context": "https://schema.org",

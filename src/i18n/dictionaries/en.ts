@@ -110,6 +110,7 @@ export const en = {
     sending: "Sending",
     fine: "Monthly at most · Unsubscribe anytime",
     invalid: "Enter a valid email address",
+    busy: "Too many tries — please wait a few minutes",
     success: "You’re on the list — the next note is yours",
   },
 

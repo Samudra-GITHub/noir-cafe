@@ -18,13 +18,15 @@ import { SiteNav } from "@/components/navigation/SiteNav";
 import { MobileDock } from "@/components/navigation/MobileDock";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { SITE_URL } from "@/lib/seo";
-import { LOCALES, LOCALE_META, type Locale } from "@/i18n/config";
+import { LOCALES, LOCALE_META, localePath, type Locale } from "@/i18n/config";
 import { DICTIONARIES } from "@/i18n/dictionaries";
 import { clientDictionary } from "@/i18n/client-dictionary";
 import { MESSAGES } from "@/i18n/messages";
 import { I18nProvider } from "@/i18n/client";
 import { getLocale, localizedMetadata } from "@/i18n/server";
-import { organizationSchema } from "@/lib/schema";
+import { organizationSchema, websiteSchema } from "@/lib/schema";
+import { Analytics } from "@/components/analytics/Analytics";
+import { analyticsConfig } from "@/components/analytics/config";
 import SPLASH from "@/constants/splash.json";
 import { EARLY_REVEAL } from "@/lib/early-reveal";
 import { ATMOSPHERE_BOOT } from "@/lib/atmosphere-boot";
@@ -104,9 +106,10 @@ export async function generateMetadata(): Promise<Metadata> {
     },
     applicationName: "Noir Café",
     ...(await localizedMetadata(null, "/")),
-  // Installed on iOS: full-bleed under the status bar, with branded launch screens (scripts/generate-splash.mjs).
-  appleWebApp: { capable: true, title: "Noir Café", statusBarStyle: "black-translucent", startupImage: SPLASH },
-  formatDetection: { telephone: false },
+    // Installed on iOS: full-bleed under the status bar, with branded launch screens (scripts/generate-splash.mjs).
+    appleWebApp: { capable: true, title: "Noir Café", statusBarStyle: "black-translucent", startupImage: SPLASH },
+    formatDetection: { telephone: false },
+    ...(process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION ? { verification: { google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION } } : {}),
   };
 }
 
@@ -119,6 +122,7 @@ export const viewport: Viewport = {
 export default async function RootLayout({ children, params }: LayoutProps<"/[lang]">) {
   const locale = (await params).lang as Locale;
   const t = DICTIONARIES[locale];
+  const analytics = analyticsConfig();
   return (
     <html
       lang={locale}
@@ -130,6 +134,7 @@ export default async function RootLayout({ children, params }: LayoutProps<"/[la
         {SHOW_LOADER && <script dangerouslySetInnerHTML={{ __html: LOADER_BOOT }} />}
         <script dangerouslySetInnerHTML={{ __html: ATMOSPHERE_BOOT }} />
         <JsonLd data={organizationSchema()} />
+        <JsonLd data={websiteSchema(LOCALE_META[locale].intl, `${SITE_URL}${localePath(locale, "/")}`)} />
         {locale === "ja" && (
           <>
             <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -165,6 +170,7 @@ export default async function RootLayout({ children, params }: LayoutProps<"/[la
         </MotionProvider>
         </I18nProvider>
         <script dangerouslySetInnerHTML={{ __html: EARLY_REVEAL }} />
+        {analytics && <Analytics config={analytics} />}
       </body>
     </html>
   );

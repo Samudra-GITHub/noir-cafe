@@ -3,6 +3,7 @@
 import { useEffect, useState, useSyncExternalStore } from "react";
 import { X } from "lucide-react";
 import { whenIdle, whenLoaded } from "@/lib/page-ready";
+import { track } from "@/lib/analytics";
 import { cn } from "@/lib/cn";
 import { useI18n } from "@/i18n/client";
 
@@ -114,7 +115,8 @@ export function PwaClient() {
                   type="button"
                   onClick={async () => {
                     await deferred.prompt();
-                    await deferred.userChoice.catch(() => null);
+                    const choice = await deferred.userChoice.catch(() => null);
+                    if (choice?.outcome === "accepted") track("app_installed");
                     setDeferred(null);
                     dismiss();
                   }}

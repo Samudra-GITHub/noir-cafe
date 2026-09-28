@@ -21,3 +21,17 @@ export function rateLimit(key: string, { limit, windowMs }: { limit: number; win
   w.count++;
   return w.count <= limit;
 }
+
+/** The visitor's address as the platform reports it (Vercel sets x-forwarded-for). */
+export function clientKey(headers: Headers) {
+  return headers.get("x-forwarded-for")?.split(",")[0]?.trim() || headers.get("x-real-ip") || "local";
+}
+
+/**
+ * Route-handler guard: `null` when the request may proceed, otherwise a 429
+ * with Retry-After. `const busy = limited(request, "name", 30, 60_000); if (busy) return busy;`
+ */
+export function limited(request: Request, name: string, limit: number, windowMs: number): Response | null {
+  if (rateLimit(`${name}:${clientKey(request.headers)}`, { limit, windowMs })) return null;
+  return Response.json({ error: "rate_limited" }, { status: 429, headers: { "Retry-After": String(Math.ceil(windowMs / 1000)) } });
+}

@@ -103,6 +103,7 @@ export const ja: CoreDictionary = {
     sending: "送信中",
     fine: "多くても月に一度 · いつでも解除できます",
     invalid: "有効なメールアドレスを入力してください",
+    busy: "試行回数が多すぎます。数分後にお試しください",
     success: "登録が完了しました — 次の便りをお届けします",
   },
 

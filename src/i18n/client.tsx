@@ -12,6 +12,7 @@ import {
   type DisplayCurrency,
   type Locale,
 } from "./config";
+import { track } from "@/lib/analytics";
 import type { ClientDictionary } from "./client-dictionary";
 import { fill, formatDate, formatMoney, formatTime, type Rates } from "./format";
 import { translator, type Messages, type Translate } from "./translate";
@@ -45,6 +46,7 @@ export function useLocalizedHref() {
 /** Switch language: remember the choice and load the page in that locale. */
 export function switchLocale(next: Locale, path: string) {
   document.cookie = `${LOCALE_COOKIE}=${next}; path=/; max-age=31536000; samesite=lax`;
+  track("language_changed", { language: next });
   window.location.assign(localePath(next, path));
 }
 
@@ -61,6 +63,7 @@ export function setCurrency(next: DisplayCurrency) {
   try {
     localStorage.setItem(CURRENCY_STORAGE, next);
   } catch {}
+  track("currency_changed", { currency: next });
   currencyListeners.forEach((l) => l());
 }
 function subscribeCurrency(cb: () => void) {
