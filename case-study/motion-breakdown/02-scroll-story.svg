@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900">
+  <rect width="1600" height="900" fill="#17120e"/>
+  <radialGradient id="warm" cx="20%" cy="0%" r="70%"><stop offset="0" stop-color="#a86a3c" stop-opacity=".16"/><stop offset="1" stop-color="#a86a3c" stop-opacity="0"/></radialGradient>
+  <rect width="1600" height="900" fill="url(#warm)"/>
+  <text x="80" y="72" font-family="Plex, 'IBM Plex Mono', ui-monospace, monospace" font-size="13" fill="#b67a4b" text-anchor="start" font-weight="400" letter-spacing="1.6">MOTION BREAKDOWN · 02 / 07</text>
+  <text x="80" y="130" font-family="Cormorant, 'Cormorant Garamond', Georgia, serif" font-size="56" fill="#f8f4ec" text-anchor="start" font-weight="400" letter-spacing="0">Scroll story — five chapters, one film at a time</text>
+  <text x="80" y="168" font-family="Inter, system-ui, sans-serif" font-size="17" fill="#8f867e" text-anchor="start" font-weight="400" letter-spacing="0">The home hero continues as a pinned story: each chapter is 90svh of scroll; films crossfade and only the one on screen plays.</text>
+  
+      <rect x="80" y="230" width="272" height="300" rx="18" fill="#211a15" stroke="#35302b"/>
+          <text x="104" y="268" font-family="Plex, 'IBM Plex Mono', ui-monospace, monospace" font-size="13" fill="#8f867e" text-anchor="start" font-weight="400" letter-spacing="1.6">CHAPTER 01</text>
+          <text x="104" y="318" font-family="Cormorant, 'Cormorant Garamond', Georgia, serif" font-size="38" fill="#f8f4ec" text-anchor="start" font-weight="400" letter-spacing="0">Origin</text>
+          <text x="104" y="360" font-family="Plex, 'IBM Plex Mono', ui-monospace, monospace" font-size="11" fill="#8f867e" text-anchor="start" font-weight="400" letter-spacing="1.6">PAUSED ON POSTER</text>
+          <rect x="104" y="390" width="224" height="110" rx="10" fill="#35302b" fill-opacity="0.6"/>
+          <text x="104" y="560" font-family="Plex, 'IBM Plex Mono', ui-monospace, monospace" font-size="11" fill="#8f867e" text-anchor="start" font-weight="400" letter-spacing="1.6">0–90 SVH</text><rect x="372" y="230" width="272" height="300" rx="18" fill="#211a15" stroke="#35302b"/>
+          <text x="396" y="268" font-family="Plex, 'IBM Plex Mono', ui-monospace, monospace" font-size="13" fill="#8f867e" text-anchor="start" font-weight="400" letter-spacing="1.6">CHAPTER 02</text>
+          <text x="396" y="318" font-family="Cormorant, 'Cormorant Garamond', Georgia, serif" font-size="38" fill="#f8f4ec" text-anchor="start" font-weight="400" letter-spacing="0">Brew</text>
+          <text x="396" y="360" font-family="Plex, 'IBM Plex Mono', ui-monospace, monospace" font-size="11" fill="#8f867e" text-anchor="start" font-weight="400" letter-spacing="1.6">PAUSED ON POSTER</text>
+          <rect x="396" y="390" width="224" height="110" rx="10" fill="#35302b" fill-opacity="0.6"/>
+          <text x="396" y="560" font-family="Plex, 'IBM Plex Mono', ui-monospace, monospace" font-size="11" fill="#8f867e" text-anchor="start" font-weight="400" letter-spacing="1.6">90–180 SVH</text><rect x="664" y="230" width="272" height="300" rx="18" fill="#3c2415" stroke="#a86a3c"/>
+          <text x="688" y="268" font-family="Plex, 'IBM Plex Mono', ui-monospace, monospace" font-size="13" fill="#b67a4b" text-anchor="start" font-weight="400" letter-spacing="1.6">CHAPTER 03</text>
+          <text x="688" y="318" font-family="Cormorant, 'Cormorant Garamond', Georgia, serif" font-size="38" fill="#f8f4ec" text-anchor="start" font-weight="400" letter-spacing="0">Extract</text>
+          <text x="688" y="360" font-family="Plex, 'IBM Plex Mono', ui-monospace, monospace" font-size="11" fill="#efe5d7" text-anchor="start" font-weight="400" letter-spacing="1.6">FILM PLAYING</text>
+          <rect x="688" y="390" width="224" height="110" rx="10" fill="#a86a3c" fill-opacity="0.55"/>
+          <text x="688" y="560" font-family="Plex, 'IBM Plex Mono', ui-monospace, monospace" font-size="11" fill="#8f867e" text-anchor="start" font-weight="400" letter-spacing="1.6">180–270 SVH</text><rect x="956" y="230" width="272" height="300" rx="18" fill="#211a15" stroke="#35302b"/>
+          <text x="980" y="268" font-family="Plex, 'IBM Plex Mono', ui-monospace, monospace" font-size="13" fill="#8f867e" text-anchor="start" font-weight="400" letter-spacing="1.6">CHAPTER 04</text>
+          <text x="980" y="318" font-family="Cormorant, 'Cormorant Garamond', Georgia, serif" font-size="38" fill="#f8f4ec" text-anchor="start" font-weight="400" letter-spacing="0">Pour</text>
+          <text x="980" y="360" font-family="Plex, 'IBM Plex Mono', ui-monospace, monospace" font-size="11" fill="#8f867e" text-anchor="start" font-weight="400" letter-spacing="1.6">PAUSED ON POSTER</text>
+          <rect x="980" y="390" width="224" height="110" rx="10" fill="#35302b" fill-opacity="0.6"/>
+          <text x="980" y="560" font-family="Plex, 'IBM Plex Mono', ui-monospace, monospace" font-size="11" fill="#8f867e" text-anchor="start" font-weight="400" letter-spacing="1.6">270–360 SVH</text><rect x="1248" y="230" width="272" height="300" rx="18" fill="#211a15" stroke="#35302b"/>
+          <text x="1272" y="268" font-family="Plex, 'IBM Plex Mono', ui-monospace, monospace" font-size="13" fill="#8f867e" text-anchor="start" font-weight="400" letter-spacing="1.6">CHAPTER 05</text>
+          <text x="1272" y="318" font-family="Cormorant, 'Cormorant Garamond', Georgia, serif" font-size="38" fill="#f8f4ec" text-anchor="start" font-weight="400" letter-spacing="0">The cup</text>
+          <text x="1272" y="360" font-family="Plex, 'IBM Plex Mono', ui-monospace, monospace" font-size="11" fill="#8f867e" text-anchor="start" font-weight="400" letter-spacing="1.6">PAUSED ON POSTER</text>
+          <rect x="1272" y="390" width="224" height="110" rx="10" fill="#35302b" fill-opacity="0.6"/>
+          <text x="1272" y="560" font-family="Plex, 'IBM Plex Mono', ui-monospace, monospace" font-size="11" fill="#8f867e" text-anchor="start" font-weight="400" letter-spacing="1.6">360–450 SVH</text>
+      <line x1="80" x2="1520" y1="610" y2="610" stroke="#35302b" stroke-width="2"/>
+      <line x1="80" x2="800" y1="610" y2="610" stroke="#a86a3c" stroke-width="2"/>
+      <circle cx="800" cy="610" r="8" fill="#a86a3c"/>
+      <text x="80" y="650" font-family="Plex, 'IBM Plex Mono', ui-monospace, monospace" font-size="13" fill="#8f867e" text-anchor="start" font-weight="400" letter-spacing="1.6">TIMELINE RULE SCALES WITH PROGRESS · CHAPTER = FLOOR(PROGRESS × 5)</text>
+      
+  <rect x="80" y="690" width="300" height="120" rx="14" fill="none" stroke="#35302b"/>
+  <path d="M100 790 C157.2 790 193.6 710 360 710" fill="none" stroke="#a86a3c" stroke-width="3"/>
+  <text x="100" y="836" font-family="Plex, 'IBM Plex Mono', ui-monospace, monospace" font-size="11" fill="#8f867e" text-anchor="start" font-weight="400" letter-spacing="1.6">CROSSFADE 900MS · EASE-NOIR</text>
+      
+  <rect x="420" y="690" width="300" height="120" rx="14" fill="none" stroke="#35302b"/>
+  <path d="M440 790 C497.2 790 533.6 710 700 710" fill="none" stroke="#a86a3c" stroke-width="3"/>
+  <text x="440" y="836" font-family="Plex, 'IBM Plex Mono', ui-monospace, monospace" font-size="11" fill="#8f867e" text-anchor="start" font-weight="400" letter-spacing="1.6">COPY: BLUR 6 → 0 · Y 28 → 0 · 0.7S</text>
+      <text x="780" y="730" font-family="Inter, system-ui, sans-serif" font-size="20" fill="#f8f4ec" text-anchor="start" font-weight="600" letter-spacing="0">Phones (M19)</text>
+      <text x="780" y="762" font-family="Inter, system-ui, sans-serif" font-size="16" fill="#8f867e" text-anchor="start" font-weight="400" letter-spacing="0">Chapters pin a full-screen photograph or film while the words</text>
+      <text x="780" y="788" font-family="Inter, system-ui, sans-serif" font-size="16" fill="#8f867e" text-anchor="start" font-weight="400" letter-spacing="0">scroll over it; a CSS view-timeline drifts the media and a warm</text>
+      <text x="780" y="814" font-family="Inter, system-ui, sans-serif" font-size="16" fill="#8f867e" text-anchor="start" font-weight="400" letter-spacing="0">veil dissolves one chapter into the next — no JavaScript per frame.</text>
+    
+  <text x="80" y="856" font-family="Plex, 'IBM Plex Mono', ui-monospace, monospace" font-size="13" fill="#8f867e" text-anchor="start" font-weight="400" letter-spacing="1.6">SOURCE · COMPONENTS/HERO/PREPARATIONSTORY.TSX · COMPONENTS/STORY/MOBILESTORYJOURNEY.TSX</text>
+  <text x="1520" y="856" font-family="Plex, 'IBM Plex Mono', ui-monospace, monospace" font-size="13" fill="#8f867e" text-anchor="end" font-weight="400" letter-spacing="1.6">NOIR CAFÉ · SAMS STUDIO</text>
+</svg>

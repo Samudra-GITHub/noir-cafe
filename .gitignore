@@ -57,3 +57,6 @@ brag-output/work/
 brag-output/work-v2/
 # …but the documented template is committed.
 !.env.example
+
+# case-study generator intermediates
+/case-study/source/build/

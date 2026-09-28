@@ -1,0 +1,102 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="2400" height="1244" viewBox="0 0 2400 1244">
+  <rect width="2400" height="1244" fill="#17120e"/>
+  <radialGradient id="warm" cx="15%" cy="0%" r="70%"><stop offset="0" stop-color="#a86a3c" stop-opacity=".18"/><stop offset="1" stop-color="#a86a3c" stop-opacity="0"/></radialGradient>
+  <rect width="2400" height="1244" fill="url(#warm)"/>
+  <text x="120" y="100" font-family="Plex, monospace" font-size="20" letter-spacing="4" fill="#b67a4b">NOIR CAFÉ · DEVELOPMENT TIMELINE</text>
+  <text x="120" y="170" font-family="Cormorant, Georgia, serif" font-size="72" fill="#f8f4ec">From one Figma file to an installable, four-language café.</text>
+  <line x1="120" x2="120" y1="260" y2="1028" stroke="#35302b" stroke-width="3"/>
+  <line x1="1260" x2="1260" y1="260" y2="1028" stroke="#35302b" stroke-width="3"/>
+  <g>
+        <circle cx="120" cy="260" r="12" fill="#a86a3c" stroke="#a86a3c" stroke-width="3"/>
+        <text x="156" y="254" font-family="Plex, 'IBM Plex Mono', monospace" font-size="20" letter-spacing="3" fill="#b67a4b">Phase 1 · SEP 26</text>
+        <text x="156" y="290" font-family="Cormorant, 'Cormorant Garamond', Georgia, serif" font-size="38" fill="#f8f4ec">Figma to Next.js — seven pages, desktop</text>
+        <text x="1120" y="254" text-anchor="end" font-family="Plex, monospace" font-size="16" fill="#8f867e">f0ddf70</text>
+      </g><g>
+        <circle cx="120" cy="356" r="12" fill="#a86a3c" stroke="#a86a3c" stroke-width="3"/>
+        <text x="156" y="350" font-family="Plex, 'IBM Plex Mono', monospace" font-size="20" letter-spacing="3" fill="#b67a4b">M1–M8 · SEP 27</text>
+        <text x="156" y="386" font-family="Cormorant, 'Cormorant Garamond', Georgia, serif" font-size="38" fill="#f8f4ec">mobile-first experience below 768px</text>
+        <text x="1120" y="350" text-anchor="end" font-family="Plex, monospace" font-size="16" fill="#8f867e">1704ddf</text>
+      </g><g>
+        <circle cx="120" cy="452" r="12" fill="#a86a3c" stroke="#a86a3c" stroke-width="3"/>
+        <text x="156" y="446" font-family="Plex, 'IBM Plex Mono', monospace" font-size="20" letter-spacing="3" fill="#b67a4b">M9 · SEP 27</text>
+        <text x="156" y="482" font-family="Cormorant, 'Cormorant Garamond', Georgia, serif" font-size="38" fill="#f8f4ec">Mobile Lighthouse 84–92 → 89–92, desktop 99, desktop pixe…</text>
+        <text x="1120" y="446" text-anchor="end" font-family="Plex, monospace" font-size="16" fill="#8f867e">d9d856d</text>
+      </g><g>
+        <circle cx="120" cy="548" r="12" fill="#a86a3c" stroke="#a86a3c" stroke-width="3"/>
+        <text x="156" y="542" font-family="Plex, 'IBM Plex Mono', monospace" font-size="20" letter-spacing="3" fill="#b67a4b">M10 · SEP 27</text>
+        <text x="156" y="578" font-family="Cormorant, 'Cormorant Garamond', Georgia, serif" font-size="38" fill="#f8f4ec">Atmosphere engine for phones — daylight, steam, rain</text>
+        <text x="1120" y="542" text-anchor="end" font-family="Plex, monospace" font-size="16" fill="#8f867e">70a8fd4</text>
+      </g><g>
+        <circle cx="120" cy="644" r="12" fill="#a86a3c" stroke="#a86a3c" stroke-width="3"/>
+        <text x="156" y="638" font-family="Plex, 'IBM Plex Mono', monospace" font-size="20" letter-spacing="3" fill="#b67a4b">M11 · SEP 27</text>
+        <text x="156" y="674" font-family="Cormorant, 'Cormorant Garamond', Georgia, serif" font-size="38" fill="#f8f4ec">Sound engine and haptics</text>
+        <text x="1120" y="638" text-anchor="end" font-family="Plex, monospace" font-size="16" fill="#8f867e">902df12</text>
+      </g><g>
+        <circle cx="120" cy="740" r="12" fill="#a86a3c" stroke="#a86a3c" stroke-width="3"/>
+        <text x="156" y="734" font-family="Plex, 'IBM Plex Mono', monospace" font-size="20" letter-spacing="3" fill="#b67a4b">M12 + M13 · SEP 27</text>
+        <text x="156" y="770" font-family="Cormorant, 'Cormorant Garamond', Georgia, serif" font-size="38" fill="#f8f4ec">3D journey and Recipe Studio</text>
+        <text x="1120" y="734" text-anchor="end" font-family="Plex, monospace" font-size="16" fill="#8f867e">fe97207</text>
+      </g><g>
+        <circle cx="120" cy="836" r="12" fill="#a86a3c" stroke="#a86a3c" stroke-width="3"/>
+        <text x="156" y="830" font-family="Plex, 'IBM Plex Mono', monospace" font-size="20" letter-spacing="3" fill="#b67a4b">M14 · SEP 27</text>
+        <text x="156" y="866" font-family="Cormorant, 'Cormorant Garamond', Georgia, serif" font-size="38" fill="#f8f4ec">AI barista-concierge</text>
+        <text x="1120" y="830" text-anchor="end" font-family="Plex, monospace" font-size="16" fill="#8f867e">ea3c11f</text>
+      </g><g>
+        <circle cx="120" cy="932" r="12" fill="#a86a3c" stroke="#a86a3c" stroke-width="3"/>
+        <text x="156" y="926" font-family="Plex, 'IBM Plex Mono', monospace" font-size="20" letter-spacing="3" fill="#b67a4b">M15 · SEP 27</text>
+        <text x="156" y="962" font-family="Cormorant, 'Cormorant Garamond', Georgia, serif" font-size="38" fill="#f8f4ec">Cinematic page transitions 2.0</text>
+        <text x="1120" y="926" text-anchor="end" font-family="Plex, monospace" font-size="16" fill="#8f867e">f02421c</text>
+      </g><g>
+        <circle cx="120" cy="1028" r="12" fill="#a86a3c" stroke="#a86a3c" stroke-width="3"/>
+        <text x="156" y="1022" font-family="Plex, 'IBM Plex Mono', monospace" font-size="20" letter-spacing="3" fill="#b67a4b">M16 · SEP 27</text>
+        <text x="156" y="1058" font-family="Cormorant, 'Cormorant Garamond', Georgia, serif" font-size="38" fill="#f8f4ec">Order ahead — backend-ready ordering</text>
+        <text x="1120" y="1022" text-anchor="end" font-family="Plex, monospace" font-size="16" fill="#8f867e">b4aaa86</text>
+      </g><g>
+        <circle cx="1260" cy="260" r="12" fill="#a86a3c" stroke="#a86a3c" stroke-width="3"/>
+        <text x="1296" y="254" font-family="Plex, 'IBM Plex Mono', monospace" font-size="20" letter-spacing="3" fill="#b67a4b">M17 · SEP 27</text>
+        <text x="1296" y="290" font-family="Cormorant, 'Cormorant Garamond', Georgia, serif" font-size="38" fill="#f8f4ec">Real reservations — availability, seat map, QR pass, invi…</text>
+        <text x="2260" y="254" text-anchor="end" font-family="Plex, monospace" font-size="16" fill="#8f867e">220aab9</text>
+      </g><g>
+        <circle cx="1260" cy="356" r="12" fill="#a86a3c" stroke="#a86a3c" stroke-width="3"/>
+        <text x="1296" y="350" font-family="Plex, 'IBM Plex Mono', monospace" font-size="20" letter-spacing="3" fill="#b67a4b">M18 · SEP 27</text>
+        <text x="1296" y="386" font-family="Cormorant, 'Cormorant Garamond', Georgia, serif" font-size="38" fill="#f8f4ec">Premium shop — brew guides and reviews architecture</text>
+        <text x="2260" y="350" text-anchor="end" font-family="Plex, monospace" font-size="16" fill="#8f867e">ca1a86c</text>
+      </g><g>
+        <circle cx="1260" cy="452" r="12" fill="#a86a3c" stroke="#a86a3c" stroke-width="3"/>
+        <text x="1296" y="446" font-family="Plex, 'IBM Plex Mono', monospace" font-size="20" letter-spacing="3" fill="#b67a4b">M19 · SEP 27</text>
+        <text x="1296" y="482" font-family="Cormorant, 'Cormorant Garamond', Georgia, serif" font-size="38" fill="#f8f4ec">Story as a cinematic journey on phones</text>
+        <text x="2260" y="446" text-anchor="end" font-family="Plex, monospace" font-size="16" fill="#8f867e">0c22c95</text>
+      </g><g>
+        <circle cx="1260" cy="548" r="12" fill="#a86a3c" stroke="#a86a3c" stroke-width="3"/>
+        <text x="1296" y="542" font-family="Plex, 'IBM Plex Mono', monospace" font-size="20" letter-spacing="3" fill="#b67a4b">M20 · SEP 27</text>
+        <text x="1296" y="578" font-family="Cormorant, 'Cormorant Garamond', Georgia, serif" font-size="38" fill="#f8f4ec">New York, live — map, subway, weather, hours</text>
+        <text x="2260" y="542" text-anchor="end" font-family="Plex, monospace" font-size="16" fill="#8f867e">87f9e04</text>
+      </g><g>
+        <circle cx="1260" cy="644" r="12" fill="#a86a3c" stroke="#a86a3c" stroke-width="3"/>
+        <text x="1296" y="638" font-family="Plex, 'IBM Plex Mono', monospace" font-size="20" letter-spacing="3" fill="#b67a4b">M21 · SEP 27</text>
+        <text x="1296" y="674" font-family="Cormorant, 'Cormorant Garamond', Georgia, serif" font-size="38" fill="#f8f4ec">Installable app — offline menu and cafés, launch screens,…</text>
+        <text x="2260" y="638" text-anchor="end" font-family="Plex, monospace" font-size="16" fill="#8f867e">4f4d28d</text>
+      </g><g>
+        <circle cx="1260" cy="740" r="12" fill="#a86a3c" stroke="#a86a3c" stroke-width="3"/>
+        <text x="1296" y="734" font-family="Plex, 'IBM Plex Mono', monospace" font-size="20" letter-spacing="3" fill="#b67a4b">M22 · SEP 27</text>
+        <text x="1296" y="770" font-family="Cormorant, 'Cormorant Garamond', Georgia, serif" font-size="38" fill="#f8f4ec">Accessibility gold standard — audit, report, fixes</text>
+        <text x="2260" y="734" text-anchor="end" font-family="Plex, monospace" font-size="16" fill="#8f867e">78613ad</text>
+      </g><g>
+        <circle cx="1260" cy="836" r="12" fill="#a86a3c" stroke="#a86a3c" stroke-width="3"/>
+        <text x="1296" y="830" font-family="Plex, 'IBM Plex Mono', monospace" font-size="20" letter-spacing="3" fill="#b67a4b">M23 · SEP 28</text>
+        <text x="1296" y="866" font-family="Cormorant, 'Cormorant Garamond', Georgia, serif" font-size="38" fill="#f8f4ec">Complete multilingual and currency architecture</text>
+        <text x="2260" y="830" text-anchor="end" font-family="Plex, monospace" font-size="16" fill="#8f867e">44f231f</text>
+      </g><g>
+        <circle cx="1260" cy="932" r="10" fill="none" stroke="#a86a3c" stroke-width="3"/>
+        <text x="1296" y="926" font-family="Plex, 'IBM Plex Mono', monospace" font-size="20" letter-spacing="3" fill="#b67a4b">M24 · THIS RELEASE</text>
+        <text x="1296" y="962" font-family="Cormorant, 'Cormorant Garamond', Georgia, serif" font-size="38" fill="#f8f4ec">Sams Studio case study &amp; social package</text>
+        
+      </g><g>
+        <circle cx="1260" cy="1028" r="10" fill="none" stroke="#a86a3c" stroke-width="3"/>
+        <text x="1296" y="1022" font-family="Plex, 'IBM Plex Mono', monospace" font-size="20" letter-spacing="3" fill="#b67a4b">V25 · THIS RELEASE</text>
+        <text x="1296" y="1058" font-family="Cormorant, 'Cormorant Garamond', Georgia, serif" font-size="38" fill="#f8f4ec">Signature release — v1.0.0</text>
+        
+      </g>
+  <text x="120" y="1194" font-family="Plex, monospace" font-size="16" letter-spacing="3" fill="#8f867e">SOURCE · GIT HISTORY OF THE REPOSITORY · 21 COMMITS</text>
+  <text x="2280" y="1194" text-anchor="end" font-family="Plex, monospace" font-size="16" letter-spacing="3" fill="#8f867e">SAMS STUDIO · @SAMSSTUDIO.DESIGN</text>
+</svg>

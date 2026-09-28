@@ -1,0 +1,14 @@
+{
+  "measuredOn": "2026-09-28",
+  "method": "Lighthouse 12, production build on localhost, median of 5 runs, --disable-gpu",
+  "lighthouse": {
+    "desktopPerformance": 98,
+    "mobilePerformance": 84,
+    "accessibility": 100,
+    "bestPractices": 100,
+    "seo": 100,
+    "note": "Mobile measured on home while New York's weather had rain mode on (the heaviest atmosphere state)."
+  },
+  "qaChecks": 227,
+  "desktopDiff": "≤0.021%"
+}
