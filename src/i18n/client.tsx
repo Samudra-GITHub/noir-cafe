@@ -45,7 +45,8 @@ export function useLocalizedHref() {
 
 /** Switch language: remember the choice and load the page in that locale. */
 export function switchLocale(next: Locale, path: string) {
-  document.cookie = `${LOCALE_COOKIE}=${next}; path=/; max-age=31536000; samesite=lax`;
+  const secure = location.protocol === "https:" ? "; secure" : "";
+  document.cookie = `${LOCALE_COOKIE}=${next}; path=/; max-age=31536000; samesite=lax${secure}`;
   track("language_changed", { language: next });
   window.location.assign(localePath(next, path));
 }

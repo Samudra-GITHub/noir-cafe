@@ -141,6 +141,8 @@ export const en = {
 
   locale: {
     language: "Language",
+    choose: "Choose a language",
+    current: "Language: {language}. Change language",
     currency: "Currency",
     chargedIn: "Prices are charged in US dollars. Other currencies are approximate, at the ECB reference rate of {date}.",
   },

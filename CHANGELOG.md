@@ -2,6 +2,27 @@
 
 All notable changes to this project are documented here.
 
+## [Unreleased]
+
+### M26 — Language switcher
+
+- **Desktop.** A globe and the current code (`EN`) sit in the glass nav before
+  Reserve. They open a glass dropdown that lists English, 日本語, Français and
+  Italiano, each in Cormorant. The panel is cream over paper and espresso over the
+  hero, and uses the Noir motion curve.
+- **Phones and tablets.** A Language row in the menu sheet opens a bottom sheet. You
+  can drag it down to dismiss it. Currency stays in the sheet as before.
+- **Behaviour.** Your choice is saved in the `noir-locale` cookie (`Secure` over
+  https), so it survives refreshes and new visits. Switching keeps you on the same
+  page.
+- **Accessibility.**
+  - The desktop list is an ARIA menu with radio items: arrow keys, Home, End and
+    type-ahead move; Escape and Tab close; focus returns to the globe.
+  - The sheet is a modal dialog with a radio group and a focus trap; Escape closes
+    only the sheet.
+  - Both appear instantly under reduced motion.
+- **Desktop nav.** The nav gains one control. Every page outside the nav is unchanged.
+
 ## [v1.0.0-noir-cafe] — Signature Edition — 2026-09-28
 
 The desktop that shipped in 1.0.0 stays exactly as designed: every phase below was

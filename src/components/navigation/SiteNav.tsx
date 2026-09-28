@@ -14,6 +14,7 @@ import { ease, duration, sheet, sheetItem } from "@/lib/motion";
 import { cn } from "@/lib/cn";
 import { useI18n, useLocalizedHref, usePagePath } from "@/i18n/client";
 import { LanguageCurrency } from "@/components/i18n/LanguageCurrency";
+import { LanguageMenu, LanguageSheet } from "@/components/i18n/LanguageSwitcher";
 
 /**
  * GlassNav — 1296 × 72 pill, 28px from the top, z-50.
@@ -156,6 +157,8 @@ export function SiteNav() {
               {t.nav[RESERVE_HREF]}
             </Button>
             <SoundToggle inverse={theme === "dark"} className="nav:-me-2 nav:order-first" />
+            {/* Desktop only: phones and tablets choose the language in the menu sheet. */}
+            <LanguageMenu theme={theme} className="hidden nav:order-first nav:block" />
             <MenuToggle ref={toggleRef} open={open} onToggle={() => setOpen((v) => !v)} theme={theme} />
           </div>
         </nav>
@@ -329,7 +332,8 @@ function MobileSheet({
               ))}
             </ul>
           </nav>
-          <LanguageCurrency className="container-page border-t border-beige/15 pt-6 pb-2" />
+          <LanguageSheet className="container-page border-t border-beige/15 pt-6" />
+          <LanguageCurrency language={false} className="container-page pt-5 pb-2" />
           <AtmosphereControls className="container-page border-t border-beige/15 pt-6 pb-6 md:hidden" />
           <div className="container-page flex flex-col gap-1 pb-[calc(40px+var(--safe-bottom))] font-mono text-eyebrow text-cream uppercase">
             <span>{SITE.address}</span>

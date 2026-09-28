@@ -134,6 +134,8 @@ export const ja: CoreDictionary = {
 
   locale: {
     language: "言語",
+    choose: "言語を選択",
+    current: "言語：{language}。言語を変更",
     currency: "通貨",
     chargedIn: "お支払いは米ドルです。その他の通貨は {date} の欧州中央銀行参考レートによる概算です。",
   },

@@ -22,4 +22,5 @@ export const common: Table = {
   "Coffee, composed with care.": { ja: "丁寧に仕立てた、一杯のコーヒーを。", fr: "Un café composé avec soin.", it: "Caffè, composto con cura." },
   "Every day, in every cup.": { ja: "毎日、どの一杯にも。", fr: "Chaque jour, dans chaque tasse.", it: "Ogni giorno, in ogni tazza." },
   "{label} (opens in a new tab)": { ja: "{label}（新しいタブで開きます）", fr: "{label} (s’ouvre dans un nouvel onglet)", it: "{label} (si apre in una nuova scheda)" },
+  "The page reloads in the language you choose.": { ja: "選んだ言語でページを再読み込みします。", fr: "La page se recharge dans la langue choisie.", it: "La pagina si ricarica nella lingua scelta." },
 };

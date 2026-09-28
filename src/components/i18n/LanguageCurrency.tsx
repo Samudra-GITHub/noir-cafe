@@ -56,11 +56,12 @@ function PillGroup<T extends string>({
 }
 
 /**
- * Language and display currency (phone and tablet menu sheet). Changing the
+ * Language and display currency (phone and tablet menu sheet; the language
+ * itself is usually chosen through LanguageSheet, so it can be left out). Changing the
  * language reloads the page in that language and remembers it; the currency
  * is a per-device display preference — every price is charged in US dollars.
  */
-export function LanguageCurrency({ className }: { className?: string }) {
+export function LanguageCurrency({ className, language = true }: { className?: string; language?: boolean }) {
   const { locale, t } = useI18n();
   const path = usePagePath();
   const currency = useCurrency();
@@ -69,6 +70,7 @@ export function LanguageCurrency({ className }: { className?: string }) {
 
   return (
     <div className={cn("flex flex-col gap-4", className)}>
+      {language && (
       <PillGroup<Locale>
         label={t.locale.language}
         options={LOCALES}
@@ -77,6 +79,7 @@ export function LanguageCurrency({ className }: { className?: string }) {
         render={(l) => LOCALE_META[l].name}
         lang={(l) => l}
       />
+      )}
       <PillGroup<DisplayCurrency>
         label={t.locale.currency}
         options={DISPLAY_CURRENCIES}

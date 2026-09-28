@@ -137,6 +137,8 @@ export const it: CoreDictionary = {
 
   locale: {
     language: "Lingua",
+    choose: "Scegli una lingua",
+    current: "Lingua: {language}. Cambia lingua",
     currency: "Valuta",
     chargedIn: "I prezzi sono addebitati in dollari statunitensi. Le altre valute sono indicative, al tasso di riferimento BCE del {date}.",
   },
