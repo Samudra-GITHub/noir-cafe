@@ -16,7 +16,7 @@
 <br />
 <br />
 
-**[Live demo](#live-demo)** &nbsp;·&nbsp; **[Case study](case-study/README.md)** &nbsp;·&nbsp; **[Launch report](reports/final-launch-report.md)** &nbsp;·&nbsp; **[Changelog](CHANGELOG.md)** &nbsp;·&nbsp; **[Figma](https://www.figma.com/design/rB8iNTVSekK73jEf5ASRYR/Untitled?node-id=0-1)**
+**[Live demo](#live-demo)** &nbsp;·&nbsp; **[Case study](case-study/README.md)** &nbsp;·&nbsp; **[Launch report](docs/final-launch-report.md)** &nbsp;·&nbsp; **[Changelog](CHANGELOG.md)** &nbsp;·&nbsp; **[Figma](https://www.figma.com/design/rB8iNTVSekK73jEf5ASRYR/Untitled?node-id=0-1)**
 
 </div>
 
@@ -160,7 +160,7 @@ handlers do the dynamic work, and every integration is optional:
 
 ## Performance
 
-Production build, Lighthouse 12, median of 5 runs on localhost (home page; the release run per route — desktop 97–99, mobile 82–93 — is in the [launch report](reports/final-launch-report.md#lighthouse)):
+Production build, Lighthouse 12, median of 5 runs on localhost (home page; the release run per route — desktop 97–99, mobile 82–93 — is in the [launch report](docs/final-launch-report.md#lighthouse)):
 
 | | Desktop | Mobile |
 | :-- | :-- | :-- |
@@ -178,7 +178,7 @@ Production build, Lighthouse 12, median of 5 runs on localhost (home page; the r
 Every phase ran 227 automated checks across iPhone 13, iPhone 15 Pro, Pixel 9, Galaxy
 S24, iPad Air and a 1440 MacBook, plus axe in all four languages. Details are in
 [docs/perf](docs/perf/README.md), [docs/accessibility](docs/accessibility/README.md)
-and the [launch report](reports/final-launch-report.md).
+and the [launch report](docs/final-launch-report.md).
 
 ## Development timeline
 
@@ -256,7 +256,7 @@ the press kit.
 - **Data** — weather from [Open-Meteo](https://open-meteo.com); exchange rates from
   the ECB via [Frankfurter](https://frankfurter.dev).
 
-See also: [Project overview](PROJECT_OVERVIEW.md) · [Contributing](CONTRIBUTING.md) ·
+See also: [Project overview](docs/project-overview.md) · [Contributing](CONTRIBUTING.md) ·
 [Security](SECURITY.md) · [Code of conduct](CODE_OF_CONDUCT.md)
 
 ## License

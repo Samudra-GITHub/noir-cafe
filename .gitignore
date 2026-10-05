@@ -53,8 +53,8 @@ social/source/node_modules
 social/source/build/
 
 # Brag render cache
-brag-output/work/
-brag-output/work-v2/
+social/brag-output/work/
+social/brag-output/work-v2/
 # …but the documented template is committed.
 !.env.example
 
