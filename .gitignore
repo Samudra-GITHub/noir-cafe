@@ -60,3 +60,11 @@ brag-output/work-v2/
 
 # case-study generator intermediates
 /case-study/source/build/
+
+# Added by repository cleanup
+CLAUDE.md
+AGENTS.md
+
+# Added by repository cleanup
+.vscode/
+.idea/
